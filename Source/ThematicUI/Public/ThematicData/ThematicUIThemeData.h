@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include "Styling/SlateBrush.h"
 #include "ThematicUIThemeData.generated.h"
 
 USTRUCT(BlueprintType)
@@ -15,29 +16,13 @@ struct FThematicUITheme
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
 	FSlateBrush Image;
 	
-	/* Image Size */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
-	FVector2D ImageSize;
-	
-	/* Whole Image Tint */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
-	FLinearColor Tint;
-	
 	/* Fill Color (Only for bar widgets) */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
-	FLinearColor FillColor;
-	
-	/* Draw Type */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
-	ESlateBrushDrawType::Type DrawType;
-	
-	/* Outline Settings (As Needed) */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
-	FSlateBrushOutlineSettings OutlineSettings;
+	FLinearColor FillColor = FLinearColor::White;
 	
 	/* Text Color */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
-	FLinearColor TextColor;
+	FLinearColor TextColor = FLinearColor::Black;
 	
 	/* Text Font */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
@@ -45,7 +30,7 @@ struct FThematicUITheme
 	
 	/* Sound (For Hovered and Pressed) */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
-	TObjectPtr<USoundBase> Sound;
+	FSlateSound Sound;
 };
 
 /**
@@ -56,6 +41,7 @@ class THEMATICUI_API UThematicUIThemeData : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 	
+public:
 	/* Normal Theme */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
 	FThematicUITheme NormalTheme;
