@@ -17,17 +17,9 @@ void UThematicUIButton::NativePreConstruct()
 		SizeBox->SetWidthOverride(SizeBoxSize.X);
 		SizeBox->SetHeightOverride(SizeBoxSize.Y);
 	}
-	else
-	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUIButton::NativePreConstruct : UThematicUIButton::ThemedSizeBox == nullptr");
-	}
 	if (TextBlock)
 	{
 		TextBlock->SetText(Text);
-	}
-	else
-	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUIButton::NativePreConstruct : UThematicUIButton::TextBlock == nullptr");
 	}
 	
 	SetThemeNormal();
@@ -45,7 +37,7 @@ void UThematicUIButton::SetThemeNormal()
 {
 	Super::SetThemeNormal();
 	
-	if (Button && TextBlock && WidgetTheme)
+	if (Button && TextBlock && WidgetTheme) [[likely]]
 	{
 		// Create Button Style to Change
 		FButtonStyle Style;
@@ -56,15 +48,15 @@ void UThematicUIButton::SetThemeNormal()
 		Style.SetPressed(WidgetTheme->NormalTheme.Image);
 	
 		// Set Sounds
-		Style.SetHoveredSound(WidgetTheme->NormalTheme.Sound);
-		Style.SetPressedSound(WidgetTheme->NormalTheme.Sound);
+		Style.SetHoveredSound(WidgetTheme->HoveredTheme.Sound);
+		Style.SetPressedSound(WidgetTheme->PressedTheme.Sound);
 	
 		// Set Button Style
 		Button->SetStyle(Style);
 	
 		//Set Text Style
-		TextBlock->SetColorAndOpacity(WidgetTheme->NormalTheme.TextColor);
 		TextBlock->SetFont(WidgetTheme->NormalTheme.TextFont);
+		TextBlock->SetColorAndOpacity(WidgetTheme->NormalTheme.TextColor);
 	}
 	else
 	{
@@ -76,7 +68,7 @@ void UThematicUIButton::SetThemeHovered()
 {
 	Super::SetThemeHovered();
 	
-	if (Button && TextBlock && WidgetTheme)
+	if (Button && TextBlock && WidgetTheme) [[likely]]
 	{
 		// Create Button Style to Change
 		FButtonStyle Style;
@@ -88,7 +80,7 @@ void UThematicUIButton::SetThemeHovered()
 	
 		// Set Sounds
 		Style.SetHoveredSound(WidgetTheme->HoveredTheme.Sound);
-		Style.SetPressedSound(WidgetTheme->HoveredTheme.Sound);
+		Style.SetPressedSound(WidgetTheme->PressedTheme.Sound);
 	
 		// Set Button Style
 		Button->SetStyle(Style);
@@ -107,7 +99,7 @@ void UThematicUIButton::SetThemePressed()
 {
 	Super::SetThemePressed();
 	
-	if (Button && TextBlock && WidgetTheme)
+	if (Button && TextBlock && WidgetTheme) [[likely]]
 	{
 		// Create Button Style to Change
 		FButtonStyle Style;
@@ -118,7 +110,7 @@ void UThematicUIButton::SetThemePressed()
 		Style.SetPressed(WidgetTheme->PressedTheme.Image);
 	
 		// Set Sounds
-		Style.SetHoveredSound(WidgetTheme->PressedTheme.Sound);
+		Style.SetHoveredSound(WidgetTheme->HoveredTheme.Sound);
 		Style.SetPressedSound(WidgetTheme->PressedTheme.Sound);
 	
 		// Set Button Style

@@ -29,6 +29,8 @@ void UThematicUIInteractable::NativeOnAddedToFocusPath(const FFocusEvent& InFocu
 	Super::NativeOnAddedToFocusPath(InFocusEvent);
 	
 	SetThemeHovered();
+	if (USoundBase* SoundBase = Cast<USoundBase>(WidgetTheme->HoveredTheme.Sound.GetResourceObject()))
+		PlaySound(SoundBase);
 }
 
 void UThematicUIInteractable::NativeOnRemovedFromFocusPath(const FFocusEvent& InFocusEvent)

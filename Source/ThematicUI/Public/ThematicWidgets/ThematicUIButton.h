@@ -16,16 +16,17 @@ class THEMATICUI_API UThematicUIButton : public UThematicUIInteractable
 {
 	GENERATED_BODY()
 	
-protected:
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(BindWidget))
+private:
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
 	TObjectPtr<class USizeBox> SizeBox;
 	
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(BindWidget))
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
 	TObjectPtr<class UButton> Button;
 	
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(BindWidget))
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
 	TObjectPtr<class UTextBlock> TextBlock;
 	
+protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
 	FVector2D SizeBoxSize = FVector2D(250.0f, 50.0f);
 	
