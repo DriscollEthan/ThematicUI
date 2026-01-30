@@ -46,7 +46,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI")
 	float StepAmount = 0.1f;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Getter, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Getter, Category = "ThematicUI")
 	float CurrentValue = 0.5f;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI")
@@ -54,6 +54,9 @@ protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
 	bool bIsHorizontal = true;
+	
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category = "ThematicUI")
+	FTUiSliderValueChangedDelegate TUiOnValueChanged;
 	
 protected:
 	// Overrides To Add Custom Functionality Ontop of Base Functionality

@@ -235,4 +235,6 @@ float UUThematicUISlider::UpdateSteppingSize() const
 void UUThematicUISlider::HandleFloatValueChanged(const float NewValue)
 {
 	CurrentValue = CalculateCurrentValue(NewValue);
+	ProgressBar->SetPercent(NewValue);
+	TUiOnValueChanged.Broadcast();
 }
