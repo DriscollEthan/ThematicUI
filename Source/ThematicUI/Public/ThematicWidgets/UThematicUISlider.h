@@ -22,9 +22,6 @@ private:
 	TObjectPtr<class USizeBox> SizeBox;
 	
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
-	TObjectPtr<class UBorder> Border;
-	
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
 	TObjectPtr<class UTextBlock> TextBlock;
 	
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
@@ -51,6 +48,9 @@ protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI")
 	FText Text = FText::FromString("Hello");
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
+	bool bAlwaysShowValue = false;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
 	bool bIsHorizontal = true;

@@ -56,7 +56,7 @@ void UUThematicUISlider::SetThemeNormal()
 {
 	Super::SetThemeNormal();
 	
-	if (Slider && ProgressBar && Border && TextBlock && WidgetTheme)
+	if (Slider && ProgressBar && TextBlock && WidgetTheme)
 	{
 		// Set Slider
 		FSliderStyle SliderStyle;
@@ -90,16 +90,21 @@ void UUThematicUISlider::SetThemeNormal()
 		
 		ProgressBar->SetWidgetStyle(BarStyle);
 		
-		// Set Border
-		Border->SetBrush(WidgetTheme->NormalTheme.Image);
-		
 		// Set TextBlock
 		TextBlock->SetFont(WidgetTheme->NormalTheme.TextFont);
 		TextBlock->SetColorAndOpacity(WidgetTheme->NormalTheme.TextColor);
+		if (Text.IsEmptyOrWhitespace() && !bAlwaysShowValue)
+		{
+			TextBlock->SetVisibility(ESlateVisibility::Collapsed);
+		}
+		else
+		{
+			TextBlock->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+		}
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UUThematicUISlider::SetThemeNormal : UUThematicUISlider::Slider == nullptr || UUThematicUISlider::ProgressBar == nullptr || UUThematicUISlider::Border || UUThematicUISlider::TextBlock == nullptr || UUThematicUISlider::WidgetTheme == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UUThematicUISlider::SetThemeNormal : UUThematicUISlider::Slider == nullptr || UUThematicUISlider::ProgressBar == nullptr || UUThematicUISlider::TextBlock == nullptr || UUThematicUISlider::WidgetTheme == nullptr");
 	}
 }
 
@@ -107,7 +112,7 @@ void UUThematicUISlider::SetThemeHovered()
 {
 	Super::SetThemeHovered();
 	
-	if (Slider && ProgressBar && Border && TextBlock && WidgetTheme)
+	if (Slider && ProgressBar && TextBlock && WidgetTheme)
 	{
 		// Set Slider
 		FSliderStyle SliderStyle;
@@ -140,17 +145,22 @@ void UUThematicUISlider::SetThemeHovered()
 		BarStyle.SetFillImage(FillBrush);
 		
 		ProgressBar->SetWidgetStyle(BarStyle);
-		
-		// Set Border
-		Border->SetBrush(WidgetTheme->HoveredTheme.Image);
-		
+
 		// Set TextBlock
 		TextBlock->SetFont(WidgetTheme->HoveredTheme.TextFont);
 		TextBlock->SetColorAndOpacity(WidgetTheme->HoveredTheme.TextColor);
+		if (Text.IsEmptyOrWhitespace() && !bAlwaysShowValue)
+		{
+			TextBlock->SetVisibility(ESlateVisibility::Collapsed);
+		}
+		else
+		{
+			TextBlock->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+		}
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UUThematicUISlider::SetThemeHovered : UUThematicUISlider::Slider == nullptr || UUThematicUISlider::ProgressBar == nullptr || UUThematicUISlider::Border || UUThematicUISlider::TextBlock == nullptr || UUThematicUISlider::WidgetTheme == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UUThematicUISlider::SetThemeHovered : UUThematicUISlider::Slider == nullptr || UUThematicUISlider::ProgressBar == nullptr || UUThematicUISlider::TextBlock == nullptr || UUThematicUISlider::WidgetTheme == nullptr");
 	}
 }
 
@@ -158,7 +168,7 @@ void UUThematicUISlider::SetThemePressed()
 {
 	Super::SetThemePressed();
 	
-	if (Slider && ProgressBar && Border && TextBlock && WidgetTheme)
+	if (Slider && ProgressBar && TextBlock && WidgetTheme)
 	{
 		// Set Slider
 		FSliderStyle SliderStyle;
@@ -192,16 +202,21 @@ void UUThematicUISlider::SetThemePressed()
 		
 		ProgressBar->SetWidgetStyle(BarStyle);
 		
-		// Set Border
-		Border->SetBrush(WidgetTheme->PressedTheme.Image);
-		
 		// Set TextBlock
 		TextBlock->SetFont(WidgetTheme->PressedTheme.TextFont);
 		TextBlock->SetColorAndOpacity(WidgetTheme->PressedTheme.TextColor);
+		if (Text.IsEmptyOrWhitespace() && !bAlwaysShowValue)
+		{
+			TextBlock->SetVisibility(ESlateVisibility::Collapsed);
+		}
+		else
+		{
+			TextBlock->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+		}
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UUThematicUISlider::SetThemePressed : UUThematicUISlider::Slider == nullptr || UUThematicUISlider::ProgressBar == nullptr || UUThematicUISlider::Border || UUThematicUISlider::TextBlock == nullptr || UUThematicUISlider::WidgetTheme == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UUThematicUISlider::SetThemePressed : UUThematicUISlider::Slider == nullptr || UUThematicUISlider::ProgressBar == nullptr || UUThematicUISlider::TextBlock == nullptr || UUThematicUISlider::WidgetTheme == nullptr");
 	}
 }
 
@@ -246,12 +261,21 @@ void UUThematicUISlider::SetThumbSize(const FVector2D& NewThumbSize)
 
 void UUThematicUISlider::SetText(const FText& NewText)
 {
+	if (NewText.IsEmptyOrWhitespace() && !bAlwaysShowValue)
+	{
+		TextBlock->SetText(NewText);
+		return;
+	}
+	
 #define LOCTEXT_NAMESPACE "Text"
-	FText ActualText = Text;
+	FText ActualText = NewText;
+	FText Delimiter = FText();
+	if (!NewText.IsEmptyOrWhitespace()) Delimiter = FText::FromString(":");
 	FFormatNamedArguments Args;
 	Args.Add(TEXT("Text"), ActualText);
+	Args.Add(TEXT("Delimiter"), Delimiter);
 	Args.Add(TEXT("Float"), FText::AsNumber(CurrentValue));
-	ActualText = FText().Format(LOCTEXT("Text", "{Text}: {Float}"), Args);
+	ActualText = FText().Format(LOCTEXT("Text", "{Text}{Delimiter} {Float}"), Args);
 	TextBlock->SetText(ActualText);
 #undef LOCTEXT_NAMESPACE
 }
