@@ -68,7 +68,14 @@ protected:
 	
 	virtual void SetThemeHovered() override;
 	
+	virtual void SetThemePressed() override;
+
+	virtual FReply NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent) override;
+	
 protected:
+	UFUNCTION(BlueprintCallable)
+	USlider* GetSliderRef();
+
 	// Custom Functionality
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI", meta = (BlueprintProtected = "true"))
 	void SetValueRange(const FVector2D& NewValueRange);
@@ -110,4 +117,10 @@ protected:
 	// Handle Dispatchers
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI", meta = (BlueprintProtected = "true"))
 	void HandleFloatValueChanged(const float NewValue);
+	
+	UFUNCTION()
+	void HandleControllerFocus();
+	
+	UFUNCTION()
+	void HandleControllerUnFocused();
 };

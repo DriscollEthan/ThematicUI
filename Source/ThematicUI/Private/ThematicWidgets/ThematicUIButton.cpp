@@ -128,11 +128,15 @@ void UThematicUIButton::SetThemePressed()
 
 void UThematicUIButton::HandleButtonPressed()
 {
-	SetThemePressed();
+	if (Button->HasAnyUserFocus())
+		SetThemePressed();
 }
 
 void UThematicUIButton::HandleButtonReleased()
 {
-	SetThemeHovered();
-	TUiButtonPressedDelegate.Broadcast();
+	if (Button->HasAnyUserFocus())
+	{
+		SetThemeHovered();
+		TUiButtonPressedDelegate.Broadcast();
+	}
 }

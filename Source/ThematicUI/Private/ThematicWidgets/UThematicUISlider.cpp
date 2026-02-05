@@ -8,6 +8,7 @@
 #include "Components/TextBlock.h"
 #include "Components/ProgressBar.h"
 #include "Components/Slider.h"
+#include "Kismet/GameplayStatics.h"
 
 void UUThematicUISlider::NativePreConstruct()
 {
@@ -45,6 +46,8 @@ void UUThematicUISlider::NativeConstruct()
 	if (Slider)
 	{
 		Slider->OnValueChanged.AddUniqueDynamic(this, &UUThematicUISlider::HandleFloatValueChanged);
+		Slider->OnControllerCaptureBegin.AddUniqueDynamic(this, &UUThematicUISlider::HandleControllerFocus);
+		Slider->OnControllerCaptureEnd.AddUniqueDynamic(this, &UUThematicUISlider::HandleControllerUnFocused);
 	}
 	SetStepAmount(StepAmount);
 }
@@ -151,6 +154,72 @@ void UUThematicUISlider::SetThemeHovered()
 	}
 }
 
+void UUThematicUISlider::SetThemePressed()
+{
+	Super::SetThemePressed();
+	
+	if (Slider && ProgressBar && Border && TextBlock && WidgetTheme)
+	{
+		// Set Slider
+		FSliderStyle SliderStyle;
+		
+		// Setup Bar Style
+		FSlateBrush BarBrush = WidgetTheme->PressedTheme.Image;
+		BarBrush.DrawAs = ESlateBrushDrawType::NoDrawType;
+		SliderStyle.SetNormalBarImage(BarBrush);
+		SliderStyle.SetHoveredBarImage(BarBrush);
+		
+		// Setup Thumb Style
+		FSlateBrush ThumbBrush = WidgetTheme->PressedTheme.Image;
+		ThumbBrush.ImageSize = ThumbSize;
+		ThumbBrush.OutlineSettings.CornerRadii = WidgetTheme->PressedTheme.Image.OutlineSettings.CornerRadii / 3;
+		ThumbBrush.TintColor = WidgetTheme->PressedTheme.FillColor;
+		SliderStyle.SetNormalThumbImage(ThumbBrush);
+		SliderStyle.SetHoveredThumbImage(ThumbBrush);
+		
+		Slider->SetWidgetStyle(SliderStyle);
+		
+		// Set Progress Bar
+		FProgressBarStyle BarStyle;
+		
+		// Set BackgroundImage
+		BarStyle.SetBackgroundImage(WidgetTheme->PressedTheme.Image);
+		
+		// Set FillImage
+		FSlateBrush FillBrush = WidgetTheme->PressedTheme.Image;
+		FillBrush.TintColor = WidgetTheme->PressedTheme.FillColor;
+		BarStyle.SetFillImage(FillBrush);
+		
+		ProgressBar->SetWidgetStyle(BarStyle);
+		
+		// Set Border
+		Border->SetBrush(WidgetTheme->PressedTheme.Image);
+		
+		// Set TextBlock
+		TextBlock->SetFont(WidgetTheme->PressedTheme.TextFont);
+		TextBlock->SetColorAndOpacity(WidgetTheme->PressedTheme.TextColor);
+	}
+	else
+	{
+		UE_LOGFMT(LogThematicUI, Error, "UUThematicUISlider::SetThemePressed : UUThematicUISlider::Slider == nullptr || UUThematicUISlider::ProgressBar == nullptr || UUThematicUISlider::Border || UUThematicUISlider::TextBlock == nullptr || UUThematicUISlider::WidgetTheme == nullptr");
+	}
+}
+
+FReply UUThematicUISlider::NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent)
+{
+	if (Slider)
+	{
+		return FReply::Handled().SetUserFocus(Slider->TakeWidget(), InFocusEvent.GetCause());
+	}
+	
+	return Super::NativeOnFocusReceived(InGeometry, InFocusEvent);
+}
+
+USlider* UUThematicUISlider::GetSliderRef()
+{
+	return Slider;
+}
+
 FVector2D UUThematicUISlider::GetValueRange() const
 {
 	return ValueRange;
@@ -237,4 +306,15 @@ void UUThematicUISlider::HandleFloatValueChanged(const float NewValue)
 	CurrentValue = CalculateCurrentValue(NewValue);
 	ProgressBar->SetPercent(NewValue);
 	TUiOnValueChanged.Broadcast();
+}
+
+void UUThematicUISlider::HandleControllerFocus()
+{
+	SetThemePressed();
+}
+
+void UUThematicUISlider::HandleControllerUnFocused()
+{
+	if (Slider->HasAnyUserFocus())
+		SetThemeHovered();
 }
