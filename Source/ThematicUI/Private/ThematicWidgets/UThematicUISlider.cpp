@@ -27,7 +27,7 @@ void UUThematicUISlider::NativePreConstruct()
 	}
 	if (Slider)
 	{
-		Slider->SetValue(CurrentValue);
+		Slider->SetValue(GetPercentage());
 	}
 	if (ProgressBar)
 	{
@@ -230,11 +230,6 @@ FReply UUThematicUISlider::NativeOnFocusReceived(const FGeometry& InGeometry, co
 	return Super::NativeOnFocusReceived(InGeometry, InFocusEvent);
 }
 
-USlider* UUThematicUISlider::GetSliderRef()
-{
-	return Slider;
-}
-
 FVector2D UUThematicUISlider::GetValueRange() const
 {
 	return ValueRange;
@@ -261,16 +256,18 @@ void UUThematicUISlider::SetThumbSize(const FVector2D& NewThumbSize)
 
 void UUThematicUISlider::SetText(const FText& NewText)
 {
-	if (NewText.IsEmptyOrWhitespace() && !bAlwaysShowValue)
+	Text = NewText;
+	
+	if (Text.IsEmptyOrWhitespace() && !bAlwaysShowValue)
 	{
-		TextBlock->SetText(NewText);
+		TextBlock->SetText(Text);
 		return;
 	}
 	
 #define LOCTEXT_NAMESPACE "Text"
-	FText ActualText = NewText;
+	FText ActualText = Text;
 	FText Delimiter = FText();
-	if (!NewText.IsEmptyOrWhitespace()) Delimiter = FText::FromString(":");
+	if (!Text.IsEmptyOrWhitespace()) Delimiter = FText::FromString(":");
 	FFormatNamedArguments Args;
 	Args.Add(TEXT("Text"), ActualText);
 	Args.Add(TEXT("Delimiter"), Delimiter);

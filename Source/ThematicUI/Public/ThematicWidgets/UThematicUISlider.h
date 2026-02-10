@@ -31,12 +31,6 @@ private:
 	TObjectPtr<class USlider> Slider;
 	
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
-	FVector2D SizeBoxSize = FVector2D(250.0f, 50.0f);
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI")
-	FVector2D ThumbSize = FVector2D(8.0f, 80.0f);
-	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI")
 	FVector2D ValueRange = FVector2D(0.0f, 1.0f);
 	
@@ -45,6 +39,12 @@ protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Getter, Category = "ThematicUI")
 	float CurrentValue = 0.5f;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	FVector2D SizeBoxSize = FVector2D(250.0f, 50.0f);
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI")
+	FVector2D ThumbSize = FVector2D(8.0f, 80.0f);
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI")
 	FText Text = FText::FromString("Hello");
@@ -73,9 +73,6 @@ protected:
 	virtual FReply NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent) override;
 	
 protected:
-	UFUNCTION(BlueprintCallable)
-	USlider* GetSliderRef();
-
 	// Custom Functionality
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI", meta = (BlueprintProtected = "true"))
 	void SetValueRange(const FVector2D& NewValueRange);

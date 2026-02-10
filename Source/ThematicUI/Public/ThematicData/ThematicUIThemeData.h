@@ -14,7 +14,7 @@ struct FThematicUITheme
 	
 	/* Image Data */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
-	FSlateBrush Image;
+	FSlateBrush Image = FSlateBrush();
 	
 	/* Fill Color (Only for bar widgets) */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
@@ -26,11 +26,11 @@ struct FThematicUITheme
 	
 	/* Text Font */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
-	FSlateFontInfo TextFont;
+	FSlateFontInfo TextFont = FSlateFontInfo();
 	
 	/* Sound (For Hovered and Pressed) */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
-	FSlateSound Sound;
+	FSlateSound Sound = FSlateSound();
 };
 
 /**
