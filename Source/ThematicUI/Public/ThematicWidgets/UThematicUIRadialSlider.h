@@ -6,7 +6,7 @@
 #include "ThematicUIInteractable.h"
 #include "UThematicUIRadialSlider.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTuiSliderValueChangedDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTuiSliderValueChangedDelegate, float, NewValue);
 
 /**
  * 
@@ -46,7 +46,7 @@ protected:
 	float RadialSliderPadding = 0.0f;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
-	FSlateBrush ThumbImage;
+	float BarThickness = 5.0f;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
 	FVector2D StartAndEndAngles = {30.0f, 150.0f};
@@ -56,6 +56,9 @@ protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
 	bool bShowSliderHandle = false;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	FSlateBrush ThumbImage;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
 	FMargin ImagePadding = 4.0f;

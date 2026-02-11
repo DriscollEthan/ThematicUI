@@ -312,6 +312,7 @@ float UUThematicUISlider::CalculateCurrentValue(const float Percentage) const
 	float Value = ValueRange.Y - ValueRange.X;
 	Value *= Percentage;
 	Value += ValueRange.X;
+	Value = FMath::Clamp(Value, ValueRange.X, ValueRange.Y);
 	return Value;
 }
 
@@ -326,7 +327,8 @@ void UUThematicUISlider::HandleFloatValueChanged(const float NewValue)
 {
 	CurrentValue = CalculateCurrentValue(NewValue);
 	ProgressBar->SetPercent(NewValue);
-	TUiOnValueChanged.Broadcast();
+	SetText(Text);
+	TUiOnValueChanged.Broadcast(CurrentValue);
 }
 
 void UUThematicUISlider::HandleControllerFocus()

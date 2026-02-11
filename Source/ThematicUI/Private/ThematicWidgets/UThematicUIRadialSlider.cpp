@@ -5,7 +5,7 @@
 
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Components/SizeBox.h"
-#include "Runtime/AdvancedWidgets/Public/Components/RadialSlider.h"
+#include "Components/RadialSlider.h"
 #include "Components/Image.h"
 #include "Components/OverlaySlot.h"
 #include "Components/TextBlock.h"
@@ -23,23 +23,37 @@ void UUThematicUIRadialSlider::NativePreConstruct()
 	}
 	if (TextBlock)
 	{
-		SetText(Text);
-		UOverlaySlot* OverlaySlot = UWidgetLayoutLibrary::SlotAsOverlaySlot(Image);
+		UOverlaySlot* OverlaySlot = UWidgetLayoutLibrary::SlotAsOverlaySlot(TextBlock);
 		OverlaySlot->SetPadding(TextPadding);
 		OverlaySlot->SetHorizontalAlignment(TextHorizontalAlignment);
 		OverlaySlot->SetVerticalAlignment(TextVerticalAlignment);
+		SetText(Text);
 	}
 	if (RadialSlider)
 	{
-		RadialSlider->Value = GetPercentage();
-		UOverlaySlot* OverlaySlot = UWidgetLayoutLibrary::SlotAsOverlaySlot(Image);
+		RadialSlider->SetValue(GetPercentage());
+		UOverlaySlot* OverlaySlot = UWidgetLayoutLibrary::SlotAsOverlaySlot(RadialSlider);
 		OverlaySlot->SetPadding(RadialSliderPadding);
+		RadialSlider->SetSliderHandleStartAngle(StartAndEndAngles.X);
+		RadialSlider->SetSliderHandleEndAngle(StartAndEndAngles.Y);
+		RadialSlider->SetShowSliderHand(bShowSliderHandle);
+		RadialSlider->SetShowSliderHandle(bShowSliderThumb);
+		RadialSlider->WidgetStyle.BarThickness = BarThickness;
+		
+		FSlateBrush NoDrawTypeBrush = FSlateBrush();
+        NoDrawTypeBrush.DrawAs = ESlateBrushDrawType::NoDrawType;
+        RadialSlider->WidgetStyle.NormalBarImage = NoDrawTypeBrush;
+        RadialSlider->WidgetStyle.HoveredBarImage = NoDrawTypeBrush;
 	}
 	if (Image)
 	{
 		UOverlaySlot* OverlaySlot = UWidgetLayoutLibrary::SlotAsOverlaySlot(Image);
 		OverlaySlot->SetPadding(ImagePadding);
+		OverlaySlot->SetHorizontalAlignment(HAlign_Fill);
+		OverlaySlot->SetVerticalAlignment(VAlign_Fill);
 	}
+	
+	SetThemeNormal();
 }
 
 void UUThematicUIRadialSlider::NativeConstruct()
@@ -58,16 +72,85 @@ void UUThematicUIRadialSlider::NativeConstruct()
 void UUThematicUIRadialSlider::SetThemeNormal()
 {
 	Super::SetThemeNormal();
+	
+	if (RadialSlider && Image && TextBlock && WidgetTheme)
+	{
+		// Set Slider Theme
+		FSlateBrush ThumbBrush = ThumbImage;
+		ThumbBrush.TintColor = ThumbBrush.TintColor.GetSpecifiedColor() * WidgetTheme->NormalTheme.Image.TintColor.GetSpecifiedColor();
+		RadialSlider->WidgetStyle.NormalThumbImage = ThumbBrush;
+		RadialSlider->WidgetStyle.HoveredThumbImage = ThumbBrush;
+		RadialSlider->SetSliderProgressColor(WidgetTheme->NormalTheme.FillColor);
+		RadialSlider->SetSliderBarColor(WidgetTheme->NormalTheme.Image.TintColor.GetSpecifiedColor());
+		
+		// Set Image Theme
+		FSlateBrush ImageBrush = WidgetTheme->NormalTheme.Image;
+		ImageBrush.OutlineSettings.RoundingType = ESlateBrushRoundingType::HalfHeightRadius;
+		Image->SetBrush(ImageBrush);
+		
+		// Set TextBlock Theme
+		TextBlock->SetFont(WidgetTheme->NormalTheme.TextFont);
+	}
+	else
+	{
+		UE_LOGFMT(LogThematicUI, Error, "UUThematicUIRadialSlider::SetThemeNormal : UUThematicUIRadialSlider::RadialSlider == nullptr || UUThematicUIRadialSlider::Image == nullptr || UUThematicUIRadialSlider::TextBlock == nullptr || UUThematicUIRadialSlider::WidgetTheme == nullptr");
+	}
 }
 
 void UUThematicUIRadialSlider::SetThemeHovered()
 {
 	Super::SetThemeHovered();
+	
+	if (RadialSlider && Image && TextBlock && WidgetTheme)
+	{
+		// Set Slider Theme
+		FSlateBrush ThumbBrush = ThumbImage;
+		ThumbBrush.TintColor = ThumbBrush.TintColor.GetSpecifiedColor() * WidgetTheme->HoveredTheme.Image.TintColor.GetSpecifiedColor();
+		RadialSlider->WidgetStyle.NormalThumbImage = ThumbBrush;
+		RadialSlider->WidgetStyle.HoveredThumbImage = ThumbBrush;
+		RadialSlider->SetSliderProgressColor(WidgetTheme->HoveredTheme.FillColor);
+		RadialSlider->SetSliderBarColor(WidgetTheme->HoveredTheme.Image.TintColor.GetSpecifiedColor());
+		
+		// Set Image Theme
+		FSlateBrush ImageBrush = WidgetTheme->HoveredTheme.Image;
+		ImageBrush.OutlineSettings.RoundingType = ESlateBrushRoundingType::HalfHeightRadius;
+		Image->SetBrush(ImageBrush);
+		
+		// Set TextBlock Theme
+		TextBlock->SetFont(WidgetTheme->HoveredTheme.TextFont);
+	}
+	else
+	{
+		UE_LOGFMT(LogThematicUI, Error, "UUThematicUIRadialSlider::SetThemeHovered : UUThematicUIRadialSlider::RadialSlider == nullptr || UUThematicUIRadialSlider::Image == nullptr || UUThematicUIRadialSlider::TextBlock == nullptr || UUThematicUIRadialSlider::WidgetTheme == nullptr");
+	}
 }
 
 void UUThematicUIRadialSlider::SetThemePressed()
 {
 	Super::SetThemePressed();
+	
+	if (RadialSlider && Image && TextBlock && WidgetTheme)
+	{
+		// Set Slider Theme
+		FSlateBrush ThumbBrush = ThumbImage;
+		ThumbBrush.TintColor = ThumbBrush.TintColor.GetSpecifiedColor() * WidgetTheme->PressedTheme.Image.TintColor.GetSpecifiedColor();
+		RadialSlider->WidgetStyle.NormalThumbImage = ThumbBrush;
+		RadialSlider->WidgetStyle.HoveredThumbImage = ThumbBrush;
+		RadialSlider->SetSliderProgressColor(WidgetTheme->PressedTheme.FillColor);
+		RadialSlider->SetSliderBarColor(WidgetTheme->PressedTheme.Image.TintColor.GetSpecifiedColor());
+		
+		// Set Image Theme
+		FSlateBrush ImageBrush = WidgetTheme->PressedTheme.Image;
+		ImageBrush.OutlineSettings.RoundingType = ESlateBrushRoundingType::HalfHeightRadius;
+		Image->SetBrush(ImageBrush);
+		
+		// Set TextBlock Theme
+		TextBlock->SetFont(WidgetTheme->PressedTheme.TextFont);
+	}
+	else
+	{
+		UE_LOGFMT(LogThematicUI, Error, "UUThematicUIRadialSlider::SetThemePressed : UUThematicUIRadialSlider::RadialSlider == nullptr || UUThematicUIRadialSlider::Image == nullptr || UUThematicUIRadialSlider::TextBlock == nullptr || UUThematicUIRadialSlider::WidgetTheme == nullptr");
+	}
 }
 
 FReply UUThematicUIRadialSlider::NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent)
@@ -104,7 +187,7 @@ void UUThematicUIRadialSlider::SetStepAmount(const float NewStepAmount)
 	
 	if (RadialSlider)
 	{
-		RadialSlider->StepSize = UpdateSteppingSize();
+		RadialSlider->SetStepSize(UpdateSteppingSize());
 	}
 }
 
@@ -117,7 +200,7 @@ void UUThematicUIRadialSlider::SetText(const FText& NewText)
 {
 	Text = NewText;
 	
-	if (Text.IsEmptyOrWhitespace() && !bAlwaysShowValue)
+	if (Text.IsEmptyOrWhitespace() && !bAlwaysDisplayValue)
 	{
 		TextBlock->SetText(Text);
 		return;
@@ -146,6 +229,7 @@ float UUThematicUIRadialSlider::CalculateCurrentValue(const float Percentage) co
 	float Value = ValueRange.Y - ValueRange.X;
 	Value *= Percentage;
 	Value += ValueRange.X;
+	Value = FMath::Clamp(Value, ValueRange.X, ValueRange.Y);
 	return Value;
 }
 
@@ -159,7 +243,8 @@ float UUThematicUIRadialSlider::UpdateSteppingSize() const
 void UUThematicUIRadialSlider::HandleFloatValueChanged(const float NewValue)
 {
 	CurrentValue = CalculateCurrentValue(NewValue);
-	TUiValueChanged.Broadcast();
+	SetText(Text);
+	TUiValueChanged.Broadcast(CurrentValue);
 }
 
 void UUThematicUIRadialSlider::HandleControllerFocus()

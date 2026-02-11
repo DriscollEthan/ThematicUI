@@ -7,7 +7,7 @@
 #include "Widgets/Notifications/SProgressBar.h"
 #include "UThematicUISlider.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTUiSliderValueChangedDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTUiSliderValueChangedDelegate, float, NewValue);
 
 /**
  * 

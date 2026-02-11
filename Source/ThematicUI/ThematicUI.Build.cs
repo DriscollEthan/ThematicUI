@@ -26,7 +26,8 @@ public class ThematicUI : ModuleRules
 			new string[]
 			{
 				"Core",
-				"UMG"
+				"UMG",
+				"AdvancedWidgets"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
