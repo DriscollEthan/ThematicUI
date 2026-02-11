@@ -40,22 +40,20 @@ protected:
 	 * NativeOnAddedToFocusPath is Called when Widget gains User Focus
 	 * @param InFocusEvent 
 	 */
-	UFUNCTION(BlueprintCallable, Category = "ThematicUI")
 	virtual void NativeOnAddedToFocusPath(const FFocusEvent& InFocusEvent) override;
 	
 	/**
 	 *  NativeOnFocusLost is Called when Widget gains User Focus
 	 * @param InFocusEvent 
 	 */
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI")
 	virtual void NativeOnRemovedFromFocusPath(const FFocusEvent& InFocusEvent) override;
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI")
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI | SetTheme")
 	virtual void SetThemeNormal();
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI")
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI | SetTheme")
 	virtual void SetThemeHovered();
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI")
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI | SetTheme")
 	virtual void SetThemePressed();
 };

@@ -30,56 +30,56 @@ private:
 	TObjectPtr<class UTextBlock> TextBlock;
 	
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI")
-	FVector2D ValueRange = FVector2D(0.0f, 1.0f);
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	FVector2D SizeBoxSize = {250.0f, 250.0f};	
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI")
-	float StepAmount = 0.1f;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Getter, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Getter, Category = "ThematicUI|Slider")
 	float CurrentValue = 0.5f;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
-	FVector2D SizeBoxSize = {250.0f, 250.0f};
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI|Slider")
+	FVector2D ValueRange = FVector2D(0.0f, 1.0f);
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
-	float RadialSliderPadding = 0.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI|Slider")
+	float StepAmount = 0.1f;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
-	float BarThickness = 5.0f;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI|Slider")
 	FVector2D StartAndEndAngles = {30.0f, 150.0f};
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI|Slider")
+	float BarThickness = 5.0f;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI|Slider")
 	bool bShowSliderThumb = true;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI|Slider")
 	bool bShowSliderHandle = false;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI|Slider")
 	FSlateBrush ThumbImage;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI|Slider")
+	float RadialSliderPadding = 0.0f;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI|Image")
 	FMargin ImagePadding = 4.0f;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI|Image")
 	TEnumAsByte<EHorizontalAlignment> TextHorizontalAlignment = HAlign_Center;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI|Image")
 	TEnumAsByte<EVerticalAlignment> TextVerticalAlignment = VAlign_Center;
 	
-	/* X = Left Padding, Y = Top Padding, Z = Right Padding, W = Bottom Padding */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
-	FMargin TextPadding = 0.0f;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Setter, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Setter, Category = "ThematicUI|Text")
 	FText Text;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI|Text")
 	bool bAlwaysDisplayValue;
 	
-	UPROPERTY(EditAnywhere, BlueprintAssignable, Category = "ThematicUI")
+	/* X = Left Padding, Y = Top Padding, Z = Right Padding, W = Bottom Padding */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI|Text")
+	FMargin TextPadding = 0.0f;
+	
+	UPROPERTY(BlueprintAssignable, Category = "ThematicUI")
 	FTuiSliderValueChangedDelegate TUiValueChanged;
 	
 protected:

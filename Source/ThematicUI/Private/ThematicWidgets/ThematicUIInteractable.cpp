@@ -25,7 +25,7 @@ void UThematicUIInteractable::NativeOnMouseEnter(const FGeometry& InGeometry, co
 }
 
 void UThematicUIInteractable::NativeOnAddedToFocusPath(const FFocusEvent& InFocusEvent)
-{
+ {
 	Super::NativeOnAddedToFocusPath(InFocusEvent);
 	
 	SetThemeHovered();
