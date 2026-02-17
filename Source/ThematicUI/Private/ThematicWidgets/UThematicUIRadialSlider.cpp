@@ -250,6 +250,8 @@ void UUThematicUIRadialSlider::HandleFloatValueChanged(const float NewValue)
 void UUThematicUIRadialSlider::HandleControllerFocus()
 {
 	SetThemePressed();
+	if (USoundBase* SoundBase = Cast<USoundBase>(WidgetTheme->PressedTheme.Sound.GetResourceObject()))
+		PlaySound(SoundBase);
 }
 
 void UUThematicUIRadialSlider::HandleControllerUnFocused()

@@ -31,31 +31,31 @@ private:
 	TObjectPtr<class USlider> Slider;
 	
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI")
-	FVector2D ValueRange = FVector2D(0.0f, 1.0f);
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI")
-	float StepAmount = 0.1f;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Getter, Category = "ThematicUI")
-	float CurrentValue = 0.5f;
-	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
 	FVector2D SizeBoxSize = FVector2D(250.0f, 50.0f);
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI")
-	FVector2D ThumbSize = FVector2D(8.0f, 80.0f);
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Getter, Category = "ThematicUI|Slider")
+	float CurrentValue = 0.5f;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI")
-	FText Text = FText::FromString("Hello");
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI|Slider")
+	FVector2D ValueRange = FVector2D(0.0f, 1.0f);
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
-	bool bAlwaysShowValue = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI|Slider")
+	float StepAmount = 0.1f;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI|Slider")
 	bool bIsHorizontal = true;
 	
-	UPROPERTY(EditAnywhere, BlueprintAssignable, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI|Slider")
+	FVector2D ThumbSize = FVector2D(8.0f, 80.0f);
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI|Text")
+	FText Text = FText::FromString("Hello");
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI|Text")
+	bool bAlwaysShowValue = false;
+	
+	UPROPERTY(BlueprintAssignable, Category = "ThematicUI")
 	FTUiSliderValueChangedDelegate TUiOnValueChanged;
 	
 protected:

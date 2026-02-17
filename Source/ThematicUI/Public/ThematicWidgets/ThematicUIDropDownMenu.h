@@ -3,40 +3,39 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ThematicWidgets/ThematicUIInteractable.h"
-#include "ThematicUIButton.generated.h"
+#include "ThematicUIInteractable.h"
+#include "ThematicUIDropDownMenu.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTUiButtonPressedDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FTUiOnSelectionChangedSignare, FString, SelectedOption, int, SelectedIndex);
 
 /**
  * 
  */
 UCLASS()
-class THEMATICUI_API UThematicUIButton : public UThematicUIInteractable
+class THEMATICUI_API UThematicUIDropDownMenu : public UThematicUIInteractable
 {
 	GENERATED_BODY()
 	
-private:
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
 	TObjectPtr<class USizeBox> SizeBox;
 	
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
-	TObjectPtr<class UButton> Button;
+	TObjectPtr<class UComboBoxString> ComboBoxString;
 	
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
-	TObjectPtr<class UTextBlock> TextBlock;
+	UPROPERTY(EditDefaultsOnly, Category = "ThematicUI")
+	FSlateBrush DropDownArrowBrush;
 	
-protected:
+public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
 	FVector2D SizeBoxSize = FVector2D(250.0f, 50.0f);
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI ")
-	FText Text;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	TArray<FString> Options; 
 	
 	UPROPERTY(BlueprintAssignable, Category = "ThematicUI")
-	FTUiButtonPressedDelegate TUiButtonPressedDelegate;
-
-protected:
+	FTUiOnSelectionChangedSignare OnSelectionChanged;
+	
+public:
 	virtual void NativePreConstruct() override;
 	
 	virtual void NativeConstruct() override;
@@ -47,9 +46,10 @@ protected:
 	
 	virtual void SetThemePressed() override;
 	
+public:
 	UFUNCTION()
-	void HandleButtonPressed();
+	void HandleOpening();
 	
 	UFUNCTION()
-	void HandleButtonReleased();
+	void HandleSelectionChanged(FString SelectedItem, ESelectInfo::Type SelectionType);
 };

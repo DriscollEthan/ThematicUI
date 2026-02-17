@@ -334,6 +334,8 @@ void UUThematicUISlider::HandleFloatValueChanged(const float NewValue)
 void UUThematicUISlider::HandleControllerFocus()
 {
 	SetThemePressed();
+	if (USoundBase* SoundBase = Cast<USoundBase>(WidgetTheme->PressedTheme.Sound.GetResourceObject()))
+		PlaySound(SoundBase);
 }
 
 void UUThematicUISlider::HandleControllerUnFocused()
