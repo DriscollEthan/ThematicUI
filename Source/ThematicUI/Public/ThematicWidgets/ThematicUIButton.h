@@ -34,7 +34,7 @@ protected:
 	FText Text;
 	
 	UPROPERTY(BlueprintAssignable, Category = "ThematicUI")
-	FTUiButtonPressedDelegate TUiButtonPressedDelegate;
+	FTUiButtonPressedDelegate TUiButtonPressed;
 
 protected:
 	virtual void NativePreConstruct() override;
