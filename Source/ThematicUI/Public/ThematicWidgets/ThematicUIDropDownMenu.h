@@ -40,6 +40,8 @@ public:
 	
 	virtual void NativeConstruct() override;
 	
+	virtual FReply NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent) override;
+	
 	virtual void SetThemeNormal() override;
 	
 	virtual void SetThemeHovered() override;

@@ -33,6 +33,16 @@ void UThematicUIButton::NativeConstruct()
 	Button->OnReleased.AddUniqueDynamic(this, &ThisClass::HandleButtonReleased);
 }
 
+FReply UThematicUIButton::NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent)
+{
+	if (Button)
+	{
+		return FReply::Handled().SetUserFocus(Button->TakeWidget(), InFocusEvent.GetCause());
+	}
+
+	return Super::NativeOnFocusReceived(InGeometry, InFocusEvent);
+}
+
 void UThematicUIButton::SetThemeNormal()
 {
 	Super::SetThemeNormal();

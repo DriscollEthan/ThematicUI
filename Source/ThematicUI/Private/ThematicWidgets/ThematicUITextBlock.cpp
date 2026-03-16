@@ -7,6 +7,13 @@
 #include "Components/SizeBox.h"
 #include "Components/TextBlock.h"
 
+void UThematicUITextBlock::SetText(FText NewText)
+{
+	Text = NewText;
+	
+	TextBlock->SetText(Text);
+}
+
 void UThematicUITextBlock::NativePreConstruct()
 {
 	Super::NativePreConstruct();

@@ -27,8 +27,12 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
 	FVector2D SizeBoxSize = FVector2D(250.0f, 50.0f);
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI ")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Setter, Category = "ThematicUI")
 	FText Text;
+
+public:
+	UFUNCTION(BlueprintCallable)
+	void SetText(FText NewText);
 	
 protected:
 	virtual void NativePreConstruct() override;

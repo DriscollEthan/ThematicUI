@@ -41,6 +41,16 @@ void UThematicUIDropDownMenu::NativeConstruct()
 ;	}
 }
 
+FReply UThematicUIDropDownMenu::NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent)
+{
+	if (ComboBoxString)
+	{
+		return FReply::Handled().SetUserFocus(ComboBoxString->TakeWidget(), InFocusEvent.GetCause());
+	}
+	
+	return Super::NativeOnFocusReceived(InGeometry, InFocusEvent);
+}
+
 void UThematicUIDropDownMenu::SetThemeNormal()
 {
 	Super::SetThemeNormal();
