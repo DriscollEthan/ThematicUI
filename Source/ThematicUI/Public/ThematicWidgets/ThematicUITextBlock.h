@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "ThematicUIInteractable.h"
+#include "Framework/Text/TextLayout.h"
 #include "ThematicUITextBlock.generated.h"
 
 /**

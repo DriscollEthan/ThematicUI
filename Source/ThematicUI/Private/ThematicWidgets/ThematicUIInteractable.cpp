@@ -4,6 +4,7 @@
 #include "ThematicWidgets/ThematicUIInteractable.h"
 
 #include "Kismet/GameplayStatics.h"
+#include "Sound/SoundBase.h"
 
 DEFINE_LOG_CATEGORY(LogThematicUI);
 

@@ -27,7 +27,9 @@ public class ThematicUI : ModuleRules
 			{
 				"Core",
 				"UMG",
-				"AdvancedWidgets"
+				"AdvancedWidgets",
+				"Slate",
+				"SlateCore"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -39,7 +41,7 @@ public class ThematicUI : ModuleRules
 				"CoreUObject",
 				"Engine",
 				"Slate",
-				"SlateCore",
+				"SlateCore"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

@@ -10,6 +10,8 @@
 #include "Components/OverlaySlot.h"
 #include "Components/TextBlock.h"
 
+#include "Sound/SoundBase.h"
+
 void UUThematicUIRadialSlider::NativePreConstruct()
 {
 	Super::NativePreConstruct();

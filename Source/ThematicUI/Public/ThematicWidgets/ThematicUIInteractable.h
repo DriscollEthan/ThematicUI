@@ -21,7 +21,7 @@ struct FThematicUIThemeOverride
 	bool bOverrideImage = false;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI", meta = (EditCondition = "bOverrideImage"))
-	FSlateBrush Image = FSlateBrush();
+	FSlateBrush Image;
 	
 	/* Fill Color (Only for bar widgets) */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
@@ -42,18 +42,18 @@ struct FThematicUIThemeOverride
 	bool bOverrideTextFont = false;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI", meta = (EditCondition = "bOverrideTextFont"))
-	FSlateFontInfo TextFont = FSlateFontInfo();
+	FSlateFontInfo TextFont;
 	
 	/* Sound (For Hovered and Pressed) */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
 	bool bOverrideSound = false;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI", meta = (EditCondition = "bOverrideSound"))
-	FSlateSound Sound = FSlateSound();
+	FSlateSound Sound;
 	
 	FThematicUITheme ConvertToTheme() const
 	{
-		FThematicUITheme Theme = FThematicUITheme();
+		FThematicUITheme Theme;
 		
 		Theme.Image = Image;
 		Theme.FillColor = FillColor;
@@ -66,7 +66,7 @@ struct FThematicUIThemeOverride
 	
 	FThematicUITheme ConvertToTheme(FThematicUITheme InTheme) const
 	{
-		FThematicUITheme Theme = FThematicUITheme();
+		FThematicUITheme Theme;
 		
 		Theme.Image = (bOverrideImage) ? Image : InTheme.Image;
 		Theme.FillColor = (bOverrideFillColor) ? FillColor : InTheme.FillColor;
@@ -85,19 +85,19 @@ struct FThematicUIThemeDataOverride
 	
 	/* Normal Theme */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
-	FThematicUIThemeOverride NormalThemeOverride = FThematicUIThemeOverride();
+	FThematicUIThemeOverride NormalThemeOverride;
 	
 	/* Hovered Theme */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
-	FThematicUIThemeOverride HoveredThemeOverride = FThematicUIThemeOverride();
+	FThematicUIThemeOverride HoveredThemeOverride;
 	
 	/* Pressed Theme */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
-	FThematicUIThemeOverride PressedThemeOverride = FThematicUIThemeOverride();
+	FThematicUIThemeOverride PressedThemeOverride;
 	
 	FThematicUIThemeData ConvertToThemeData() const
 	{
-		FThematicUIThemeData ThemeData = FThematicUIThemeData();
+		FThematicUIThemeData ThemeData;
 		
 		ThemeData.NormalTheme = NormalThemeOverride.ConvertToTheme();
 		ThemeData.HoveredTheme = HoveredThemeOverride.ConvertToTheme();
@@ -108,7 +108,7 @@ struct FThematicUIThemeDataOverride
 	
 	FThematicUIThemeData ConvertToThemeData(const UThematicUIThemeDataAsset* InThemeDataAsset) const
 	{
-		FThematicUIThemeData ThemeData = FThematicUIThemeData();
+		FThematicUIThemeData ThemeData;
 		
 		ThemeData.NormalTheme = NormalThemeOverride.ConvertToTheme(InThemeDataAsset->ThematicUIThemeData.NormalTheme);
 		ThemeData.HoveredTheme = HoveredThemeOverride.ConvertToTheme(InThemeDataAsset->ThematicUIThemeData.HoveredTheme);
@@ -137,7 +137,7 @@ protected:
 	
 	/* Widget Theme Data Override */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI", meta = (DisplayPriority = 1))
-	FThematicUIThemeDataOverride WidgetThemeOverride = FThematicUIThemeDataOverride();
+	FThematicUIThemeDataOverride WidgetThemeOverride;
 	
 protected:
 	/**

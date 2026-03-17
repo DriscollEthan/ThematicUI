@@ -6,6 +6,8 @@
 #include "Components/ComboBoxString.h"
 #include "Components/SizeBox.h"
 
+#include "Sound/SoundBase.h"
+
 void UThematicUIDropDownMenu::NativePreConstruct()
 {
 	Super::NativePreConstruct();

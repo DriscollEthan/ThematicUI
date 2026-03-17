@@ -10,6 +10,8 @@
 #include "Components/Slider.h"
 #include "Kismet/GameplayStatics.h"
 
+#include "Sound/SoundBase.h"
+
 void UUThematicUISlider::NativePreConstruct()
 {
 	Super::NativePreConstruct();

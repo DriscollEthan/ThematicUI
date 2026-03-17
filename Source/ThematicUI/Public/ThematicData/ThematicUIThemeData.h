@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
 #include "Styling/SlateBrush.h"
+#include "Sound/SlateSound.h"
+#include "Fonts/SlateFontInfo.h"
 #include "ThematicUIThemeData.generated.h"
 
 USTRUCT(BlueprintType)
@@ -14,7 +16,7 @@ struct FThematicUITheme
 	
 	/* Image Data */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
-	FSlateBrush Image = FSlateBrush();
+	FSlateBrush Image;
 	
 	/* Fill Color (Only for bar widgets) */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
@@ -26,11 +28,11 @@ struct FThematicUITheme
 	
 	/* Text Font */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
-	FSlateFontInfo TextFont = FSlateFontInfo();
+	FSlateFontInfo TextFont;
 	
 	/* Sound (For Hovered and Pressed) */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
-	FSlateSound Sound = FSlateSound();
+	FSlateSound Sound;
 };
 
 USTRUCT(BlueprintType)
@@ -40,15 +42,15 @@ struct FThematicUIThemeData
 	
 	/* Normal Theme */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
-	FThematicUITheme NormalTheme = FThematicUITheme();
+	FThematicUITheme NormalTheme;
 	
 	/* Hovered Theme */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
-	FThematicUITheme HoveredTheme = FThematicUITheme();
+	FThematicUITheme HoveredTheme;
 	
 	/* Pressed Theme */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
-	FThematicUITheme PressedTheme = FThematicUITheme();
+	FThematicUITheme PressedTheme;
 };
 
 /**
@@ -61,5 +63,5 @@ class THEMATICUI_API UThematicUIThemeDataAsset : public UPrimaryDataAsset
 	
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
-	FThematicUIThemeData ThematicUIThemeData = FThematicUIThemeData();
+	FThematicUIThemeData ThematicUIThemeData;
 };
