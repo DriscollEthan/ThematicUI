@@ -26,11 +26,14 @@ void UThematicUIInteractable::NativePreConstruct()
 
 void UThematicUIInteractable::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
-	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
-	
-	if (APlayerController* PC = UGameplayStatics::GetPlayerController(GetWorld(), InMouseEvent.GetUserIndex()))
+	if (IsFocusable())
 	{
-		this->SetUserFocus(PC);
+		Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
+	
+		if (APlayerController* PC = UGameplayStatics::GetPlayerController(GetWorld(), InMouseEvent.GetUserIndex()))
+		{
+			this->SetUserFocus(PC);
+		}
 	}
 }
 
