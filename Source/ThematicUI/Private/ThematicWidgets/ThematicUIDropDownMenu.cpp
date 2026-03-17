@@ -26,8 +26,6 @@ void UThematicUIDropDownMenu::NativePreConstruct()
 		if (Options.IsValidIndex(0))
 			ComboBoxString->SetSelectedOption(Options[0]);
 	}
-	
-	SetThemeNormal();
 }
 
 void UThematicUIDropDownMenu::NativeConstruct()
@@ -59,29 +57,29 @@ void UThematicUIDropDownMenu::SetThemeNormal()
 	{
 		FComboBoxStyle DropDownStyle;
 		FTableRowStyle DropDownRowStyle;
-		FSlateBrush ItemStyleNormalImage = WidgetTheme->NormalTheme.Image;
+		FSlateBrush ItemStyleNormalImage = ActualThemeData.NormalTheme.Image;
 		ItemStyleNormalImage.OutlineSettings.Width = -100.0f;
 		ItemStyleNormalImage.OutlineSettings.RoundingType = ESlateBrushRoundingType::HalfHeightRadius;
-		FSlateBrush ItemStyleHoveredImage = WidgetTheme->HoveredTheme.Image;
+		FSlateBrush ItemStyleHoveredImage = ActualThemeData.HoveredTheme.Image;
 		ItemStyleHoveredImage.OutlineSettings.Width = -100.0f;
 		ItemStyleHoveredImage.OutlineSettings.RoundingType = ESlateBrushRoundingType::HalfHeightRadius;
-		FSlateBrush ItemStylePressedImage = WidgetTheme->PressedTheme.Image;
+		FSlateBrush ItemStylePressedImage = ActualThemeData.PressedTheme.Image;
 		ItemStylePressedImage.OutlineSettings.Width = -100.0f;
 		ItemStylePressedImage.OutlineSettings.RoundingType = ESlateBrushRoundingType::HalfHeightRadius;
 		
-		DropDownStyle.ComboButtonStyle.ButtonStyle.Normal = WidgetTheme->NormalTheme.Image;
-		DropDownStyle.ComboButtonStyle.ButtonStyle.Hovered = WidgetTheme->NormalTheme.Image;
-		DropDownStyle.ComboButtonStyle.ButtonStyle.Pressed = WidgetTheme->NormalTheme.Image;
+		DropDownStyle.ComboButtonStyle.ButtonStyle.Normal = ActualThemeData.NormalTheme.Image;
+		DropDownStyle.ComboButtonStyle.ButtonStyle.Hovered = ActualThemeData.NormalTheme.Image;
+		DropDownStyle.ComboButtonStyle.ButtonStyle.Pressed = ActualThemeData.NormalTheme.Image;
 		DropDownStyle.ComboButtonStyle.DownArrowImage = DropDownArrowBrush;
-		DropDownStyle.ComboButtonStyle.DownArrowImage.TintColor = WidgetTheme->NormalTheme.Image.OutlineSettings.Color;
+		DropDownStyle.ComboButtonStyle.DownArrowImage.TintColor = ActualThemeData.NormalTheme.Image.OutlineSettings.Color;
 		
-		DropDownRowStyle.SelectorFocusedBrush.TintColor.GetSpecifiedColor() = WidgetTheme->NormalTheme.FillColor;
+		DropDownRowStyle.SelectorFocusedBrush.TintColor.GetSpecifiedColor() = ActualThemeData.NormalTheme.FillColor;
 		DropDownRowStyle.EvenRowBackgroundBrush = ItemStyleNormalImage;
 		DropDownRowStyle.OddRowBackgroundBrush = ItemStyleNormalImage;
 		DropDownRowStyle.EvenRowBackgroundHoveredBrush = ItemStyleHoveredImage;
 		DropDownRowStyle.OddRowBackgroundHoveredBrush = ItemStyleHoveredImage;
-		DropDownRowStyle.TextColor = WidgetTheme->NormalTheme.TextColor;
-		DropDownRowStyle.SelectedTextColor = WidgetTheme->PressedTheme.TextColor;
+		DropDownRowStyle.TextColor = ActualThemeData.NormalTheme.TextColor;
+		DropDownRowStyle.SelectedTextColor = ActualThemeData.PressedTheme.TextColor;
 		DropDownRowStyle.ActiveBrush = ItemStyleHoveredImage;
 		DropDownRowStyle.ActiveHoveredBrush = ItemStylePressedImage;
 		DropDownRowStyle.ParentRowBackgroundBrush = ItemStyleNormalImage;
@@ -105,29 +103,29 @@ void UThematicUIDropDownMenu::SetThemeHovered()
 	{
 		FComboBoxStyle DropDownStyle;
 		FTableRowStyle DropDownRowStyle;
-		FSlateBrush ItemStyleNormalImage = WidgetTheme->NormalTheme.Image;
+		FSlateBrush ItemStyleNormalImage = ActualThemeData.NormalTheme.Image;
 		ItemStyleNormalImage.OutlineSettings.Width = -100.0f;
 		ItemStyleNormalImage.OutlineSettings.RoundingType = ESlateBrushRoundingType::HalfHeightRadius;
-		FSlateBrush ItemStyleHoveredImage = WidgetTheme->HoveredTheme.Image;
+		FSlateBrush ItemStyleHoveredImage = ActualThemeData.HoveredTheme.Image;
 		ItemStyleHoveredImage.OutlineSettings.Width = -100.0f;
 		ItemStyleHoveredImage.OutlineSettings.RoundingType = ESlateBrushRoundingType::HalfHeightRadius;
-		FSlateBrush ItemStylePressedImage = WidgetTheme->PressedTheme.Image;
+		FSlateBrush ItemStylePressedImage = ActualThemeData.PressedTheme.Image;
 		ItemStylePressedImage.OutlineSettings.Width = -100.0f;
 		ItemStylePressedImage.OutlineSettings.RoundingType = ESlateBrushRoundingType::HalfHeightRadius;
 		
-		DropDownStyle.ComboButtonStyle.ButtonStyle.Normal = WidgetTheme->HoveredTheme.Image;
-		DropDownStyle.ComboButtonStyle.ButtonStyle.Hovered = WidgetTheme->HoveredTheme.Image;
-		DropDownStyle.ComboButtonStyle.ButtonStyle.Pressed = WidgetTheme->HoveredTheme.Image;
+		DropDownStyle.ComboButtonStyle.ButtonStyle.Normal = ActualThemeData.HoveredTheme.Image;
+		DropDownStyle.ComboButtonStyle.ButtonStyle.Hovered = ActualThemeData.HoveredTheme.Image;
+		DropDownStyle.ComboButtonStyle.ButtonStyle.Pressed = ActualThemeData.HoveredTheme.Image;
 		DropDownStyle.ComboButtonStyle.DownArrowImage = DropDownArrowBrush;
-		DropDownStyle.ComboButtonStyle.DownArrowImage.TintColor = WidgetTheme->HoveredTheme.Image.OutlineSettings.Color;
+		DropDownStyle.ComboButtonStyle.DownArrowImage.TintColor = ActualThemeData.HoveredTheme.Image.OutlineSettings.Color;
 		
-		DropDownRowStyle.SelectorFocusedBrush.TintColor.GetSpecifiedColor() = WidgetTheme->NormalTheme.FillColor;
+		DropDownRowStyle.SelectorFocusedBrush.TintColor.GetSpecifiedColor() = ActualThemeData.NormalTheme.FillColor;
 		DropDownRowStyle.EvenRowBackgroundBrush = ItemStyleNormalImage;
 		DropDownRowStyle.OddRowBackgroundBrush = ItemStyleNormalImage;
 		DropDownRowStyle.EvenRowBackgroundHoveredBrush = ItemStyleHoveredImage;
 		DropDownRowStyle.OddRowBackgroundHoveredBrush = ItemStyleHoveredImage;
-		DropDownRowStyle.TextColor = WidgetTheme->NormalTheme.TextColor;
-		DropDownRowStyle.SelectedTextColor = WidgetTheme->PressedTheme.TextColor;
+		DropDownRowStyle.TextColor = ActualThemeData.NormalTheme.TextColor;
+		DropDownRowStyle.SelectedTextColor = ActualThemeData.PressedTheme.TextColor;
 		DropDownRowStyle.ActiveBrush = ItemStyleHoveredImage;
 		DropDownRowStyle.ActiveHoveredBrush = ItemStylePressedImage;
 		DropDownRowStyle.ParentRowBackgroundBrush = ItemStyleNormalImage;
@@ -151,29 +149,29 @@ void UThematicUIDropDownMenu::SetThemePressed()
 	{
 		FComboBoxStyle DropDownStyle;
 		FTableRowStyle DropDownRowStyle;
-		FSlateBrush ItemStyleNormalImage = WidgetTheme->NormalTheme.Image;
+		FSlateBrush ItemStyleNormalImage = ActualThemeData.NormalTheme.Image;
 		ItemStyleNormalImage.OutlineSettings.Width = -100.0f;
 		ItemStyleNormalImage.OutlineSettings.RoundingType = ESlateBrushRoundingType::HalfHeightRadius;
-		FSlateBrush ItemStyleHoveredImage = WidgetTheme->HoveredTheme.Image;
+		FSlateBrush ItemStyleHoveredImage = ActualThemeData.HoveredTheme.Image;
 		ItemStyleHoveredImage.OutlineSettings.Width = -100.0f;
 		ItemStyleHoveredImage.OutlineSettings.RoundingType = ESlateBrushRoundingType::HalfHeightRadius;
-		FSlateBrush ItemStylePressedImage = WidgetTheme->PressedTheme.Image;
+		FSlateBrush ItemStylePressedImage = ActualThemeData.PressedTheme.Image;
 		ItemStylePressedImage.OutlineSettings.Width = -100.0f;
 		ItemStylePressedImage.OutlineSettings.RoundingType = ESlateBrushRoundingType::HalfHeightRadius;
 		
-		DropDownStyle.ComboButtonStyle.ButtonStyle.Normal = WidgetTheme->PressedTheme.Image;
-		DropDownStyle.ComboButtonStyle.ButtonStyle.Hovered = WidgetTheme->PressedTheme.Image;
-		DropDownStyle.ComboButtonStyle.ButtonStyle.Pressed = WidgetTheme->PressedTheme.Image;
+		DropDownStyle.ComboButtonStyle.ButtonStyle.Normal = ActualThemeData.PressedTheme.Image;
+		DropDownStyle.ComboButtonStyle.ButtonStyle.Hovered = ActualThemeData.PressedTheme.Image;
+		DropDownStyle.ComboButtonStyle.ButtonStyle.Pressed = ActualThemeData.PressedTheme.Image;
 		DropDownStyle.ComboButtonStyle.DownArrowImage = DropDownArrowBrush;
-		DropDownStyle.ComboButtonStyle.DownArrowImage.TintColor = WidgetTheme->PressedTheme.Image.OutlineSettings.Color;
+		DropDownStyle.ComboButtonStyle.DownArrowImage.TintColor = ActualThemeData.PressedTheme.Image.OutlineSettings.Color;
 		
-		DropDownRowStyle.SelectorFocusedBrush.TintColor.GetSpecifiedColor() = WidgetTheme->NormalTheme.FillColor;
+		DropDownRowStyle.SelectorFocusedBrush.TintColor.GetSpecifiedColor() = ActualThemeData.NormalTheme.FillColor;
 		DropDownRowStyle.EvenRowBackgroundBrush = ItemStyleNormalImage;
 		DropDownRowStyle.OddRowBackgroundBrush = ItemStyleNormalImage;
 		DropDownRowStyle.EvenRowBackgroundHoveredBrush = ItemStyleHoveredImage;
 		DropDownRowStyle.OddRowBackgroundHoveredBrush = ItemStyleHoveredImage;
-		DropDownRowStyle.TextColor = WidgetTheme->NormalTheme.TextColor;
-		DropDownRowStyle.SelectedTextColor = WidgetTheme->PressedTheme.TextColor;
+		DropDownRowStyle.TextColor = ActualThemeData.NormalTheme.TextColor;
+		DropDownRowStyle.SelectedTextColor = ActualThemeData.PressedTheme.TextColor;
 		DropDownRowStyle.ActiveBrush = ItemStyleHoveredImage;
 		DropDownRowStyle.ActiveHoveredBrush = ItemStylePressedImage;
 		DropDownRowStyle.ParentRowBackgroundBrush = ItemStyleNormalImage;
@@ -191,13 +189,13 @@ void UThematicUIDropDownMenu::SetThemePressed()
 
 void UThematicUIDropDownMenu::HandleOpening()
 {
-	if (USoundBase* SoundBase = Cast<USoundBase>(WidgetTheme->PressedTheme.Sound.GetResourceObject()))
+	if (USoundBase* SoundBase = Cast<USoundBase>(ActualThemeData.PressedTheme.Sound.GetResourceObject()))
 		PlaySound(SoundBase);
 }
 
 void UThematicUIDropDownMenu::HandleSelectionChanged(FString SelectedItem, ESelectInfo::Type SelectionType)
 {
-	if (USoundBase* SoundBase = Cast<USoundBase>(WidgetTheme->PressedTheme.Sound.GetResourceObject()))
+	if (USoundBase* SoundBase = Cast<USoundBase>(ActualThemeData.PressedTheme.Sound.GetResourceObject()))
 		PlaySound(SoundBase);
 	OnSelectionChanged.Broadcast(ComboBoxString->GetSelectedOption(), ComboBoxString->GetSelectedIndex());
 }

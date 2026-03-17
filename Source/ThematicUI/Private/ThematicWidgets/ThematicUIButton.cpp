@@ -21,8 +21,6 @@ void UThematicUIButton::NativePreConstruct()
 	{
 		TextBlock->SetText(Text);
 	}
-	
-	SetThemeNormal();
 }
 
 void UThematicUIButton::NativeConstruct()
@@ -53,20 +51,20 @@ void UThematicUIButton::SetThemeNormal()
 		FButtonStyle Style;
 
 		// Set Image Settings / SlateBrush
-		Style.SetNormal(WidgetTheme->NormalTheme.Image);
-		Style.SetHovered(WidgetTheme->NormalTheme.Image);
-		Style.SetPressed(WidgetTheme->NormalTheme.Image);
+		Style.SetNormal(ActualThemeData.NormalTheme.Image);
+		Style.SetHovered(ActualThemeData.NormalTheme.Image);
+		Style.SetPressed(ActualThemeData.NormalTheme.Image);
 	
 		// Set Sounds
-		Style.SetHoveredSound(WidgetTheme->HoveredTheme.Sound);
-		Style.SetPressedSound(WidgetTheme->PressedTheme.Sound);
+		Style.SetHoveredSound(ActualThemeData.HoveredTheme.Sound);
+		Style.SetPressedSound(ActualThemeData.PressedTheme.Sound);
 	
 		// Set Button Style
 		Button->SetStyle(Style);
 	
 		//Set Text Style
-		TextBlock->SetFont(WidgetTheme->NormalTheme.TextFont);
-		TextBlock->SetColorAndOpacity(WidgetTheme->NormalTheme.TextColor);
+		TextBlock->SetFont(ActualThemeData.NormalTheme.TextFont);
+		TextBlock->SetColorAndOpacity(ActualThemeData.NormalTheme.TextColor);
 	}
 	else
 	{
@@ -84,20 +82,20 @@ void UThematicUIButton::SetThemeHovered()
 		FButtonStyle Style;
 
 		// Set Image Settings / SlateBrush
-		Style.SetNormal(WidgetTheme->HoveredTheme.Image);
-		Style.SetHovered(WidgetTheme->HoveredTheme.Image);
-		Style.SetPressed(WidgetTheme->HoveredTheme.Image);
+		Style.SetNormal(ActualThemeData.HoveredTheme.Image);
+		Style.SetHovered(ActualThemeData.HoveredTheme.Image);
+		Style.SetPressed(ActualThemeData.HoveredTheme.Image);
 	
 		// Set Sounds
-		Style.SetHoveredSound(WidgetTheme->HoveredTheme.Sound);
-		Style.SetPressedSound(WidgetTheme->PressedTheme.Sound);
+		Style.SetHoveredSound(ActualThemeData.HoveredTheme.Sound);
+		Style.SetPressedSound(ActualThemeData.PressedTheme.Sound);
 	
 		// Set Button Style
 		Button->SetStyle(Style);
 	
 		//Set Text Style
-		TextBlock->SetColorAndOpacity(WidgetTheme->HoveredTheme.TextColor);
-		TextBlock->SetFont(WidgetTheme->HoveredTheme.TextFont);
+		TextBlock->SetColorAndOpacity(ActualThemeData.HoveredTheme.TextColor);
+		TextBlock->SetFont(ActualThemeData.HoveredTheme.TextFont);
 	}
 	else
 	{
@@ -115,20 +113,20 @@ void UThematicUIButton::SetThemePressed()
 		FButtonStyle Style;
 
 		// Set Image Settings / SlateBrush
-		Style.SetNormal(WidgetTheme->PressedTheme.Image);
-		Style.SetHovered(WidgetTheme->PressedTheme.Image);
-		Style.SetPressed(WidgetTheme->PressedTheme.Image);
+		Style.SetNormal(ActualThemeData.PressedTheme.Image);
+		Style.SetHovered(ActualThemeData.PressedTheme.Image);
+		Style.SetPressed(ActualThemeData.PressedTheme.Image);
 	
 		// Set Sounds
-		Style.SetHoveredSound(WidgetTheme->HoveredTheme.Sound);
-		Style.SetPressedSound(WidgetTheme->PressedTheme.Sound);
+		Style.SetHoveredSound(ActualThemeData.HoveredTheme.Sound);
+		Style.SetPressedSound(ActualThemeData.PressedTheme.Sound);
 	
 		// Set Button Style
 		Button->SetStyle(Style);
 	
 		//Set Text Style
-		TextBlock->SetColorAndOpacity(WidgetTheme->PressedTheme.TextColor);
-		TextBlock->SetFont(WidgetTheme->PressedTheme.TextFont);
+		TextBlock->SetColorAndOpacity(ActualThemeData.PressedTheme.TextColor);
+		TextBlock->SetFont(ActualThemeData.PressedTheme.TextFont);
 	}
 	else
 	{

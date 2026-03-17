@@ -35,8 +35,6 @@ void UUThematicUISlider::NativePreConstruct()
 		EProgressBarFillType::Type BarFillType = (bIsHorizontal) ? EProgressBarFillType::Type::LeftToRight : EProgressBarFillType::Type::BottomToTop;
 		ProgressBar->SetBarFillType(BarFillType);
 	}
-	
-	SetThemeNormal();
 }
 
 void UUThematicUISlider::NativeConstruct()
@@ -62,16 +60,16 @@ void UUThematicUISlider::SetThemeNormal()
 		FSliderStyle SliderStyle;
 		
 		// Setup Bar Style
-		FSlateBrush BarBrush = WidgetTheme->NormalTheme.Image;
+		FSlateBrush BarBrush = ActualThemeData.NormalTheme.Image;
 		BarBrush.DrawAs = ESlateBrushDrawType::NoDrawType;
 		SliderStyle.SetNormalBarImage(BarBrush);
 		SliderStyle.SetHoveredBarImage(BarBrush);
 		
 		// Setup Thumb Style
-		FSlateBrush ThumbBrush = WidgetTheme->NormalTheme.Image;
+		FSlateBrush ThumbBrush = ActualThemeData.NormalTheme.Image;
 		ThumbBrush.ImageSize = ThumbSize;
-		ThumbBrush.OutlineSettings.CornerRadii = WidgetTheme->NormalTheme.Image.OutlineSettings.CornerRadii / 3;
-		ThumbBrush.TintColor = WidgetTheme->NormalTheme.FillColor;
+		ThumbBrush.OutlineSettings.CornerRadii = ActualThemeData.NormalTheme.Image.OutlineSettings.CornerRadii / 3;
+		ThumbBrush.TintColor = ActualThemeData.NormalTheme.FillColor;
 		SliderStyle.SetNormalThumbImage(ThumbBrush);
 		SliderStyle.SetHoveredThumbImage(ThumbBrush);
 		
@@ -81,18 +79,18 @@ void UUThematicUISlider::SetThemeNormal()
 		FProgressBarStyle BarStyle;
 		
 		// Set BackgroundImage
-		BarStyle.SetBackgroundImage(WidgetTheme->NormalTheme.Image);
+		BarStyle.SetBackgroundImage(ActualThemeData.NormalTheme.Image);
 		
 		// Set FillImage
-		FSlateBrush FillBrush = WidgetTheme->NormalTheme.Image;
-		FillBrush.TintColor = WidgetTheme->NormalTheme.FillColor;
+		FSlateBrush FillBrush = ActualThemeData.NormalTheme.Image;
+		FillBrush.TintColor = ActualThemeData.NormalTheme.FillColor;
 		BarStyle.SetFillImage(FillBrush);
 		
 		ProgressBar->SetWidgetStyle(BarStyle);
 		
 		// Set TextBlock
-		TextBlock->SetFont(WidgetTheme->NormalTheme.TextFont);
-		TextBlock->SetColorAndOpacity(WidgetTheme->NormalTheme.TextColor);
+		TextBlock->SetFont(ActualThemeData.NormalTheme.TextFont);
+		TextBlock->SetColorAndOpacity(ActualThemeData.NormalTheme.TextColor);
 		if (Text.IsEmptyOrWhitespace() && !bAlwaysShowValue)
 		{
 			TextBlock->SetVisibility(ESlateVisibility::Collapsed);
@@ -118,16 +116,16 @@ void UUThematicUISlider::SetThemeHovered()
 		FSliderStyle SliderStyle;
 		
 		// Setup Bar Style
-		FSlateBrush BarBrush = WidgetTheme->HoveredTheme.Image;
+		FSlateBrush BarBrush = ActualThemeData.HoveredTheme.Image;
 		BarBrush.DrawAs = ESlateBrushDrawType::NoDrawType;
 		SliderStyle.SetNormalBarImage(BarBrush);
 		SliderStyle.SetHoveredBarImage(BarBrush);
 		
 		// Setup Thumb Style
-		FSlateBrush ThumbBrush = WidgetTheme->HoveredTheme.Image;
+		FSlateBrush ThumbBrush = ActualThemeData.HoveredTheme.Image;
 		ThumbBrush.ImageSize = ThumbSize;
-		ThumbBrush.OutlineSettings.CornerRadii = WidgetTheme->HoveredTheme.Image.OutlineSettings.CornerRadii / 3;
-		ThumbBrush.TintColor = WidgetTheme->HoveredTheme.FillColor;
+		ThumbBrush.OutlineSettings.CornerRadii = ActualThemeData.HoveredTheme.Image.OutlineSettings.CornerRadii / 3;
+		ThumbBrush.TintColor = ActualThemeData.HoveredTheme.FillColor;
 		SliderStyle.SetNormalThumbImage(ThumbBrush);
 		SliderStyle.SetHoveredThumbImage(ThumbBrush);
 		
@@ -137,18 +135,18 @@ void UUThematicUISlider::SetThemeHovered()
 		FProgressBarStyle BarStyle;
 		
 		// Set BackgroundImage
-		BarStyle.SetBackgroundImage(WidgetTheme->HoveredTheme.Image);
+		BarStyle.SetBackgroundImage(ActualThemeData.HoveredTheme.Image);
 		
 		// Set FillImage
-		FSlateBrush FillBrush = WidgetTheme->HoveredTheme.Image;
-		FillBrush.TintColor = WidgetTheme->HoveredTheme.FillColor;
+		FSlateBrush FillBrush = ActualThemeData.HoveredTheme.Image;
+		FillBrush.TintColor = ActualThemeData.HoveredTheme.FillColor;
 		BarStyle.SetFillImage(FillBrush);
 		
 		ProgressBar->SetWidgetStyle(BarStyle);
 
 		// Set TextBlock
-		TextBlock->SetFont(WidgetTheme->HoveredTheme.TextFont);
-		TextBlock->SetColorAndOpacity(WidgetTheme->HoveredTheme.TextColor);
+		TextBlock->SetFont(ActualThemeData.HoveredTheme.TextFont);
+		TextBlock->SetColorAndOpacity(ActualThemeData.HoveredTheme.TextColor);
 		if (Text.IsEmptyOrWhitespace() && !bAlwaysShowValue)
 		{
 			TextBlock->SetVisibility(ESlateVisibility::Collapsed);
@@ -174,16 +172,16 @@ void UUThematicUISlider::SetThemePressed()
 		FSliderStyle SliderStyle;
 		
 		// Setup Bar Style
-		FSlateBrush BarBrush = WidgetTheme->PressedTheme.Image;
+		FSlateBrush BarBrush = ActualThemeData.PressedTheme.Image;
 		BarBrush.DrawAs = ESlateBrushDrawType::NoDrawType;
 		SliderStyle.SetNormalBarImage(BarBrush);
 		SliderStyle.SetHoveredBarImage(BarBrush);
 		
 		// Setup Thumb Style
-		FSlateBrush ThumbBrush = WidgetTheme->PressedTheme.Image;
+		FSlateBrush ThumbBrush = ActualThemeData.PressedTheme.Image;
 		ThumbBrush.ImageSize = ThumbSize;
-		ThumbBrush.OutlineSettings.CornerRadii = WidgetTheme->PressedTheme.Image.OutlineSettings.CornerRadii / 3;
-		ThumbBrush.TintColor = WidgetTheme->PressedTheme.FillColor;
+		ThumbBrush.OutlineSettings.CornerRadii = ActualThemeData.PressedTheme.Image.OutlineSettings.CornerRadii / 3;
+		ThumbBrush.TintColor = ActualThemeData.PressedTheme.FillColor;
 		SliderStyle.SetNormalThumbImage(ThumbBrush);
 		SliderStyle.SetHoveredThumbImage(ThumbBrush);
 		
@@ -193,18 +191,18 @@ void UUThematicUISlider::SetThemePressed()
 		FProgressBarStyle BarStyle;
 		
 		// Set BackgroundImage
-		BarStyle.SetBackgroundImage(WidgetTheme->PressedTheme.Image);
+		BarStyle.SetBackgroundImage(ActualThemeData.PressedTheme.Image);
 		
 		// Set FillImage
-		FSlateBrush FillBrush = WidgetTheme->PressedTheme.Image;
-		FillBrush.TintColor = WidgetTheme->PressedTheme.FillColor;
+		FSlateBrush FillBrush = ActualThemeData.PressedTheme.Image;
+		FillBrush.TintColor = ActualThemeData.PressedTheme.FillColor;
 		BarStyle.SetFillImage(FillBrush);
 		
 		ProgressBar->SetWidgetStyle(BarStyle);
 		
 		// Set TextBlock
-		TextBlock->SetFont(WidgetTheme->PressedTheme.TextFont);
-		TextBlock->SetColorAndOpacity(WidgetTheme->PressedTheme.TextColor);
+		TextBlock->SetFont(ActualThemeData.PressedTheme.TextFont);
+		TextBlock->SetColorAndOpacity(ActualThemeData.PressedTheme.TextColor);
 		if (Text.IsEmptyOrWhitespace() && !bAlwaysShowValue)
 		{
 			TextBlock->SetVisibility(ESlateVisibility::Collapsed);
@@ -334,7 +332,7 @@ void UUThematicUISlider::HandleFloatValueChanged(const float NewValue)
 void UUThematicUISlider::HandleControllerFocus()
 {
 	SetThemePressed();
-	if (USoundBase* SoundBase = Cast<USoundBase>(WidgetTheme->PressedTheme.Sound.GetResourceObject()))
+	if (USoundBase* SoundBase = Cast<USoundBase>(ActualThemeData.PressedTheme.Sound.GetResourceObject()))
 		PlaySound(SoundBase);
 }
 

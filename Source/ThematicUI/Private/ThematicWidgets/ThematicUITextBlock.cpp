@@ -27,15 +27,11 @@ void UThematicUITextBlock::NativePreConstruct()
 	{
 		TextBlock->SetText(Text);
 	}
-	
-	SetThemeNormal();																																		
 }
 
 void UThematicUITextBlock::NativeConstruct()
 {
 	Super::NativeConstruct();
-	
-	SetThemeNormal();
 }
 
 void UThematicUITextBlock::SetThemeNormal()
@@ -44,8 +40,8 @@ void UThematicUITextBlock::SetThemeNormal()
 	
 	if (Border && TextBlock && WidgetTheme)
 	{
-		Border->SetBrush(WidgetTheme->NormalTheme.Image);
-		TextBlock->SetFont(WidgetTheme->NormalTheme.TextFont);
+		Border->SetBrush(ActualThemeData.NormalTheme.Image);
+		TextBlock->SetFont(ActualThemeData.NormalTheme.TextFont);
 	}
 	else
 	{
@@ -59,8 +55,8 @@ void UThematicUITextBlock::SetThemeHovered()
 	
 	if (Border && TextBlock && WidgetTheme)
 	{
-		Border->SetBrush(WidgetTheme->NormalTheme.Image);
-		TextBlock->SetFont(WidgetTheme->NormalTheme.TextFont);
+		Border->SetBrush(ActualThemeData.NormalTheme.Image);
+		TextBlock->SetFont(ActualThemeData.NormalTheme.TextFont);
 	}
 	else
 	{
@@ -74,8 +70,8 @@ void UThematicUITextBlock::SetThemePressed()
 	
 	if (Border && TextBlock && WidgetTheme)
 	{
-		Border->SetBrush(WidgetTheme->NormalTheme.Image);
-		TextBlock->SetFont(WidgetTheme->NormalTheme.TextFont);
+		Border->SetBrush(ActualThemeData.NormalTheme.Image);
+		TextBlock->SetFont(ActualThemeData.NormalTheme.TextFont);
 	}
 	else
 	{

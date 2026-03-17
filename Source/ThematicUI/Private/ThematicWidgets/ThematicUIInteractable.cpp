@@ -7,9 +7,19 @@
 
 DEFINE_LOG_CATEGORY(LogThematicUI);
 
-void UThematicUIInteractable::NativeConstruct()
+void UThematicUIInteractable::NativePreConstruct()
 {
-	Super::NativeConstruct();
+	Super::NativePreConstruct();
+	
+	// Figure Out ActualThemeData after overrides
+	if (WidgetTheme)
+	{
+		ActualThemeData = WidgetThemeOverride.ConvertToThemeData(WidgetTheme);
+	}
+	else
+	{
+		ActualThemeData = WidgetThemeOverride.ConvertToThemeData();
+	}
 	
 	SetThemeNormal();
 }
@@ -29,7 +39,7 @@ void UThematicUIInteractable::NativeOnAddedToFocusPath(const FFocusEvent& InFocu
 	Super::NativeOnAddedToFocusPath(InFocusEvent);
 	
 	SetThemeHovered();
-	if (USoundBase* SoundBase = Cast<USoundBase>(WidgetTheme->HoveredTheme.Sound.GetResourceObject()))
+	if (USoundBase* SoundBase = Cast<USoundBase>(WidgetTheme->ThematicUIThemeData.HoveredTheme.Sound.GetResourceObject()))
 		PlaySound(SoundBase);
 }
 
@@ -53,4 +63,9 @@ void UThematicUIInteractable::SetThemeHovered()
 void UThematicUIInteractable::SetThemePressed()
 {
 	UE_LOGFMT(LogThematicUI, Log, "{Name} is setting theme to pressed settings", GetName());
+}
+
+const FThematicUIThemeData& UThematicUIInteractable::GetActualThemeData() const
+{
+	return ActualThemeData;
 }

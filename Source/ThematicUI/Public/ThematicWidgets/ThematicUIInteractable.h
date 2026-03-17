@@ -10,6 +10,114 @@
 
 DECLARE_LOG_CATEGORY_EXTERN(LogThematicUI, Log, All)
 
+
+USTRUCT(BlueprintType)
+struct FThematicUIThemeOverride
+{
+	GENERATED_BODY()
+	
+	/* Image Data */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
+	bool bOverrideImage = false;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI", meta = (EditCondition = "bOverrideImage"))
+	FSlateBrush Image = FSlateBrush();
+	
+	/* Fill Color (Only for bar widgets) */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
+	bool bOverrideFillColor = false;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI", meta = (EditCondition = "bOverrideFillColor"))
+	FLinearColor FillColor = FLinearColor::White;
+	
+	/* Text Color */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
+	bool bOverrideTextColor = false;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI", meta = (EditCondition = "bOverrideImage"))
+	FLinearColor TextColor = FLinearColor::Black;
+	
+	/* Text Font */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
+	bool bOverrideTextFont = false;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI", meta = (EditCondition = "bOverrideTextFont"))
+	FSlateFontInfo TextFont = FSlateFontInfo();
+	
+	/* Sound (For Hovered and Pressed) */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
+	bool bOverrideSound = false;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI", meta = (EditCondition = "bOverrideSound"))
+	FSlateSound Sound = FSlateSound();
+	
+	FThematicUITheme ConvertToTheme() const
+	{
+		FThematicUITheme Theme = FThematicUITheme();
+		
+		Theme.Image = Image;
+		Theme.FillColor = FillColor;
+		Theme.TextColor = TextColor;
+		Theme.TextFont = TextFont;
+		Theme.Sound = Sound;
+		
+		return Theme;
+	}
+	
+	FThematicUITheme ConvertToTheme(FThematicUITheme InTheme) const
+	{
+		FThematicUITheme Theme = FThematicUITheme();
+		
+		Theme.Image = (bOverrideImage) ? Image : InTheme.Image;
+		Theme.FillColor = (bOverrideFillColor) ? FillColor : InTheme.FillColor;
+		Theme.TextColor = (bOverrideTextColor) ? TextColor : InTheme.TextColor;
+		Theme.TextFont = (bOverrideTextFont) ? TextFont : InTheme.TextFont;
+		Theme.Sound = (bOverrideSound) ? Sound : InTheme.Sound;
+		
+		return Theme;
+	}
+};
+
+USTRUCT(BlueprintType)
+struct FThematicUIThemeDataOverride
+{
+	GENERATED_BODY()
+	
+	/* Normal Theme */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
+	FThematicUIThemeOverride NormalThemeOverride = FThematicUIThemeOverride();
+	
+	/* Hovered Theme */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
+	FThematicUIThemeOverride HoveredThemeOverride = FThematicUIThemeOverride();
+	
+	/* Pressed Theme */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
+	FThematicUIThemeOverride PressedThemeOverride = FThematicUIThemeOverride();
+	
+	FThematicUIThemeData ConvertToThemeData() const
+	{
+		FThematicUIThemeData ThemeData = FThematicUIThemeData();
+		
+		ThemeData.NormalTheme = NormalThemeOverride.ConvertToTheme();
+		ThemeData.HoveredTheme = HoveredThemeOverride.ConvertToTheme();
+		ThemeData.PressedTheme = PressedThemeOverride.ConvertToTheme();
+		
+		return ThemeData;
+	}
+	
+	FThematicUIThemeData ConvertToThemeData(const UThematicUIThemeDataAsset* InThemeDataAsset) const
+	{
+		FThematicUIThemeData ThemeData = FThematicUIThemeData();
+		
+		ThemeData.NormalTheme = NormalThemeOverride.ConvertToTheme(InThemeDataAsset->ThematicUIThemeData.NormalTheme);
+		ThemeData.HoveredTheme = HoveredThemeOverride.ConvertToTheme(InThemeDataAsset->ThematicUIThemeData.HoveredTheme);
+		ThemeData.PressedTheme = PressedThemeOverride.ConvertToTheme(InThemeDataAsset->ThematicUIThemeData.PressedTheme);
+		
+		return ThemeData;
+	}
+};
+
 /**
  * 
  */
@@ -19,15 +127,24 @@ class THEMATICUI_API UThematicUIInteractable : public UUserWidget
 	GENERATED_BODY()
 	
 protected:
+	/* Actual Widget Theme Data */
+	UPROPERTY(BlueprintReadOnly, Getter, Category = "ThematicUI")
+	FThematicUIThemeData ActualThemeData;
+	
 	/* Widget Theme Data */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI", meta = (DisplayPriority = 1))
-	TObjectPtr<UThematicUIThemeData> WidgetTheme;
+	TObjectPtr<UThematicUIThemeDataAsset> WidgetTheme;
+	
+	/* Widget Theme Data Override */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI", meta = (DisplayPriority = 1))
+	FThematicUIThemeDataOverride WidgetThemeOverride = FThematicUIThemeDataOverride();
 	
 protected:
 	/**
-	 * NativeConstruct is to set active theme to NormalTheme 
+	 * NativePreConstruct is to set active theme to NormalTheme and Calculate Actual Theme Data
 	 */
-	virtual void NativeConstruct() override;
+	virtual void NativePreConstruct() override;
+
 	
 	/**
 	 * This will ensure user focus gets set to this widget on MouseHover
@@ -56,4 +173,7 @@ protected:
 	
 	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI | SetTheme")
 	virtual void SetThemePressed();
+	
+public:
+	const FThematicUIThemeData& GetActualThemeData() const;
 };

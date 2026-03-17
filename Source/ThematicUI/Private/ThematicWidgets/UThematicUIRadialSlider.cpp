@@ -52,8 +52,6 @@ void UUThematicUIRadialSlider::NativePreConstruct()
 		OverlaySlot->SetHorizontalAlignment(HAlign_Fill);
 		OverlaySlot->SetVerticalAlignment(VAlign_Fill);
 	}
-	
-	SetThemeNormal();
 }
 
 void UUThematicUIRadialSlider::NativeConstruct()
@@ -77,19 +75,19 @@ void UUThematicUIRadialSlider::SetThemeNormal()
 	{
 		// Set Slider Theme
 		FSlateBrush ThumbBrush = ThumbImage;
-		ThumbBrush.TintColor = ThumbBrush.TintColor.GetSpecifiedColor() * WidgetTheme->NormalTheme.Image.TintColor.GetSpecifiedColor();
+		ThumbBrush.TintColor = ThumbBrush.TintColor.GetSpecifiedColor() * ActualThemeData.NormalTheme.Image.TintColor.GetSpecifiedColor();
 		RadialSlider->WidgetStyle.NormalThumbImage = ThumbBrush;
 		RadialSlider->WidgetStyle.HoveredThumbImage = ThumbBrush;
-		RadialSlider->SetSliderProgressColor(WidgetTheme->NormalTheme.FillColor);
-		RadialSlider->SetSliderBarColor(WidgetTheme->NormalTheme.Image.TintColor.GetSpecifiedColor());
+		RadialSlider->SetSliderProgressColor(ActualThemeData.NormalTheme.FillColor);
+		RadialSlider->SetSliderBarColor(ActualThemeData.NormalTheme.Image.TintColor.GetSpecifiedColor());
 		
 		// Set Image Theme
-		FSlateBrush ImageBrush = WidgetTheme->NormalTheme.Image;
+		FSlateBrush ImageBrush = ActualThemeData.NormalTheme.Image;
 		ImageBrush.OutlineSettings.RoundingType = ESlateBrushRoundingType::HalfHeightRadius;
 		Image->SetBrush(ImageBrush);
 		
 		// Set TextBlock Theme
-		TextBlock->SetFont(WidgetTheme->NormalTheme.TextFont);
+		TextBlock->SetFont(ActualThemeData.NormalTheme.TextFont);
 	}
 	else
 	{
@@ -105,19 +103,19 @@ void UUThematicUIRadialSlider::SetThemeHovered()
 	{
 		// Set Slider Theme
 		FSlateBrush ThumbBrush = ThumbImage;
-		ThumbBrush.TintColor = ThumbBrush.TintColor.GetSpecifiedColor() * WidgetTheme->HoveredTheme.Image.TintColor.GetSpecifiedColor();
+		ThumbBrush.TintColor = ThumbBrush.TintColor.GetSpecifiedColor() * ActualThemeData.HoveredTheme.Image.TintColor.GetSpecifiedColor();
 		RadialSlider->WidgetStyle.NormalThumbImage = ThumbBrush;
 		RadialSlider->WidgetStyle.HoveredThumbImage = ThumbBrush;
-		RadialSlider->SetSliderProgressColor(WidgetTheme->HoveredTheme.FillColor);
-		RadialSlider->SetSliderBarColor(WidgetTheme->HoveredTheme.Image.TintColor.GetSpecifiedColor());
+		RadialSlider->SetSliderProgressColor(ActualThemeData.HoveredTheme.FillColor);
+		RadialSlider->SetSliderBarColor(ActualThemeData.HoveredTheme.Image.TintColor.GetSpecifiedColor());
 		
 		// Set Image Theme
-		FSlateBrush ImageBrush = WidgetTheme->HoveredTheme.Image;
+		FSlateBrush ImageBrush = ActualThemeData.HoveredTheme.Image;
 		ImageBrush.OutlineSettings.RoundingType = ESlateBrushRoundingType::HalfHeightRadius;
 		Image->SetBrush(ImageBrush);
 		
 		// Set TextBlock Theme
-		TextBlock->SetFont(WidgetTheme->HoveredTheme.TextFont);
+		TextBlock->SetFont(ActualThemeData.HoveredTheme.TextFont);
 	}
 	else
 	{
@@ -133,19 +131,19 @@ void UUThematicUIRadialSlider::SetThemePressed()
 	{
 		// Set Slider Theme
 		FSlateBrush ThumbBrush = ThumbImage;
-		ThumbBrush.TintColor = ThumbBrush.TintColor.GetSpecifiedColor() * WidgetTheme->PressedTheme.Image.TintColor.GetSpecifiedColor();
+		ThumbBrush.TintColor = ThumbBrush.TintColor.GetSpecifiedColor() * ActualThemeData.PressedTheme.Image.TintColor.GetSpecifiedColor();
 		RadialSlider->WidgetStyle.NormalThumbImage = ThumbBrush;
 		RadialSlider->WidgetStyle.HoveredThumbImage = ThumbBrush;
-		RadialSlider->SetSliderProgressColor(WidgetTheme->PressedTheme.FillColor);
-		RadialSlider->SetSliderBarColor(WidgetTheme->PressedTheme.Image.TintColor.GetSpecifiedColor());
+		RadialSlider->SetSliderProgressColor(ActualThemeData.PressedTheme.FillColor);
+		RadialSlider->SetSliderBarColor(ActualThemeData.PressedTheme.Image.TintColor.GetSpecifiedColor());
 		
 		// Set Image Theme
-		FSlateBrush ImageBrush = WidgetTheme->PressedTheme.Image;
+		FSlateBrush ImageBrush = ActualThemeData.PressedTheme.Image;
 		ImageBrush.OutlineSettings.RoundingType = ESlateBrushRoundingType::HalfHeightRadius;
 		Image->SetBrush(ImageBrush);
 		
 		// Set TextBlock Theme
-		TextBlock->SetFont(WidgetTheme->PressedTheme.TextFont);
+		TextBlock->SetFont(ActualThemeData.PressedTheme.TextFont);
 	}
 	else
 	{
@@ -250,7 +248,7 @@ void UUThematicUIRadialSlider::HandleFloatValueChanged(const float NewValue)
 void UUThematicUIRadialSlider::HandleControllerFocus()
 {
 	SetThemePressed();
-	if (USoundBase* SoundBase = Cast<USoundBase>(WidgetTheme->PressedTheme.Sound.GetResourceObject()))
+	if (USoundBase* SoundBase = Cast<USoundBase>(ActualThemeData.PressedTheme.Sound.GetResourceObject()))
 		PlaySound(SoundBase);
 }
 

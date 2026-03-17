@@ -33,24 +33,33 @@ struct FThematicUITheme
 	FSlateSound Sound = FSlateSound();
 };
 
+USTRUCT(BlueprintType)
+struct FThematicUIThemeData
+{
+	GENERATED_BODY()
+	
+	/* Normal Theme */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
+	FThematicUITheme NormalTheme = FThematicUITheme();
+	
+	/* Hovered Theme */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
+	FThematicUITheme HoveredTheme = FThematicUITheme();
+	
+	/* Pressed Theme */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
+	FThematicUITheme PressedTheme = FThematicUITheme();
+};
+
 /**
  * 
  */
 UCLASS()
-class THEMATICUI_API UThematicUIThemeData : public UPrimaryDataAsset
+class THEMATICUI_API UThematicUIThemeDataAsset : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 	
 public:
-	/* Normal Theme */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
-	FThematicUITheme NormalTheme;
-	
-	/* Hovered Theme */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
-	FThematicUITheme HoveredTheme;
-	
-	/* Pressed Theme */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
-	FThematicUITheme PressedTheme;
+	FThematicUIThemeData ThematicUIThemeData = FThematicUIThemeData();
 };
