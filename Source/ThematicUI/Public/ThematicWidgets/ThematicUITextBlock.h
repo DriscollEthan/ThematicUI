@@ -31,6 +31,9 @@ protected:
 	FText Text;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	float LineHeightPercentage = 1.0f;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
 	TEnumAsByte<ETextJustify::Type> Justification = ETextJustify::Left;
 
 public:

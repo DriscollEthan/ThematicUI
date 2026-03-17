@@ -39,7 +39,7 @@ void UThematicUIInteractable::NativeOnAddedToFocusPath(const FFocusEvent& InFocu
 	Super::NativeOnAddedToFocusPath(InFocusEvent);
 	
 	SetThemeHovered();
-	if (USoundBase* SoundBase = Cast<USoundBase>(WidgetTheme->ThematicUIThemeData.HoveredTheme.Sound.GetResourceObject()))
+	if (USoundBase* SoundBase = Cast<USoundBase>(ActualThemeData.HoveredTheme.Sound.GetResourceObject()))
 		PlaySound(SoundBase);
 }
 
@@ -48,6 +48,8 @@ void UThematicUIInteractable::NativeOnRemovedFromFocusPath(const FFocusEvent& In
 	Super::NativeOnFocusLost(InFocusEvent);
 	
 	SetThemeNormal();
+	if (USoundBase* SoundBase = Cast<USoundBase>(ActualThemeData.NormalTheme.Sound.GetResourceObject()))
+		PlaySound(SoundBase);
 }
 
 void UThematicUIInteractable::SetThemeNormal()
