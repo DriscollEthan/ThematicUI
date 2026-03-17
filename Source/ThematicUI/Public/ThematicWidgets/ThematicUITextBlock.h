@@ -38,7 +38,7 @@ protected:
 	
 	
 protected:
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI")
 	void SetText(FText NewText);
 	
 protected:

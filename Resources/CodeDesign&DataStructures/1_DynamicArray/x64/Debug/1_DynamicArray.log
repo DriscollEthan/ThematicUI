@@ -1,6 +1,0 @@
-﻿  Main.cpp
-C:\Users\drisc\Documents\Visual Studio 2022\Repos\CodeDesign&DataStructures\Structures\Map.h(84): warning C4172: returning address of local variable or temporary: v
-C:\Users\drisc\Documents\Visual Studio 2022\Repos\CodeDesign&DataStructures\Structures\Map.h(87): warning C4172: returning address of local variable or temporary: value
-  1_DynamicArray.vcxproj -> C:\Users\drisc\Documents\Visual Studio 2022\Repos\CodeDesign&DataStructures\x64\Debug\1_DynamicArray.exe
-  'pwsh.exe' is not recognized as an internal or external command,
-  operable program or batch file.

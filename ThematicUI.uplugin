@@ -2,9 +2,9 @@
 	"FileVersion": 3,
 	"Version": 1,
 	"VersionName": "1.0",
-	"FriendlyName": "ThematicUI",
-	"Description": "",
-	"Category": "Other",
+	"FriendlyName": "Thematic UI",
+	"Description": "Thematic UI was designed to stop the need to go through many different widgets just to change the color of your UI Theme. I got tired of doing this too many times, so I created Thematic UI whcih also has preset Widgets.",
+	"Category": "UI",
 	"CreatedBy": "Ethan Driscoll",
 	"CreatedByURL": "",
 	"DocsURL": "",
@@ -20,5 +20,6 @@
 			"Type": "Runtime",
 			"LoadingPhase": "PreDefault"
 		}
-	]
+	],
+	"Sealed": true
 }
