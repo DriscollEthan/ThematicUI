@@ -30,7 +30,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
 	FVector2D SizeBoxSize = FVector2D(250.0f, 50.0f);
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI ")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI", meta = (MultiLine = "true"))
 	FText Text;
 	
 	UPROPERTY(BlueprintAssignable, Category = "ThematicUI")

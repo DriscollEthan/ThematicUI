@@ -69,7 +69,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI|Image")
 	TEnumAsByte<EVerticalAlignment> TextVerticalAlignment = VAlign_Center;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Setter, Category = "ThematicUI|Text")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Setter, Category = "ThematicUI|Text", meta = (MultiLine = "true"))
 	FText Text;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI|Text")

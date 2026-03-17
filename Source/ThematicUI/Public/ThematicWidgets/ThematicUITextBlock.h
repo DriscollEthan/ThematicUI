@@ -27,8 +27,11 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
 	FVector2D SizeBoxSize = FVector2D(250.0f, 50.0f);
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Setter, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Setter, Category = "ThematicUI", meta = (MultiLine = "true"))
 	FText Text;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	TEnumAsByte<ETextJustify::Type> Justification = ETextJustify::Left;
 
 public:
 	UFUNCTION(BlueprintCallable)

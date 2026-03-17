@@ -26,6 +26,7 @@ void UThematicUITextBlock::NativePreConstruct()
 	if (TextBlock)
 	{
 		TextBlock->SetText(Text);
+		TextBlock->SetJustification(Justification);
 	}
 }
 

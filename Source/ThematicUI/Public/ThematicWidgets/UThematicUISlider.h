@@ -49,7 +49,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI|Slider")
 	FVector2D ThumbSize = FVector2D(8.0f, 80.0f);
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI|Text")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI|Text", meta = (MultiLine = "true"))
 	FText Text = FText::FromString("Hello");
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI|Text")
