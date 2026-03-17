@@ -11,7 +11,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTuiSliderValueChangedDelegate, floa
 /**
  * 
  */
-UCLASS()
+UCLASS(HideDropdown, NotPlaceable)
 class THEMATICUI_API UUThematicUIRadialSlider : public UThematicUIInteractable
 {
 	GENERATED_BODY()

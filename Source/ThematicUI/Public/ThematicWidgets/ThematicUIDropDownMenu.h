@@ -11,7 +11,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FTUiOnSelectionChangedSignare, FStr
 /**
  * 
  */
-UCLASS()
+UCLASS(HideDropdown, NotPlaceable)
 class THEMATICUI_API UThematicUIDropDownMenu : public UThematicUIInteractable
 {
 	GENERATED_BODY()

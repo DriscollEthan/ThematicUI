@@ -11,7 +11,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTUiButtonPressedDelegate);
 /**
  * 
  */
-UCLASS()
+UCLASS(HideDropdown, NotPlaceable)
 class THEMATICUI_API UThematicUIButton : public UThematicUIInteractable
 {
 	GENERATED_BODY()

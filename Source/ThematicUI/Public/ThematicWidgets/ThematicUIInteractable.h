@@ -121,7 +121,7 @@ struct FThematicUIThemeDataOverride
 /**
  * 
  */
-UCLASS()
+UCLASS(HideDropdown, NotPlaceable)
 class THEMATICUI_API UThematicUIInteractable : public UUserWidget
 {
 	GENERATED_BODY()

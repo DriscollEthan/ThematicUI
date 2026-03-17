@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(HideDropdown, NotPlaceable)
 class THEMATICUI_API UThematicUITextBlock : public UThematicUIInteractable
 {
 	GENERATED_BODY()
@@ -35,8 +35,9 @@ protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
 	TEnumAsByte<ETextJustify::Type> Justification = ETextJustify::Left;
-
-public:
+	
+	
+protected:
 	UFUNCTION(BlueprintCallable)
 	void SetText(FText NewText);
 	
