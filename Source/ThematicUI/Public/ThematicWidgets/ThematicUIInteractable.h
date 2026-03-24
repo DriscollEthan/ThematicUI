@@ -34,7 +34,7 @@ struct FThematicUIThemeOverride
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
 	bool bOverrideTextColor = false;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI", meta = (EditCondition = "bOverrideImage"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI", meta = (EditCondition = "bOverrideTextColor"))
 	FLinearColor TextColor = FLinearColor::Black;
 	
 	/* Text Font */
@@ -127,24 +127,37 @@ class THEMATICUI_API UThematicUIInteractable : public UUserWidget
 	GENERATED_BODY()
 	
 protected:
-	/* Actual Widget Theme Data */
-	UPROPERTY(BlueprintReadOnly, Getter, Category = "ThematicUI")
-	FThematicUIThemeData ActualThemeData;
-	
 	/* Widget Theme Data */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI", meta = (DisplayPriority = 1))
 	TObjectPtr<UThematicUIThemeDataAsset> WidgetTheme;
 	
 	/* Widget Theme Data Override */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI", meta = (DisplayPriority = 1))
-	FThematicUIThemeDataOverride WidgetThemeOverride;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI", meta = (DisplayPriority = 1))
+	FThematicUIThemeDataOverride WidgetThemeOverrideData;
+	
+	/* Actual Widget Theme Data */
+	UPROPERTY(BlueprintReadOnly, Getter, Category = "ThematicUI")
+	FThematicUIThemeData ActualThemeData;
+	
+public:
+	/* Getters and Setters */
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	const FThematicUIThemeDataOverride& GetWidgetThemeOverrideData() const;
+	
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	void SetWidgetThemeOverrideData(const FThematicUIThemeDataOverride& NewWidgetTHemeOverrideData);
+	
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	const FThematicUIThemeData& GetActualThemeData() const;
+	
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	void CalculateAndSetActualWidgetThemeData();
 	
 protected:
 	/**
 	 * NativePreConstruct is to set active theme to NormalTheme and Calculate Actual Theme Data
 	 */
 	virtual void NativePreConstruct() override;
-
 	
 	/**
 	 * This will ensure user focus gets set to this widget on MouseHover
@@ -173,7 +186,4 @@ protected:
 	
 	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI | SetTheme")
 	virtual void SetThemePressed();
-	
-public:
-	const FThematicUIThemeData& GetActualThemeData() const;
 };

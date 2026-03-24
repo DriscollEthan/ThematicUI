@@ -8,19 +8,42 @@
 
 DEFINE_LOG_CATEGORY(LogThematicUI);
 
+const FThematicUIThemeDataOverride& UThematicUIInteractable::GetWidgetThemeOverrideData() const
+{
+	return WidgetThemeOverrideData;
+}
+
+void UThematicUIInteractable::SetWidgetThemeOverrideData(const FThematicUIThemeDataOverride& NewWidgetThemeOverrideData)
+{
+	WidgetThemeOverrideData = NewWidgetThemeOverrideData;
+	
+	CalculateAndSetActualWidgetThemeData();
+}
+
+const FThematicUIThemeData& UThematicUIInteractable::GetActualThemeData() const
+{
+	return ActualThemeData;
+}
+
+void UThematicUIInteractable::CalculateAndSetActualWidgetThemeData()
+{
+	// Figure Out ActualThemeData after overrides
+	if (WidgetTheme)
+	{
+		ActualThemeData = WidgetThemeOverrideData.ConvertToThemeData(WidgetTheme);
+	}
+	else
+	{
+		ActualThemeData = WidgetThemeOverrideData.ConvertToThemeData();
+	}
+	
+}
+
 void UThematicUIInteractable::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 	
-	// Figure Out ActualThemeData after overrides
-	if (WidgetTheme)
-	{
-		ActualThemeData = WidgetThemeOverride.ConvertToThemeData(WidgetTheme);
-	}
-	else
-	{
-		ActualThemeData = WidgetThemeOverride.ConvertToThemeData();
-	}
+	CalculateAndSetActualWidgetThemeData();
 	
 	SetThemeNormal();
 }
@@ -69,9 +92,4 @@ void UThematicUIInteractable::SetThemeHovered()
 void UThematicUIInteractable::SetThemePressed()
 {
 	UE_LOGFMT(LogThematicUI, Log, "{Name} is setting theme to pressed settings", GetName());
-}
-
-const FThematicUIThemeData& UThematicUIInteractable::GetActualThemeData() const
-{
-	return ActualThemeData;
 }

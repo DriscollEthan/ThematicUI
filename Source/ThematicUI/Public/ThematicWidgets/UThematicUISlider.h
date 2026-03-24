@@ -31,32 +31,41 @@ private:
 	TObjectPtr<class USlider> Slider;
 	
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere,  BlueprintReadOnly, Category = "ThematicUI")
 	FVector2D SizeBoxSize = FVector2D(250.0f, 50.0f);
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Getter, Category = "ThematicUI|Slider")
 	float CurrentValue = 0.5f;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI|Slider")
+	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI|Slider")
 	FVector2D ValueRange = FVector2D(0.0f, 1.0f);
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI|Slider")
+	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI|Slider")
 	float StepAmount = 0.1f;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI|Slider")
+	UPROPERTY(EditAnywhere,  BlueprintReadWrite, Category = "ThematicUI|Slider")
 	bool bIsHorizontal = true;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI|Slider")
+	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI|Slider")
 	FVector2D ThumbSize = FVector2D(8.0f, 80.0f);
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI|Text", meta = (MultiLine = "true"))
+	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI|Text", meta = (MultiLine = "true"))
 	FText Text = FText::FromString("Hello");
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI|Text")
+	UPROPERTY(EditAnywhere,  BlueprintReadWrite, Category = "ThematicUI|Text")
 	bool bAlwaysShowValue = false;
 	
 	UPROPERTY(BlueprintAssignable, Category = "ThematicUI")
 	FTUiSliderValueChangedDelegate TUiOnValueChanged;
+	
+public:
+	/* Getters and Setters */
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
+	const FVector2D& GetSizeBoxSize() const;
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	const void SetSizeBoxSize(const FVector2D& NewSizeBoxSize);
+	
 	
 protected:
 	// Overrides To Add Custom Functionality Ontop of Base Functionality

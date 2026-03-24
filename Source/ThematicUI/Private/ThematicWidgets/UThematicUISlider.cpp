@@ -12,6 +12,22 @@
 
 #include "Sound/SoundBase.h"
 
+const FVector2D& UUThematicUISlider::GetSizeBoxSize() const
+{
+	return SizeBoxSize;
+}
+
+const void UUThematicUISlider::SetSizeBoxSize(const FVector2D& NewSizeBoxSize)
+{
+	SizeBoxSize = NewSizeBoxSize;
+	
+	if (SizeBox)
+	{
+		SizeBox->SetWidthOverride(SizeBoxSize.X);
+		SizeBox->SetHeightOverride(SizeBoxSize.Y);
+	}
+}
+
 void UUThematicUISlider::NativePreConstruct()
 {
 	Super::NativePreConstruct();
@@ -33,7 +49,7 @@ void UUThematicUISlider::NativePreConstruct()
 	}
 	if (ProgressBar)
 	{
-		ProgressBar->SetPercent(CurrentValue);
+		ProgressBar->SetPercent(GetPercentage());
 		EProgressBarFillType::Type BarFillType = (bIsHorizontal) ? EProgressBarFillType::Type::LeftToRight : EProgressBarFillType::Type::BottomToTop;
 		ProgressBar->SetBarFillType(BarFillType);
 	}
@@ -326,7 +342,7 @@ float UUThematicUISlider::UpdateSteppingSize() const
 void UUThematicUISlider::HandleFloatValueChanged(const float NewValue)
 {
 	CurrentValue = CalculateCurrentValue(NewValue);
-	ProgressBar->SetPercent(NewValue);
+	ProgressBar->SetPercent(GetPercentage());
 	SetText(Text);
 	TUiOnValueChanged.Broadcast(CurrentValue);
 }

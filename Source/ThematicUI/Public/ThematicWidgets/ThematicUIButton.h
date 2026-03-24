@@ -27,15 +27,29 @@ private:
 	TObjectPtr<class UTextBlock> TextBlock;
 	
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUI")
 	FVector2D SizeBoxSize = FVector2D(250.0f, 50.0f);
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI", meta = (MultiLine = "true"))
+	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUI", meta = (MultiLine = "true"))
 	FText Text;
 	
 	UPROPERTY(BlueprintAssignable, Category = "ThematicUI")
 	FTUiButtonPressedDelegate TUiButtonPressed;
 
+public:
+	/* Getters and Setters */
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	const FVector2D& GetSizeBoxSize() const;
+	
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	void SetSizeBoxSize(const FVector2D& NewSizeBoxSize);
+	
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	const FText& GetText() const;
+	
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	void SetText(const FText& NewText);
+	
 protected:
 	virtual void NativePreConstruct() override;
 	

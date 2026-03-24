@@ -8,6 +8,57 @@
 
 #include "Sound/SoundBase.h"
 
+const FVector2D& UThematicUIDropDownMenu::GetSizeBoxSize() const
+{
+	return SizeBoxSize;
+}
+
+void UThematicUIDropDownMenu::SetSizeBoxSize(const FVector2D& NewSizeBoxSize)
+{
+	SizeBoxSize = NewSizeBoxSize;
+	
+	if (SizeBox)
+	{
+		SizeBox->SetWidthOverride(SizeBoxSize.X);
+		SizeBox->SetHeightOverride(SizeBoxSize.Y);
+	}
+}
+
+const TArray<FString>& UThematicUIDropDownMenu::GetOptions() const
+{
+	return Options;
+}
+
+void UThematicUIDropDownMenu::SetOptions(const TArray<FString>& NewOptions)
+{
+	Options = NewOptions;
+	
+	if (ComboBoxString)
+	{
+		ComboBoxString->ClearOptions();
+		for (auto& option : Options)
+		{
+			ComboBoxString->AddOption(option);
+		}
+		
+		if (Options.IsValidIndex(0))
+			ComboBoxString->SetSelectedOption(Options[0]);
+	}
+}
+
+void UThematicUIDropDownMenu::HandleOpening()
+{
+	if (USoundBase* SoundBase = Cast<USoundBase>(ActualThemeData.PressedTheme.Sound.GetResourceObject()))
+		PlaySound(SoundBase);
+}
+
+void UThematicUIDropDownMenu::HandleSelectionChanged(FString SelectedItem, ESelectInfo::Type SelectionType)
+{
+	if (USoundBase* SoundBase = Cast<USoundBase>(ActualThemeData.PressedTheme.Sound.GetResourceObject()))
+		PlaySound(SoundBase);
+	OnSelectionChanged.Broadcast(ComboBoxString->GetSelectedOption(), ComboBoxString->GetSelectedIndex());
+}
+
 void UThematicUIDropDownMenu::NativePreConstruct()
 {
 	Super::NativePreConstruct();
@@ -187,17 +238,4 @@ void UThematicUIDropDownMenu::SetThemePressed()
 	{
 		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenu::SetThemePressed : UThematicUIButton::ComboBoxKey == nullptr || UThematicUIButton::WidgetTheme == nullptr");
 	}
-}
-
-void UThematicUIDropDownMenu::HandleOpening()
-{
-	if (USoundBase* SoundBase = Cast<USoundBase>(ActualThemeData.PressedTheme.Sound.GetResourceObject()))
-		PlaySound(SoundBase);
-}
-
-void UThematicUIDropDownMenu::HandleSelectionChanged(FString SelectedItem, ESelectInfo::Type SelectionType)
-{
-	if (USoundBase* SoundBase = Cast<USoundBase>(ActualThemeData.PressedTheme.Sound.GetResourceObject()))
-		PlaySound(SoundBase);
-	OnSelectionChanged.Broadcast(ComboBoxString->GetSelectedOption(), ComboBoxString->GetSelectedIndex());
 }

@@ -25,22 +25,44 @@ class THEMATICUI_API UThematicUITextBlock : public UThematicUIInteractable
 	TObjectPtr<class UTextBlock> TextBlock;
 	
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUI")
 	FVector2D SizeBoxSize = FVector2D(250.0f, 50.0f);
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Setter, Category = "ThematicUI", meta = (MultiLine = "true"))
+	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Setter, Category = "ThematicUI", meta = (MultiLine = "true"))
 	FText Text;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUI")
 	float LineHeightPercentage = 1.0f;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUI")
 	TEnumAsByte<ETextJustify::Type> Justification = ETextJustify::Left;
 	
 	
-protected:
-	UFUNCTION(BlueprintCallable, Category = "ThematicUI")
-	void SetText(FText NewText);
+public:
+	/* Getters and Setters */
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	const FVector2D& GetSizeBoxSize() const;
+	
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	void SetSizeBoxSize(const FVector2D& NewSizeBoxSize);
+	
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	const FText& GetText() const;
+	
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	void SetText(const FText& NewText);
+	
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	const float& GetLineHeightPercentage() const;
+	
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	void SetLineHeightPercentage(const float& NewLineHeightPercentage);
+	
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	const ETextJustify::Type GetJustification() const;
+	
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	void SetJustification(const ETextJustify::Type& NewJustification);
 	
 protected:
 	virtual void NativePreConstruct() override;

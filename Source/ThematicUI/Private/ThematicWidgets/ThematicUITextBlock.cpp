@@ -7,11 +7,65 @@
 #include "Components/SizeBox.h"
 #include "Components/TextBlock.h"
 
-void UThematicUITextBlock::SetText(FText NewText)
+const FVector2D& UThematicUITextBlock::GetSizeBoxSize() const
+{
+	return SizeBoxSize;
+}
+
+void UThematicUITextBlock::SetSizeBoxSize(const FVector2D& NewSizeBoxSize)
+{
+	SizeBoxSize = NewSizeBoxSize;
+	
+	if (SizeBox)
+	{
+		SizeBox->SetWidthOverride(SizeBoxSize.X);
+		SizeBox->SetHeightOverride(SizeBoxSize.Y);
+	}
+}
+
+const FText& UThematicUITextBlock::GetText() const
+{
+	return Text;
+}
+
+void UThematicUITextBlock::SetText(const FText& NewText)
 {
 	Text = NewText;
 	
-	TextBlock->SetText(Text);
+	if (TextBlock)
+	{
+		TextBlock->SetText(Text);
+	}
+}
+
+const float& UThematicUITextBlock::GetLineHeightPercentage() const
+{
+	return LineHeightPercentage;
+}
+
+void UThematicUITextBlock::SetLineHeightPercentage(const float& NewLineHeightPercentage)
+{
+	LineHeightPercentage = NewLineHeightPercentage;
+	
+	if (TextBlock)
+	{
+		TextBlock->SetLineHeightPercentage(LineHeightPercentage);
+	}
+}
+
+const ETextJustify::Type UThematicUITextBlock::GetJustification() const
+{
+	return Justification;
+}
+
+void UThematicUITextBlock::SetJustification(const ETextJustify::Type& NewJustification)
+{
+	Justification = NewJustification;
+	
+	if (TextBlock)
+	{
+		TextBlock->SetJustification(Justification);
+	}
 }
 
 void UThematicUITextBlock::NativePreConstruct()

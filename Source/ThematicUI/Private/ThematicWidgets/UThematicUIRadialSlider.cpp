@@ -12,6 +12,278 @@
 
 #include "Sound/SoundBase.h"
 
+const FVector2D& UUThematicUIRadialSlider::GetSizeBoxSize() const
+{
+	return SizeBoxSize;
+}
+
+void UUThematicUIRadialSlider::SetSizeBoxSize(const FVector2D& NewSizeBoxSize)
+{
+	SizeBoxSize = NewSizeBoxSize;
+	
+	if (SizeBox)
+	{
+		SizeBox->SetWidthOverride(SizeBoxSize.X);
+		SizeBox->SetHeightOverride(SizeBoxSize.Y);
+	}
+}
+
+const float& UUThematicUIRadialSlider::GetCurrentValue() const
+{
+	return CurrentValue;
+}
+
+void UUThematicUIRadialSlider::SetCurrentValue(const float& NewCurrentValue)
+{
+	CurrentValue = NewCurrentValue;
+	
+	if (RadialSlider)
+	{
+		RadialSlider->SetValue(GetPercentage());
+	}
+	
+	SetText(Text);
+}
+
+const FVector2D& UUThematicUIRadialSlider::GetValueRange() const
+{
+	return ValueRange;
+}
+
+void UUThematicUIRadialSlider::SetValueRange(const FVector2D& NewValueRange)
+{
+	ValueRange = NewValueRange;
+	
+	RadialSlider->StepSize = UpdateSteppingSize();
+	
+	CurrentValue = CalculateCurrentValue(RadialSlider->GetValue());
+}
+
+const float& UUThematicUIRadialSlider::GetStepAmount() const
+{
+	return StepAmount;
+}
+
+void UUThematicUIRadialSlider::SetStepAmount(const float& NewStepAmount)
+{
+	StepAmount = NewStepAmount;
+	
+	if (RadialSlider)
+	{
+		RadialSlider->SetStepSize(UpdateSteppingSize());
+	}
+}
+
+const FVector2D& UUThematicUIRadialSlider::GetStartAndEndAngles() const
+{
+	return StartAndEndAngles;
+}
+
+void UUThematicUIRadialSlider::SetStartAndEndAngles(const FVector2D& NewStartAndEndAngles)
+{
+	StartAndEndAngles = NewStartAndEndAngles;
+	
+	if (RadialSlider)
+	{
+		RadialSlider->SetSliderHandleStartAngle(StartAndEndAngles.X);
+		RadialSlider->SetSliderHandleEndAngle(StartAndEndAngles.Y);
+	}
+}
+
+const float& UUThematicUIRadialSlider::GetBarThickness() const
+{
+	return BarThickness;
+}
+
+void UUThematicUIRadialSlider::SetBarThickness(const float& NewBarThickness)
+{
+	BarThickness = NewBarThickness;
+	
+	if (RadialSlider)
+	{
+		RadialSlider->WidgetStyle.BarThickness = BarThickness;
+	}
+}
+
+const bool& UUThematicUIRadialSlider::GetbShowSliderThumb() const
+{
+	return bShowSliderThumb;
+}
+
+void UUThematicUIRadialSlider::SetbShowSliderThumb(const bool& bNewShowSliderThumb)
+{
+	bShowSliderThumb = bNewShowSliderThumb;
+	
+	if (RadialSlider)
+	{
+		RadialSlider->SetShowSliderHandle(bShowSliderThumb);
+	}
+}
+
+const bool& UUThematicUIRadialSlider::GetbShowSliderHandle() const
+{
+	return bShowSliderHandle;
+}
+
+void UUThematicUIRadialSlider::SetbShowSliderHandle(const bool& bNewShowSliderHandle)
+{
+	bShowSliderHandle = bNewShowSliderHandle;
+	
+	if (RadialSlider)
+	{
+		RadialSlider->SetShowSliderHand(bShowSliderHandle);
+	}
+}
+
+const FSlateBrush& UUThematicUIRadialSlider::GetThumbImage() const
+{
+	return ThumbImage;
+}
+
+void UUThematicUIRadialSlider::SetThumbImage(const FSlateBrush& NewThumbImage)
+{
+	ThumbImage = NewThumbImage;
+}
+
+const float& UUThematicUIRadialSlider::GetRadialSliderPadding() const
+{
+	return RadialSliderPadding;
+}
+
+void UUThematicUIRadialSlider::SetRadialSliderPadding(const float& NewRadialSliderPadding)
+{
+	RadialSliderPadding = NewRadialSliderPadding;
+	
+	if (RadialSlider)
+	{
+		UOverlaySlot* OverlaySlot = UWidgetLayoutLibrary::SlotAsOverlaySlot(RadialSlider);
+		OverlaySlot->SetPadding(RadialSliderPadding);
+	}
+}
+
+const FMargin& UUThematicUIRadialSlider::GetImagePadding() const
+{
+	return ImagePadding;
+}
+
+void UUThematicUIRadialSlider::SetImagePadding(const FMargin& NewImagePadding)
+{
+	ImagePadding = NewImagePadding;
+	
+	if (Image)
+	{
+		UOverlaySlot* OverlaySlot = UWidgetLayoutLibrary::SlotAsOverlaySlot(Image);
+		OverlaySlot->SetPadding(ImagePadding);
+	}
+}
+
+const EHorizontalAlignment UUThematicUIRadialSlider::GetTextHorizontalAlignment() const
+{
+	return TextHorizontalAlignment;
+}
+
+void UUThematicUIRadialSlider::SetTextHorizontalAlignment(const EHorizontalAlignment& NewTextHorizontalAlignment)
+{
+	TextHorizontalAlignment = NewTextHorizontalAlignment;
+	
+	if (TextBlock)
+	{
+		UOverlaySlot* OverlaySlot = UWidgetLayoutLibrary::SlotAsOverlaySlot(TextBlock);
+		OverlaySlot->SetHorizontalAlignment(TextHorizontalAlignment);
+	}
+}
+
+const EVerticalAlignment UUThematicUIRadialSlider::GetTextVerticalAlignment() const
+{
+	return TextVerticalAlignment;
+}
+
+void UUThematicUIRadialSlider::SetTextVerticalAlignment(const EVerticalAlignment& NewTextVerticalAlignment)
+{
+	this->TextVerticalAlignment = NewTextVerticalAlignment;
+	
+	if (TextBlock)
+	{
+		UOverlaySlot* OverlaySlot = UWidgetLayoutLibrary::SlotAsOverlaySlot(TextBlock);
+		OverlaySlot->SetVerticalAlignment(TextVerticalAlignment);
+	}
+}
+
+const FText& UUThematicUIRadialSlider::GetText() const
+{
+	return Text;
+}
+
+void UUThematicUIRadialSlider::SetText(const FText& NewText)
+{
+	Text = NewText;
+	
+	if (Text.IsEmptyOrWhitespace() && !bAlwaysDisplayValue)
+	{
+		TextBlock->SetText(Text);
+		return;
+	}
+	
+#define LOCTEXT_NAMESPACE "Text"
+	FText ActualText = Text;
+	FText Delimiter = FText();
+	if (!Text.IsEmptyOrWhitespace()) Delimiter = FText::FromString(":");
+	FFormatNamedArguments Args;
+	Args.Add(TEXT("Text"), ActualText);
+	Args.Add(TEXT("Delimiter"), Delimiter);
+	Args.Add(TEXT("Float"), FText::AsNumber(CurrentValue));
+	ActualText = FText().Format(LOCTEXT("Text", "{Text}{Delimiter} {Float}"), Args);
+	TextBlock->SetText(ActualText);
+#undef LOCTEXT_NAMESPACE
+}
+
+const bool& UUThematicUIRadialSlider::GetbAlwaysDisplayValue() const
+{
+	return bAlwaysDisplayValue;
+}
+
+void UUThematicUIRadialSlider::SetbAlwaysDisplayValue(const bool& bNewAlwaysDisplayValue)
+{
+	bAlwaysDisplayValue = bNewAlwaysDisplayValue;
+}
+
+const FMargin& UUThematicUIRadialSlider::GetTextPadding() const
+{
+	return TextPadding;
+}
+
+void UUThematicUIRadialSlider::SetTextPadding(const FMargin& NewTextPadding)
+{
+	this->TextPadding = NewTextPadding;
+	
+	if (TextBlock)
+	{
+		UOverlaySlot* OverlaySlot = UWidgetLayoutLibrary::SlotAsOverlaySlot(TextBlock);
+		OverlaySlot->SetPadding(TextPadding);
+	}
+}
+
+const float UUThematicUIRadialSlider::GetPercentage() const
+{
+	return ((CurrentValue - ValueRange.X) / (ValueRange.Y - ValueRange.X));
+}
+
+const float UUThematicUIRadialSlider::CalculateCurrentValue(const float Percentage) const
+{
+	float Value = ValueRange.Y - ValueRange.X;
+	Value *= Percentage;
+	Value += ValueRange.X;
+	Value = FMath::Clamp(Value, ValueRange.X, ValueRange.Y);
+	return Value;
+}
+
+const float UUThematicUIRadialSlider::UpdateSteppingSize() const
+{
+	float Percentage = GetPercentage();
+	Percentage = (CurrentValue - ValueRange.X + StepAmount) / (ValueRange.Y - ValueRange.X) - Percentage;
+	return Percentage;
+}
+
 void UUThematicUIRadialSlider::NativePreConstruct()
 {
 	Super::NativePreConstruct();
@@ -160,84 +432,6 @@ FReply UUThematicUIRadialSlider::NativeOnFocusReceived(const FGeometry& InGeomet
 		return FReply::Handled().SetUserFocus(RadialSlider->TakeWidget(), InFocusEvent.GetCause());
 	}
 	return Super::NativeOnFocusReceived(InGeometry, InFocusEvent);
-}
-
-FVector2D UUThematicUIRadialSlider::GetValueRange() const
-{
-	return ValueRange;
-}
-
-void UUThematicUIRadialSlider::SetValueRange(const FVector2D& NewValueRange)
-{
-	ValueRange = NewValueRange;
-	
-	RadialSlider->StepSize = UpdateSteppingSize();
-	
-	CurrentValue = CalculateCurrentValue(RadialSlider->GetValue());
-}
-
-float UUThematicUIRadialSlider::GetStepAmount() const
-{
-	return StepAmount;
-}
-
-void UUThematicUIRadialSlider::SetStepAmount(const float NewStepAmount)
-{
-	StepAmount = NewStepAmount;
-	
-	if (RadialSlider)
-	{
-		RadialSlider->SetStepSize(UpdateSteppingSize());
-	}
-}
-
-float UUThematicUIRadialSlider::GetCurrentValue() const
-{
-	return CurrentValue;
-}
-
-void UUThematicUIRadialSlider::SetText(const FText& NewText)
-{
-	Text = NewText;
-	
-	if (Text.IsEmptyOrWhitespace() && !bAlwaysDisplayValue)
-	{
-		TextBlock->SetText(Text);
-		return;
-	}
-	
-#define LOCTEXT_NAMESPACE "Text"
-	FText ActualText = Text;
-	FText Delimiter = FText();
-	if (!Text.IsEmptyOrWhitespace()) Delimiter = FText::FromString(":");
-	FFormatNamedArguments Args;
-	Args.Add(TEXT("Text"), ActualText);
-	Args.Add(TEXT("Delimiter"), Delimiter);
-	Args.Add(TEXT("Float"), FText::AsNumber(CurrentValue));
-	ActualText = FText().Format(LOCTEXT("Text", "{Text}{Delimiter} {Float}"), Args);
-	TextBlock->SetText(ActualText);
-#undef LOCTEXT_NAMESPACE
-}
-
-float UUThematicUIRadialSlider::GetPercentage() const
-{
-	return ((CurrentValue - ValueRange.X) / (ValueRange.Y - ValueRange.X));
-}
-
-float UUThematicUIRadialSlider::CalculateCurrentValue(const float Percentage) const
-{
-	float Value = ValueRange.Y - ValueRange.X;
-	Value *= Percentage;
-	Value += ValueRange.X;
-	Value = FMath::Clamp(Value, ValueRange.X, ValueRange.Y);
-	return Value;
-}
-
-float UUThematicUIRadialSlider::UpdateSteppingSize() const
-{
-	float Percentage = GetPercentage();
-	Percentage = (CurrentValue - ValueRange.X + StepAmount) / (ValueRange.Y - ValueRange.X) - Percentage;
-	return Percentage;
 }
 
 void UUThematicUIRadialSlider::HandleFloatValueChanged(const float NewValue)

@@ -26,16 +26,36 @@ class THEMATICUI_API UThematicUIDropDownMenu : public UThematicUIInteractable
 	FSlateBrush DropDownArrowBrush;
 	
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUI")
 	FVector2D SizeBoxSize = FVector2D(250.0f, 50.0f);
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUI")
 	TArray<FString> Options; 
 	
 	UPROPERTY(BlueprintAssignable, Category = "ThematicUI")
 	FTUiOnSelectionChangedSignare OnSelectionChanged;
 	
 public:
+	/* Getters and Setters */
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	const FVector2D& GetSizeBoxSize() const;
+	
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	void SetSizeBoxSize(const FVector2D& NewSizeBoxSize);
+	
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	const TArray<FString>& GetOptions() const;
+    	
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	void SetOptions(const TArray<FString>& NewOptions);
+	
+protected:
+	UFUNCTION()
+	void HandleOpening();
+	
+	UFUNCTION()
+	void HandleSelectionChanged(FString SelectedItem, ESelectInfo::Type SelectionType);
+
 	virtual void NativePreConstruct() override;
 	
 	virtual void NativeConstruct() override;
@@ -47,11 +67,4 @@ public:
 	virtual void SetThemeHovered() override;
 	
 	virtual void SetThemePressed() override;
-	
-public:
-	UFUNCTION()
-	void HandleOpening();
-	
-	UFUNCTION()
-	void HandleSelectionChanged(FString SelectedItem, ESelectInfo::Type SelectionType);
 };

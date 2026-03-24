@@ -8,10 +8,41 @@
 #include "Components/TextBlock.h"
 
 
+const FVector2D& UThematicUIButton::GetSizeBoxSize() const
+{
+	return SizeBoxSize;
+}
+
+void UThematicUIButton::SetSizeBoxSize(const FVector2D& value)
+{
+	SizeBoxSize = value;
+	
+	if (SizeBox)
+	{
+		SizeBox->SetWidthOverride(SizeBoxSize.X);
+		SizeBox->SetHeightOverride(SizeBoxSize.Y);
+	}
+}
+
+const FText& UThematicUIButton::GetText() const
+{
+	return Text;
+}
+
+void UThematicUIButton::SetText(const FText& value)
+{
+	Text = value;
+	
+	if (TextBlock)
+	{
+		TextBlock->SetText(Text);
+	}
+}
+
 void UThematicUIButton::NativePreConstruct()
 {
 	Super::NativePreConstruct();
-	
+
 	if (SizeBox)
 	{
 		SizeBox->SetWidthOverride(SizeBoxSize.X);
