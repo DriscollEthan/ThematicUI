@@ -28,12 +28,12 @@ void UUThematicUIRadialSlider::SetSizeBoxSize(const FVector2D& NewSizeBoxSize)
 	}
 }
 
-const float& UUThematicUIRadialSlider::GetCurrentValue() const
+const float UUThematicUIRadialSlider::GetCurrentValue() const
 {
 	return CurrentValue;
 }
 
-void UUThematicUIRadialSlider::SetCurrentValue(const float& NewCurrentValue)
+void UUThematicUIRadialSlider::SetCurrentValue(const float NewCurrentValue)
 {
 	CurrentValue = NewCurrentValue;
 	
@@ -54,23 +54,29 @@ void UUThematicUIRadialSlider::SetValueRange(const FVector2D& NewValueRange)
 {
 	ValueRange = NewValueRange;
 	
-	RadialSlider->StepSize = UpdateSteppingSize();
+	float Percentage = GetPercentage();
+	Percentage = (CurrentValue - ValueRange.X + StepAmount) / (ValueRange.Y - ValueRange.X) - Percentage;
 	
-	CurrentValue = CalculateCurrentValue(RadialSlider->GetValue());
+	RadialSlider->StepSize = Percentage;
+	
+	CurrentValue = CalculateCurrentValue(Percentage);
 }
 
-const float& UUThematicUIRadialSlider::GetStepAmount() const
+const float UUThematicUIRadialSlider::GetStepAmount() const
 {
 	return StepAmount;
 }
 
-void UUThematicUIRadialSlider::SetStepAmount(const float& NewStepAmount)
+void UUThematicUIRadialSlider::SetStepAmount(const float NewStepAmount)
 {
 	StepAmount = NewStepAmount;
 	
+	float Percentage = GetPercentage();
+	Percentage = (CurrentValue - ValueRange.X + StepAmount) / (ValueRange.Y - ValueRange.X) - Percentage;
+	
 	if (RadialSlider)
 	{
-		RadialSlider->SetStepSize(UpdateSteppingSize());
+		RadialSlider->SetStepSize(Percentage);
 	}
 }
 
@@ -90,12 +96,12 @@ void UUThematicUIRadialSlider::SetStartAndEndAngles(const FVector2D& NewStartAnd
 	}
 }
 
-const float& UUThematicUIRadialSlider::GetBarThickness() const
+const float UUThematicUIRadialSlider::GetBarThickness() const
 {
 	return BarThickness;
 }
 
-void UUThematicUIRadialSlider::SetBarThickness(const float& NewBarThickness)
+void UUThematicUIRadialSlider::SetBarThickness(const float NewBarThickness)
 {
 	BarThickness = NewBarThickness;
 	
@@ -105,12 +111,12 @@ void UUThematicUIRadialSlider::SetBarThickness(const float& NewBarThickness)
 	}
 }
 
-const bool& UUThematicUIRadialSlider::GetbShowSliderThumb() const
+const bool UUThematicUIRadialSlider::GetbShowSliderThumb() const
 {
 	return bShowSliderThumb;
 }
 
-void UUThematicUIRadialSlider::SetbShowSliderThumb(const bool& bNewShowSliderThumb)
+void UUThematicUIRadialSlider::SetbShowSliderThumb(const bool bNewShowSliderThumb)
 {
 	bShowSliderThumb = bNewShowSliderThumb;
 	
@@ -120,12 +126,12 @@ void UUThematicUIRadialSlider::SetbShowSliderThumb(const bool& bNewShowSliderThu
 	}
 }
 
-const bool& UUThematicUIRadialSlider::GetbShowSliderHandle() const
+const bool UUThematicUIRadialSlider::GetbShowSliderHandle() const
 {
 	return bShowSliderHandle;
 }
 
-void UUThematicUIRadialSlider::SetbShowSliderHandle(const bool& bNewShowSliderHandle)
+void UUThematicUIRadialSlider::SetbShowSliderHandle(const bool bNewShowSliderHandle)
 {
 	bShowSliderHandle = bNewShowSliderHandle;
 	
@@ -145,12 +151,12 @@ void UUThematicUIRadialSlider::SetThumbImage(const FSlateBrush& NewThumbImage)
 	ThumbImage = NewThumbImage;
 }
 
-const float& UUThematicUIRadialSlider::GetRadialSliderPadding() const
+const float UUThematicUIRadialSlider::GetRadialSliderPadding() const
 {
 	return RadialSliderPadding;
 }
 
-void UUThematicUIRadialSlider::SetRadialSliderPadding(const float& NewRadialSliderPadding)
+void UUThematicUIRadialSlider::SetRadialSliderPadding(const float NewRadialSliderPadding)
 {
 	RadialSliderPadding = NewRadialSliderPadding;
 	
@@ -237,12 +243,12 @@ void UUThematicUIRadialSlider::SetText(const FText& NewText)
 #undef LOCTEXT_NAMESPACE
 }
 
-const bool& UUThematicUIRadialSlider::GetbAlwaysDisplayValue() const
+const bool UUThematicUIRadialSlider::GetbAlwaysDisplayValue() const
 {
 	return bAlwaysDisplayValue;
 }
 
-void UUThematicUIRadialSlider::SetbAlwaysDisplayValue(const bool& bNewAlwaysDisplayValue)
+void UUThematicUIRadialSlider::SetbAlwaysDisplayValue(const bool bNewAlwaysDisplayValue)
 {
 	bAlwaysDisplayValue = bNewAlwaysDisplayValue;
 }
@@ -275,13 +281,6 @@ const float UUThematicUIRadialSlider::CalculateCurrentValue(const float Percenta
 	Value += ValueRange.X;
 	Value = FMath::Clamp(Value, ValueRange.X, ValueRange.Y);
 	return Value;
-}
-
-const float UUThematicUIRadialSlider::UpdateSteppingSize() const
-{
-	float Percentage = GetPercentage();
-	Percentage = (CurrentValue - ValueRange.X + StepAmount) / (ValueRange.Y - ValueRange.X) - Percentage;
-	return Percentage;
 }
 
 void UUThematicUIRadialSlider::NativePreConstruct()

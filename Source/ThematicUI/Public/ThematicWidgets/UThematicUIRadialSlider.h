@@ -84,110 +84,107 @@ protected:
 	
 public:
 	/* Getters and Setters */
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const FVector2D& GetSizeBoxSize() const;
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 	void SetSizeBoxSize(const FVector2D& NewSizeBoxSize);
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
-	const float& GetCurrentValue() const;
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
+	const float GetCurrentValue() const;
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
-	void SetCurrentValue(const float& NewCurrentValue);
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	void SetCurrentValue(float NewCurrentValue);
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const FVector2D& GetValueRange() const;
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 	void SetValueRange(const FVector2D& NewValueRange);
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
-	const float& GetStepAmount() const;
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
+	const float GetStepAmount() const;
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
-	void SetStepAmount(const float& NewStepAmount);
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	void SetStepAmount(float NewStepAmount);
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const FVector2D& GetStartAndEndAngles() const;
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 	void SetStartAndEndAngles(const FVector2D& NewStartAndEndAngles);
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
-	const float& GetBarThickness() const;
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
+	const float GetBarThickness() const;
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
-	void SetBarThickness(const float& NewBarThickness);
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	void SetBarThickness(float NewBarThickness);
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
-	const bool& GetbShowSliderThumb() const;
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
+	const bool GetbShowSliderThumb() const;
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
-	void SetbShowSliderThumb(const bool& bNewShowSliderThumb);
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	void SetbShowSliderThumb(bool bNewShowSliderThumb);
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
-	const bool& GetbShowSliderHandle() const;
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
+	const bool GetbShowSliderHandle() const;
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
-	void SetbShowSliderHandle(const bool& bNewShowSliderHandle);
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	void SetbShowSliderHandle(bool bNewShowSliderHandle);
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const FSlateBrush& GetThumbImage() const;
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 	void SetThumbImage(const FSlateBrush& NewThumbImage);
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
-	const float& GetRadialSliderPadding() const;
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
+	const float GetRadialSliderPadding() const;
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
-	void SetRadialSliderPadding(const float& NewRadialSliderPadding);
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	void SetRadialSliderPadding(float NewRadialSliderPadding);
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const FMargin& GetImagePadding() const;
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 	void SetImagePadding(const FMargin& NewImagePadding);
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const EHorizontalAlignment GetTextHorizontalAlignment() const;
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 	void SetTextHorizontalAlignment(const EHorizontalAlignment& NewTextHorizontalAlignment);
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const EVerticalAlignment GetTextVerticalAlignment() const;
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 	void SetTextVerticalAlignment(const EVerticalAlignment& NewTextVerticalAlignment);
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const FText& GetText() const;
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 	void SetText(const FText& NewText);
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
-	const bool& GetbAlwaysDisplayValue() const;
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
+	const bool GetbAlwaysDisplayValue() const;
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
-	void SetbAlwaysDisplayValue(const bool& bNewAlwaysDisplayValue);
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	void SetbAlwaysDisplayValue(bool bNewAlwaysDisplayValue);
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const FMargin& GetTextPadding() const;
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 	void SetTextPadding(const FMargin& NewTextPadding);
 	
-	UFUNCTION(BlueprintCallable, Category = "ThematicUI", meta = (BlueprintProtected = "true"))
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const float GetPercentage() const;
 	
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI", meta = (BlueprintProtected = "true"))
 	const float CalculateCurrentValue(const float Percentage) const;
-	
-	UFUNCTION(BlueprintCallable, Category = "ThematicUI", meta = (BlueprintProtected = "true"))
-	const float UpdateSteppingSize() const;
 
 protected:
 	virtual void NativePreConstruct() override;

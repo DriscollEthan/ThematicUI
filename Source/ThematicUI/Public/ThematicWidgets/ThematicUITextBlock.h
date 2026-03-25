@@ -40,28 +40,28 @@ protected:
 	
 public:
 	/* Getters and Setters */
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const FVector2D& GetSizeBoxSize() const;
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 	void SetSizeBoxSize(const FVector2D& NewSizeBoxSize);
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const FText& GetText() const;
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 	void SetText(const FText& NewText);
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
-	const float& GetLineHeightPercentage() const;
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
+	const float GetLineHeightPercentage() const;
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
-	void SetLineHeightPercentage(const float& NewLineHeightPercentage);
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	void SetLineHeightPercentage(float NewLineHeightPercentage);
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const ETextJustify::Type GetJustification() const;
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 	void SetJustification(const ETextJustify::Type& NewJustification);
 	
 protected:

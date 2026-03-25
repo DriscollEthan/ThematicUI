@@ -111,12 +111,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const float GetPercentage() const;
 	
-	// Custom Functionality
-	UFUNCTION(BlueprintPure, Category = "ThematicUI", meta = (BlueprintProtected = "true"))
+	UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
 	const float CalculateCurrentValue(const float Percentage) const;
-	
-	UFUNCTION(BlueprintPure, Category = "ThematicUI", meta = (BlueprintProtected = "true"))
-	const float UpdateSteppingSize() const;
 	
 protected:
 	// Overrides To Add Custom Functionality Ontop of Base Functionality

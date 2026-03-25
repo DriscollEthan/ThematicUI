@@ -38,12 +38,12 @@ void UThematicUITextBlock::SetText(const FText& NewText)
 	}
 }
 
-const float& UThematicUITextBlock::GetLineHeightPercentage() const
+const float UThematicUITextBlock::GetLineHeightPercentage() const
 {
 	return LineHeightPercentage;
 }
 
-void UThematicUITextBlock::SetLineHeightPercentage(const float& NewLineHeightPercentage)
+void UThematicUITextBlock::SetLineHeightPercentage(const float NewLineHeightPercentage)
 {
 	LineHeightPercentage = NewLineHeightPercentage;
 	

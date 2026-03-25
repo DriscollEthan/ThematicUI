@@ -37,16 +37,16 @@ public:
 	
 public:
 	/* Getters and Setters */
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const FVector2D& GetSizeBoxSize() const;
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 	void SetSizeBoxSize(const FVector2D& NewSizeBoxSize);
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const TArray<FString>& GetOptions() const;
     	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 	void SetOptions(const TArray<FString>& NewOptions);
 	
 protected:

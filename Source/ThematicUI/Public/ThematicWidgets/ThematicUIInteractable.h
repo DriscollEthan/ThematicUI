@@ -141,16 +141,16 @@ protected:
 	
 public:
 	/* Getters and Setters */
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const FThematicUIThemeDataOverride& GetWidgetThemeOverrideData() const;
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 	void SetWidgetThemeOverrideData(const FThematicUIThemeDataOverride& NewWidgetTHemeOverrideData);
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Getters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const FThematicUIThemeData& GetActualThemeData() const;
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI|Setters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 	void CalculateAndSetActualWidgetThemeData();
 	
 protected:

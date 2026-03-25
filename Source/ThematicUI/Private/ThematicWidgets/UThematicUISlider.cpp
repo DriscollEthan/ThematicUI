@@ -56,7 +56,10 @@ void UUThematicUISlider::SetValueRange(const FVector2D& NewValueRange)
 {
 	ValueRange = NewValueRange;
 	
-	Slider->SetStepSize(UpdateSteppingSize());
+	float Percentage = GetPercentage();
+	Percentage = (CurrentValue - ValueRange.X + StepAmount) / (ValueRange.Y - ValueRange.X) - Percentage;
+	
+	Slider->SetStepSize(Percentage);
 	
 	CurrentValue = CalculateCurrentValue(Slider->GetValue());
 }
@@ -70,9 +73,12 @@ void UUThematicUISlider::SetStepAmount(const float NewStepAmount)
 {
 	StepAmount = NewStepAmount;
 	
+	float Percentage = GetPercentage();
+	Percentage = (CurrentValue - ValueRange.X + StepAmount) / (ValueRange.Y - ValueRange.X) - Percentage;
+	
 	if (Slider)
 	{
-		Slider->SetStepSize(UpdateSteppingSize());
+		Slider->SetStepSize(Percentage);
 	}
 }
 
@@ -155,13 +161,6 @@ const float UUThematicUISlider::CalculateCurrentValue(const float Percentage) co
 	Value += ValueRange.X;
 	Value = FMath::Clamp(Value, ValueRange.X, ValueRange.Y);
 	return Value;
-}
-
-const float UUThematicUISlider::UpdateSteppingSize() const
-{
-	float Percentage = GetPercentage();
-	Percentage = (CurrentValue - ValueRange.X + StepAmount) / (ValueRange.Y - ValueRange.X) - Percentage;
-	return Percentage;
 }
 
 void UUThematicUISlider::NativePreConstruct()
