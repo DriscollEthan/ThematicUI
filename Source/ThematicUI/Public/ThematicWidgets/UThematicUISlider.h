@@ -31,10 +31,10 @@ private:
 	TObjectPtr<class USlider> Slider;
 	
 protected:
-	UPROPERTY(EditAnywhere,  BlueprintReadOnly, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUI")
 	FVector2D SizeBoxSize = FVector2D(250.0f, 50.0f);
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Getter, Category = "ThematicUI|Slider")
+	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Getter, Category = "ThematicUI|Slider")
 	float CurrentValue = 0.5f;
 	
 	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI|Slider")
@@ -43,7 +43,7 @@ protected:
 	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI|Slider")
 	float StepAmount = 0.1f;
 	
-	UPROPERTY(EditAnywhere,  BlueprintReadWrite, Category = "ThematicUI|Slider")
+	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadWrite, Category = "ThematicUI|Slider")
 	bool bIsHorizontal = true;
 	
 	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI|Slider")
@@ -52,7 +52,7 @@ protected:
 	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI|Text", meta = (MultiLine = "true"))
 	FText Text = FText::FromString("Hello");
 	
-	UPROPERTY(EditAnywhere,  BlueprintReadWrite, Category = "ThematicUI|Text")
+	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadWrite, Category = "ThematicUI|Text")
 	bool bAlwaysShowValue = false;
 	
 	UPROPERTY(BlueprintAssignable, Category = "ThematicUI")
@@ -64,8 +64,59 @@ public:
 	const FVector2D& GetSizeBoxSize() const;
 	
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
-	const void SetSizeBoxSize(const FVector2D& NewSizeBoxSize);
+	void SetSizeBoxSize(const FVector2D& NewSizeBoxSize);
 	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
+	const float GetCurrentValue() const;
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	void SetCurrentValue(const float NewCurrentValue);
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
+	FVector2D GetValueRange() const;
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	void SetValueRange(const FVector2D& NewValueRange);
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
+	float GetStepAmount() const;
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	void SetStepAmount(const float NewStepAmount);
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
+	const bool GetbIsHorizontal() const;
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	void SetbIsHorizontal(const bool NewbIsHorizontal);
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
+	const FVector2D& GetThumbSize() const;
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	void SetThumbSize(const FVector2D& NewThumbSize);
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
+	const FText& GetText() const;
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	void SetText(const FText& NewText);
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
+	const bool GetbAlwaysShowValue() const;
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	void SetbAlwaysShowValue(const bool NewbAlwaysShowValue);
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
+	const float GetPercentage() const;
+	
+	// Custom Functionality
+	UFUNCTION(BlueprintPure, Category = "ThematicUI", meta = (BlueprintProtected = "true"))
+	const float CalculateCurrentValue(const float Percentage) const;
+	
+	UFUNCTION(BlueprintPure, Category = "ThematicUI", meta = (BlueprintProtected = "true"))
+	const float UpdateSteppingSize() const;
 	
 protected:
 	// Overrides To Add Custom Functionality Ontop of Base Functionality
@@ -80,45 +131,7 @@ protected:
 	virtual void SetThemePressed() override;
 
 	virtual FReply NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent) override;
-	
-protected:
-	// Custom Functionality
-	UFUNCTION(BlueprintCallable, Category = "ThematicUI", meta = (BlueprintProtected = "true"))
-	void SetValueRange(const FVector2D& NewValueRange);
-	
-	UFUNCTION(BlueprintCallable, Category = "ThematicUI", meta = (BlueprintProtected = "true"))
-	void SetThumbSize(const FVector2D& NewThumbSize);
-	
-	UFUNCTION(BlueprintCallable, Category = "ThematicUI", meta = (BlueprintProtected = "true"))
-	void SetText(const FText& NewText);
-		
-	UFUNCTION(BlueprintPure, Category = "ThematicUI", meta = (BlueprintProtected = "true"))
-	FVector2D GetValueRange() const;
-	
-	UFUNCTION(BlueprintPure, Category = "ThematicUI", meta = (BlueprintProtected = "true"))
-	FVector2D GetThumbSize() const;
-	
-	UFUNCTION(BlueprintPure, Category = "ThematicUI", meta = (BlueprintProtected = "true"))
-	FText GetText() const;
-	
-	UFUNCTION(BlueprintPure, Category = "ThematicUI", meta = (BlueprintProtected = "true"))
-	float GetCurrentValue() const;
-	
-	UFUNCTION(BlueprintPure, Category = "ThematicUI", meta = (BlueprintProtected = "true"))
-	float GetStepAmount() const;
-	
-	UFUNCTION(BlueprintPure, Category = "ThematicUI", meta = (BlueprintProtected = "true"))
-	float GetPercentage() const;
-	
-	UFUNCTION(BlueprintCallable, Category = "ThematicUI", meta = (BlueprintProtected = "true"))
-	void SetStepAmount(const float NewStepAmount);
-	
-	UFUNCTION(BlueprintPure, Category = "ThematicUI", meta = (BlueprintProtected = "true"))
-	float CalculateCurrentValue(const float Percentage) const;
-	
-	UFUNCTION(BlueprintPure, Category = "ThematicUI", meta = (BlueprintProtected = "true"))
-	float UpdateSteppingSize() const;
-	
+
 protected:
 	// Handle Dispatchers
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI", meta = (BlueprintProtected = "true"))

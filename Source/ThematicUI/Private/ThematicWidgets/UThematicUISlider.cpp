@@ -17,7 +17,7 @@ const FVector2D& UUThematicUISlider::GetSizeBoxSize() const
 	return SizeBoxSize;
 }
 
-const void UUThematicUISlider::SetSizeBoxSize(const FVector2D& NewSizeBoxSize)
+void UUThematicUISlider::SetSizeBoxSize(const FVector2D& NewSizeBoxSize)
 {
 	SizeBoxSize = NewSizeBoxSize;
 	
@@ -26,6 +26,142 @@ const void UUThematicUISlider::SetSizeBoxSize(const FVector2D& NewSizeBoxSize)
 		SizeBox->SetWidthOverride(SizeBoxSize.X);
 		SizeBox->SetHeightOverride(SizeBoxSize.Y);
 	}
+}
+
+const float UUThematicUISlider::GetCurrentValue() const
+{
+	return CurrentValue;
+}
+
+void UUThematicUISlider::SetCurrentValue(const float NewCurrentValue)
+{
+	if (Slider)
+	{
+		Slider->SetValue(GetPercentage());
+	}
+	if (ProgressBar)
+	{
+		ProgressBar->SetPercent(GetPercentage());
+	}
+	
+	CurrentValue = NewCurrentValue;
+}
+
+FVector2D UUThematicUISlider::GetValueRange() const
+{
+	return ValueRange;
+}
+
+void UUThematicUISlider::SetValueRange(const FVector2D& NewValueRange)
+{
+	ValueRange = NewValueRange;
+	
+	Slider->SetStepSize(UpdateSteppingSize());
+	
+	CurrentValue = CalculateCurrentValue(Slider->GetValue());
+}
+
+float UUThematicUISlider::GetStepAmount() const
+{
+	return StepAmount;
+}
+
+void UUThematicUISlider::SetStepAmount(const float NewStepAmount)
+{
+	StepAmount = NewStepAmount;
+	
+	if (Slider)
+	{
+		Slider->SetStepSize(UpdateSteppingSize());
+	}
+}
+
+const bool UUThematicUISlider::GetbIsHorizontal() const
+{
+	return bIsHorizontal;
+}
+
+void UUThematicUISlider::SetbIsHorizontal(const bool NewbIsHorizontal)
+{
+	bIsHorizontal = NewbIsHorizontal;
+	
+	if (ProgressBar)
+	{
+		EProgressBarFillType::Type BarFillType = (bIsHorizontal) ? EProgressBarFillType::Type::LeftToRight : EProgressBarFillType::Type::BottomToTop;
+		ProgressBar->SetBarFillType(BarFillType);
+	}
+}
+
+const FVector2D& UUThematicUISlider::GetThumbSize() const
+{
+	return ThumbSize;
+}
+
+void UUThematicUISlider::SetThumbSize(const FVector2D& NewThumbSize)
+{
+	ThumbSize = NewThumbSize;
+}
+
+
+const FText& UUThematicUISlider::GetText() const
+{
+	return Text;
+}
+
+void UUThematicUISlider::SetText(const FText& NewText)
+{
+	Text = NewText;
+	
+	if (Text.IsEmptyOrWhitespace() && !bAlwaysShowValue)
+	{
+		TextBlock->SetText(Text);
+		return;
+	}
+	
+#define LOCTEXT_NAMESPACE "Text"
+	FText ActualText = Text;
+	FText Delimiter = FText();
+	if (!Text.IsEmptyOrWhitespace()) Delimiter = FText::FromString(":");
+	FFormatNamedArguments Args;
+	Args.Add(TEXT("Text"), ActualText);
+	Args.Add(TEXT("Delimiter"), Delimiter);
+	Args.Add(TEXT("Float"), FText::AsNumber(CurrentValue));
+	ActualText = FText().Format(LOCTEXT("Text", "{Text}{Delimiter} {Float}"), Args);
+	TextBlock->SetText(ActualText);
+#undef LOCTEXT_NAMESPACE
+}
+
+const bool UUThematicUISlider::GetbAlwaysShowValue() const
+{
+	return bAlwaysShowValue;
+}
+
+void UUThematicUISlider::SetbAlwaysShowValue(const bool NewbAlwaysShowValue)
+{
+	bAlwaysShowValue = NewbAlwaysShowValue;
+	
+	SetText(Text);
+}
+
+const float UUThematicUISlider::GetPercentage() const
+{
+	return ((CurrentValue - ValueRange.X) / (ValueRange.Y - ValueRange.X));
+}
+
+const float UUThematicUISlider::CalculateCurrentValue(const float Percentage) const
+{
+	float Value = ValueRange.Y - ValueRange.X;
+	Value *= Percentage;
+	Value += ValueRange.X;
+	Value = FMath::Clamp(Value, ValueRange.X, ValueRange.Y);
+	return Value;
+}
+
+const float UUThematicUISlider::UpdateSteppingSize() const
+{
+	float Percentage = GetPercentage();
+	Percentage = (CurrentValue - ValueRange.X + StepAmount) / (ValueRange.Y - ValueRange.X) - Percentage;
+	return Percentage;
 }
 
 void UUThematicUISlider::NativePreConstruct()
@@ -244,99 +380,6 @@ FReply UUThematicUISlider::NativeOnFocusReceived(const FGeometry& InGeometry, co
 	}
 	
 	return Super::NativeOnFocusReceived(InGeometry, InFocusEvent);
-}
-
-FVector2D UUThematicUISlider::GetValueRange() const
-{
-	return ValueRange;
-}
-
-FVector2D UUThematicUISlider::GetThumbSize() const
-{
-	return ThumbSize;
-}
-
-void UUThematicUISlider::SetValueRange(const FVector2D& NewValueRange)
-{
-	ValueRange = NewValueRange;
-	
-	Slider->SetStepSize(UpdateSteppingSize());
-	
-	CurrentValue = CalculateCurrentValue(Slider->GetValue());
-}
-
-void UUThematicUISlider::SetThumbSize(const FVector2D& NewThumbSize)
-{
-	ThumbSize = NewThumbSize;
-}
-
-void UUThematicUISlider::SetText(const FText& NewText)
-{
-	Text = NewText;
-	
-	if (Text.IsEmptyOrWhitespace() && !bAlwaysShowValue)
-	{
-		TextBlock->SetText(Text);
-		return;
-	}
-	
-#define LOCTEXT_NAMESPACE "Text"
-	FText ActualText = Text;
-	FText Delimiter = FText();
-	if (!Text.IsEmptyOrWhitespace()) Delimiter = FText::FromString(":");
-	FFormatNamedArguments Args;
-	Args.Add(TEXT("Text"), ActualText);
-	Args.Add(TEXT("Delimiter"), Delimiter);
-	Args.Add(TEXT("Float"), FText::AsNumber(CurrentValue));
-	ActualText = FText().Format(LOCTEXT("Text", "{Text}{Delimiter} {Float}"), Args);
-	TextBlock->SetText(ActualText);
-#undef LOCTEXT_NAMESPACE
-}
-
-FText UUThematicUISlider::GetText() const
-{
-	return Text;
-}
-
-float UUThematicUISlider::GetCurrentValue() const
-{
-	return CurrentValue;
-}
-
-float UUThematicUISlider::GetStepAmount() const
-{
-	return StepAmount;
-}
-
-float UUThematicUISlider::GetPercentage() const
-{
-	return ((CurrentValue - ValueRange.X) / (ValueRange.Y - ValueRange.X));
-}
-
-void UUThematicUISlider::SetStepAmount(const float NewStepAmount)
-{
-	StepAmount = NewStepAmount;
-	
-	if (Slider)
-	{
-		Slider->SetStepSize(UpdateSteppingSize());
-	}
-}
-
-float UUThematicUISlider::CalculateCurrentValue(const float Percentage) const
-{
-	float Value = ValueRange.Y - ValueRange.X;
-	Value *= Percentage;
-	Value += ValueRange.X;
-	Value = FMath::Clamp(Value, ValueRange.X, ValueRange.Y);
-	return Value;
-}
-
-float UUThematicUISlider::UpdateSteppingSize() const
-{
-	float Percentage = GetPercentage();
-	Percentage = (CurrentValue - ValueRange.X + StepAmount) / (ValueRange.Y - ValueRange.X) - Percentage;
-	return Percentage;
 }
 
 void UUThematicUISlider::HandleFloatValueChanged(const float NewValue)
