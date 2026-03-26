@@ -30,7 +30,7 @@ void UThematicUIInteractable::CalculateAndSetActualWidgetThemeData()
 	// Figure Out ActualThemeData after overrides
 	if (WidgetTheme)
 	{
-		ActualThemeData = WidgetThemeOverrideData.ConvertToThemeData(WidgetTheme);
+		ActualThemeData = WidgetThemeOverrideData.ConvertToThemeData(WidgetTheme->GetThematicUIThemeData());
 	}
 	else
 	{
