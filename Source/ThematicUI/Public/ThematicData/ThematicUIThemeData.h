@@ -10,7 +10,7 @@
 /**
  * 
  */
-UCLASS(ClassGroup = ("ThematicUI"), EditInlineNew)
+UCLASS(ClassGroup = ("ThematicUI"))
 class THEMATICUI_API UThematicUIThemeDataAsset : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
