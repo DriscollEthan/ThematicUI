@@ -128,7 +128,7 @@ void UUThematicUISlider::SetText(const FText& NewText)
 	FText ActualText = Text;
 	FText Delimiter = FText();
 	if (!Text.IsEmptyOrWhitespace()) Delimiter = FText::FromString(":");
-	FText Value = (bShowValueAsPercentage) ? FText::AsNumber(GetPercentage()) : FText::AsNumber(CurrentValue);
+	FText Value = (bShowValueAsPercentage) ? FText::AsNumber(GetPercentage() * 100.0f) : FText::AsNumber(CurrentValue);
 	FText Percentage = (bShowValueAsPercentage) ? FText::FromString("%") : FText();
 	FFormatNamedArguments Args;
 	Args.Add(TEXT("Text"), ActualText);
