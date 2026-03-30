@@ -55,6 +55,9 @@ protected:
 	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadWrite, Category = "ThematicUI|Text")
 	bool bAlwaysShowValue = false;
 	
+	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadWrite, Category = "ThematicUI|Text")
+	bool bShowValueAsPercentage = false;
+	
 	UPROPERTY(BlueprintAssignable, Category = "ThematicUI")
 	FTUiSliderValueChangedDelegate TUiOnValueChanged;
 	
@@ -107,6 +110,12 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 	void SetbAlwaysShowValue(const bool NewbAlwaysShowValue);
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
+	const bool GetbShowValueAsPercentage() const;
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	void SetbShowValueAsPercentage(const bool NewbShowValueAsPercentage);
 	
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const float GetPercentage() const;

@@ -3,12 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ThematicUI.h"
 #include "Blueprint/UserWidget.h"
-#include "Logging/StructuredLog.h"
 #include "ThematicData/ThematicUIThemeData.h"
 #include "ThematicUIInteractable.generated.h"
-
-DECLARE_LOG_CATEGORY_EXTERN(LogThematicUI, Log, All)
 
 
 /**

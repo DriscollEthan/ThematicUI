@@ -128,11 +128,14 @@ void UUThematicUISlider::SetText(const FText& NewText)
 	FText ActualText = Text;
 	FText Delimiter = FText();
 	if (!Text.IsEmptyOrWhitespace()) Delimiter = FText::FromString(":");
+	FText Value = (bShowValueAsPercentage) ? FText::AsNumber(GetPercentage()) : FText::AsNumber(CurrentValue);
+	FText Percentage = (bShowValueAsPercentage) ? FText::FromString("%") : FText();
 	FFormatNamedArguments Args;
 	Args.Add(TEXT("Text"), ActualText);
 	Args.Add(TEXT("Delimiter"), Delimiter);
-	Args.Add(TEXT("Float"), FText::AsNumber(CurrentValue));
-	ActualText = FText().Format(LOCTEXT("Text", "{Text}{Delimiter} {Float}"), Args);
+	Args.Add(TEXT("Float"), Value);
+	Args.Add(TEXT("Percentage"), Percentage);
+	ActualText = FText().Format(LOCTEXT("Text", "{Text}{Delimiter} {Float}{Percentage}"), Args);
 	TextBlock->SetText(ActualText);
 #undef LOCTEXT_NAMESPACE
 }
@@ -146,6 +149,17 @@ void UUThematicUISlider::SetbAlwaysShowValue(const bool NewbAlwaysShowValue)
 {
 	bAlwaysShowValue = NewbAlwaysShowValue;
 	
+	SetText(Text);
+}
+
+const bool UUThematicUISlider::GetbShowValueAsPercentage() const
+{
+	return bShowValueAsPercentage;
+}
+
+void UUThematicUISlider::SetbShowValueAsPercentage(const bool NewbShowValueAsPercentage)
+{
+	bShowValueAsPercentage = NewbShowValueAsPercentage;
 	SetText(Text);
 }
 

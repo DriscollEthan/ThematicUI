@@ -6,8 +6,6 @@
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundBase.h"
 
-DEFINE_LOG_CATEGORY(LogThematicUI);
-
 const FThematicUIThemeDataOverride& UThematicUIInteractable::GetWidgetThemeOverrideData() const
 {
 	return WidgetThemeOverrideData;

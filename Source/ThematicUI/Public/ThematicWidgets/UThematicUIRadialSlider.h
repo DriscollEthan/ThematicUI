@@ -79,6 +79,9 @@ protected:
 	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUI|Text")
 	FMargin TextPadding = 0.0f;
 	
+	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadWrite, Category = "ThematicUI|Text")
+	bool bShowValueAsPercentage = false;
+	
 	UPROPERTY(BlueprintAssignable, Category = "ThematicUI")
 	FTuiSliderValueChangedDelegate TUiValueChanged;
 	
@@ -179,6 +182,12 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 	void SetTextPadding(const FMargin& NewTextPadding);
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
+	const bool GetbShowValueAsPercentage() const;
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	void SetbShowValueAsPercentage(const bool NewbShowValueAsPercentage);
 	
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const float GetPercentage() const;

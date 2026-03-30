@@ -1,6 +1,6 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
+#include "ThematicUI.h"
 #include "ThematicData/ThematicUIThemeData.h"
 
 #if WITH_EDITOR
@@ -26,9 +26,15 @@ void UThematicUIThemeDataAsset::PostEditChangeProperty(struct FPropertyChangedEv
 
 const FThematicUIThemeData& UThematicUIThemeDataAsset::GetThematicUIThemeData()
 {
+	if (ParentThematicUIThemeDataAsset == this)
+	{
+		UE_LOGFMT(LogThematicUI, Error, "CANNOT BE IT'S OWN PARENT");
+		return ThematicUIThemeData;
+	}
+	
 	if (ParentThematicUIThemeDataAsset)
 	{
-		ThematicUIThemeData = ThematicUIThemeDataOverride.ConvertToThemeData(ThematicUIThemeData);
+		ThematicUIThemeData = ThematicUIThemeDataOverride.ConvertToThemeData(ParentThematicUIThemeDataAsset->GetThematicUIThemeData());
 	}
 	
 	return ThematicUIThemeData;
