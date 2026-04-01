@@ -139,6 +139,8 @@ void UThematicUIDropDownMenu::SetThemeNormal()
 		DropDownRowStyle.ParentRowBackgroundHoveredBrush = ItemStyleHoveredImage;
 		DropDownRowStyle.SelectorFocusedBrush = ItemStyleNormalImage;
 		
+		
+		//ComboBoxString->ForegroundColor = ActualThemeData.NormalTheme.TextColor;
 		ComboBoxString->SetWidgetStyle(DropDownStyle);
 		ComboBoxString->SetItemStyle(DropDownRowStyle);
 	}
@@ -185,6 +187,8 @@ void UThematicUIDropDownMenu::SetThemeHovered()
 		DropDownRowStyle.ParentRowBackgroundHoveredBrush = ItemStyleHoveredImage;
 		DropDownRowStyle.SelectorFocusedBrush = ItemStyleNormalImage;
 		
+		
+		ComboBoxString->ForegroundColor = ActualThemeData.HoveredTheme.TextColor;
 		ComboBoxString->SetWidgetStyle(DropDownStyle);
 		ComboBoxString->SetItemStyle(DropDownRowStyle);
 	}
@@ -231,6 +235,8 @@ void UThematicUIDropDownMenu::SetThemePressed()
 		DropDownRowStyle.ParentRowBackgroundHoveredBrush = ItemStyleHoveredImage;
 		DropDownRowStyle.SelectorFocusedBrush = ItemStyleNormalImage;
 		
+		
+		ComboBoxString->ForegroundColor = ActualThemeData.PressedTheme.TextColor;
 		ComboBoxString->SetWidgetStyle(DropDownStyle);
 		ComboBoxString->SetItemStyle(DropDownRowStyle);
 	}

@@ -376,6 +376,7 @@ void UUThematicUIRadialSlider::SetThemeNormal()
 		
 		// Set TextBlock Theme
 		TextBlock->SetFont(ActualThemeData.NormalTheme.TextFont);
+		TextBlock->SetColorAndOpacity(ActualThemeData.NormalTheme.TextColor);
 	}
 	else
 	{
@@ -404,6 +405,7 @@ void UUThematicUIRadialSlider::SetThemeHovered()
 		
 		// Set TextBlock Theme
 		TextBlock->SetFont(ActualThemeData.HoveredTheme.TextFont);
+		TextBlock->SetColorAndOpacity(ActualThemeData.HoveredTheme.TextColor);
 	}
 	else
 	{
@@ -432,6 +434,7 @@ void UUThematicUIRadialSlider::SetThemePressed()
 		
 		// Set TextBlock Theme
 		TextBlock->SetFont(ActualThemeData.PressedTheme.TextFont);
+		TextBlock->SetColorAndOpacity(ActualThemeData.PressedTheme.TextColor);
 	}
 	else
 	{

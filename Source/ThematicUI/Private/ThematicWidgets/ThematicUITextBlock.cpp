@@ -98,6 +98,7 @@ void UThematicUITextBlock::SetThemeNormal()
 	{
 		Border->SetBrush(ActualThemeData.NormalTheme.Image);
 		TextBlock->SetFont(ActualThemeData.NormalTheme.TextFont);
+		TextBlock->SetColorAndOpacity(ActualThemeData.NormalTheme.TextColor);
 	}
 	else
 	{

@@ -2,7 +2,7 @@
 
 
 #include "ThematicWidgets/ThematicUIInteractable.h"
-
+ 
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundBase.h"
 
@@ -40,6 +40,8 @@ void UThematicUIInteractable::CalculateAndSetActualWidgetThemeData()
 void UThematicUIInteractable::NativePreConstruct()
 {
 	Super::NativePreConstruct();
+	
+	bIsFocusable = true;
 	
 	CalculateAndSetActualWidgetThemeData();
 	
