@@ -1,7 +1,7 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-#include "ThematicUI.h"
 #include "ThematicData/ThematicUIThemeData.h"
+#include "ThematicUI.h"
 
 #if WITH_EDITOR
 void UThematicUIThemeDataAsset::PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent)
