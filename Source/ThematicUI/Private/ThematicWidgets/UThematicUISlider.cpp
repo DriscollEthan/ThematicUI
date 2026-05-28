@@ -35,6 +35,8 @@ const float UUThematicUISlider::GetCurrentValue() const
 
 void UUThematicUISlider::SetCurrentValue(const float NewCurrentValue)
 {
+ CurrentValue = NewCurrentValue;
+
 	if (Slider)
 	{
 		Slider->SetValue(GetPercentage());
@@ -43,8 +45,6 @@ void UUThematicUISlider::SetCurrentValue(const float NewCurrentValue)
 	{
 		ProgressBar->SetPercent(GetPercentage());
 	}
-	
-	CurrentValue = NewCurrentValue;
 }
 
 FVector2D UUThematicUISlider::GetValueRange() const
