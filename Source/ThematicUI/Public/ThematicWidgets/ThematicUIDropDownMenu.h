@@ -20,6 +20,9 @@ class THEMATICUI_API UThematicUIDropDownMenu : public UThematicUIInteractable
 	TObjectPtr<class USizeBox> SizeBox;
 	
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
+	TObjectPtr<class UBorder> Border;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
 	TObjectPtr<class UComboBoxString> ComboBoxString;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "ThematicUI")
@@ -48,6 +51,9 @@ public:
     	
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 	void SetOptions(const TArray<FString>& NewOptions);
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	void SetSelectedIndex(const int NewSelectedIndex);
 	
 protected:
 	UFUNCTION()

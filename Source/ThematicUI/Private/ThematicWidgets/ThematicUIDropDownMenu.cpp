@@ -3,6 +3,7 @@
 
 #include "ThematicWidgets/ThematicUIDropDownMenu.h"
 
+#include "Components/Border.h"
 #include "Components/ComboBoxString.h"
 #include "Components/SizeBox.h"
 
@@ -44,6 +45,13 @@ void UThematicUIDropDownMenu::SetOptions(const TArray<FString>& NewOptions)
 		if (Options.IsValidIndex(0))
 			ComboBoxString->SetSelectedOption(Options[0]);
 	}
+}
+
+void UThematicUIDropDownMenu::SetSelectedIndex(const int NewSelectedIndex)
+{
+	ComboBoxString->SetSelectedIndex(NewSelectedIndex);
+	
+	HandleSelectionChanged(ComboBoxString->GetSelectedOption(), ESelectInfo::Type::Direct);
 }
 
 void UThematicUIDropDownMenu::HandleOpening()
@@ -89,7 +97,7 @@ void UThematicUIDropDownMenu::NativeConstruct()
 	{
 		ComboBoxString->OnOpening.AddUniqueDynamic(this, &UThematicUIDropDownMenu::UThematicUIDropDownMenu::HandleOpening);
 		ComboBoxString->OnSelectionChanged.AddUniqueDynamic(this, &UThematicUIDropDownMenu::HandleSelectionChanged);
-;	}
+	}
 }
 
 FReply UThematicUIDropDownMenu::NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent)
@@ -106,8 +114,15 @@ void UThematicUIDropDownMenu::SetThemeNormal()
 {
 	Super::SetThemeNormal();
 	
-	if (ComboBoxString && WidgetTheme)
+	if (ComboBoxString && WidgetTheme && Border)
 	{
+		FSlateBrush borderBrush;
+		borderBrush.TintColor = FSlateColor(FLinearColor::Transparent);
+		Border->BrushColor = FLinearColor::Transparent;
+		
+		Border->SetBrush(borderBrush);
+		Border->SetContentColorAndOpacity(ActualThemeData.NormalTheme.TextColor);
+		
 		FComboBoxStyle DropDownStyle;
 		FTableRowStyle DropDownRowStyle;
 		FSlateBrush ItemStyleNormalImage = ActualThemeData.NormalTheme.Image;
@@ -146,7 +161,7 @@ void UThematicUIDropDownMenu::SetThemeNormal()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenu::SetThemeNormal : UThematicUIButton::ComboBoxKey == nullptr || UThematicUIButton::WidgetTheme == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenu::SetThemeNormal : UThematicUIDropDownMenu::ComboBoxKey == nullptr || UThematicUIDropDownMenu::WidgetTheme == nullptr || UThematicUIDropDownMenu::Border == nullptr");
 	}
 }
 
@@ -154,8 +169,15 @@ void UThematicUIDropDownMenu::SetThemeHovered()
 {
 	Super::SetThemeHovered();
 	
-	if (ComboBoxString && WidgetTheme)
+	if (ComboBoxString && WidgetTheme && Border)
 	{
+		FSlateBrush borderBrush;
+		borderBrush.TintColor = FSlateColor(FLinearColor::Transparent);
+		Border->BrushColor = FLinearColor::Transparent;
+		
+		Border->SetBrush(borderBrush);
+		Border->SetContentColorAndOpacity(ActualThemeData.NormalTheme.TextColor);
+		
 		FComboBoxStyle DropDownStyle;
 		FTableRowStyle DropDownRowStyle;
 		FSlateBrush ItemStyleNormalImage = ActualThemeData.NormalTheme.Image;
@@ -194,7 +216,7 @@ void UThematicUIDropDownMenu::SetThemeHovered()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenu::SetThemeHovered : UThematicUIButton::ComboBoxKey == nullptr || UThematicUIButton::WidgetTheme == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenu::SetThemeHovered : UThematicUIDropDownMenu::ComboBoxKey == nullptr || UThematicUIDropDownMenu::WidgetTheme == nullptr || UThematicUIDropDownMenu::Border == nullptr");
 	}
 }
 
@@ -202,8 +224,15 @@ void UThematicUIDropDownMenu::SetThemePressed()
 {
 	Super::SetThemePressed();
 	
-	if (ComboBoxString && WidgetTheme)
+	if (ComboBoxString && WidgetTheme && Border)
 	{
+		FSlateBrush borderBrush;
+		borderBrush.TintColor = FSlateColor(FLinearColor::Transparent);
+		Border->BrushColor = FLinearColor::Transparent;
+		
+		Border->SetBrush(borderBrush);
+		Border->SetContentColorAndOpacity(ActualThemeData.NormalTheme.TextColor);
+		
 		FComboBoxStyle DropDownStyle;
 		FTableRowStyle DropDownRowStyle;
 		FSlateBrush ItemStyleNormalImage = ActualThemeData.NormalTheme.Image;
@@ -242,6 +271,6 @@ void UThematicUIDropDownMenu::SetThemePressed()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenu::SetThemePressed : UThematicUIButton::ComboBoxKey == nullptr || UThematicUIButton::WidgetTheme == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenu::SetThemePressed : UThematicUIDropDownMenu::ComboBoxKey == nullptr || UThematicUIDropDownMenu::WidgetTheme == nullptr || UThematicUIDropDownMenu::Border == nullptr");
 	}
 }

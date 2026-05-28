@@ -35,7 +35,7 @@ const float UUThematicUISlider::GetCurrentValue() const
 
 void UUThematicUISlider::SetCurrentValue(const float NewCurrentValue)
 {
- CurrentValue = NewCurrentValue;
+	CurrentValue = NewCurrentValue;
 
 	if (Slider)
 	{
