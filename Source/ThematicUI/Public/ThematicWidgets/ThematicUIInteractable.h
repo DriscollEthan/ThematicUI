@@ -38,6 +38,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 	void SetWidgetThemeOverrideData(const FThematicUIThemeDataOverride& NewWidgetTHemeOverrideData);
 	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	void SetWidgetNormalThemeOverrideDate(const FThematicUIThemeOverride& NewWidgetNormalThemeOverride);
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	void SetWidgetHoveredThemeOverrideDate(const FThematicUIThemeOverride& NewWidgetHoveredThemeOverride);
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	void SetWidgetPressedThemeOverrideDate(const FThematicUIThemeOverride& NewWidgetPressedThemeOverride);
+	
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const FThematicUIThemeData& GetActualThemeData() const;
 	

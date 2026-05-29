@@ -118,7 +118,8 @@ void UThematicUIDropDownMenu::SetThemeNormal()
 	{
 		FSlateBrush borderBrush;
 		borderBrush.TintColor = FSlateColor(FLinearColor::Transparent);
-		Border->BrushColor = FLinearColor::Transparent;
+		Border->SetBrushColor(FLinearColor::Transparent);
+		
 		
 		Border->SetBrush(borderBrush);
 		Border->SetContentColorAndOpacity(ActualThemeData.NormalTheme.TextColor);
@@ -155,7 +156,6 @@ void UThematicUIDropDownMenu::SetThemeNormal()
 		DropDownRowStyle.SelectorFocusedBrush = ItemStyleNormalImage;
 		
 		
-		//ComboBoxString->ForegroundColor = ActualThemeData.NormalTheme.TextColor;
 		ComboBoxString->SetWidgetStyle(DropDownStyle);
 		ComboBoxString->SetItemStyle(DropDownRowStyle);
 	}
@@ -173,7 +173,7 @@ void UThematicUIDropDownMenu::SetThemeHovered()
 	{
 		FSlateBrush borderBrush;
 		borderBrush.TintColor = FSlateColor(FLinearColor::Transparent);
-		Border->BrushColor = FLinearColor::Transparent;
+		Border->SetBrushColor(FLinearColor::Transparent);
 		
 		Border->SetBrush(borderBrush);
 		Border->SetContentColorAndOpacity(ActualThemeData.NormalTheme.TextColor);
@@ -210,7 +210,6 @@ void UThematicUIDropDownMenu::SetThemeHovered()
 		DropDownRowStyle.SelectorFocusedBrush = ItemStyleNormalImage;
 		
 		
-		ComboBoxString->ForegroundColor = ActualThemeData.HoveredTheme.TextColor;
 		ComboBoxString->SetWidgetStyle(DropDownStyle);
 		ComboBoxString->SetItemStyle(DropDownRowStyle);
 	}
@@ -228,7 +227,8 @@ void UThematicUIDropDownMenu::SetThemePressed()
 	{
 		FSlateBrush borderBrush;
 		borderBrush.TintColor = FSlateColor(FLinearColor::Transparent);
-		Border->BrushColor = FLinearColor::Transparent;
+		Border->SetBrushColor(FLinearColor::Transparent);
+
 		
 		Border->SetBrush(borderBrush);
 		Border->SetContentColorAndOpacity(ActualThemeData.NormalTheme.TextColor);
@@ -265,7 +265,6 @@ void UThematicUIDropDownMenu::SetThemePressed()
 		DropDownRowStyle.SelectorFocusedBrush = ItemStyleNormalImage;
 		
 		
-		ComboBoxString->ForegroundColor = ActualThemeData.PressedTheme.TextColor;
 		ComboBoxString->SetWidgetStyle(DropDownStyle);
 		ComboBoxString->SetItemStyle(DropDownRowStyle);
 	}

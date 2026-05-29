@@ -18,6 +18,27 @@ void UThematicUIInteractable::SetWidgetThemeOverrideData(const FThematicUIThemeD
 	CalculateAndSetActualWidgetThemeData();
 }
 
+void UThematicUIInteractable::SetWidgetNormalThemeOverrideDate(const FThematicUIThemeOverride& NewWidgetNormalThemeOverride)
+{
+	WidgetThemeOverrideData.NormalThemeOverride = NewWidgetNormalThemeOverride;
+	
+	CalculateAndSetActualWidgetThemeData();
+}
+
+void UThematicUIInteractable::SetWidgetHoveredThemeOverrideDate(const FThematicUIThemeOverride& NewWidgetHoveredThemeOverride)
+{
+	WidgetThemeOverrideData.HoveredThemeOverride = NewWidgetHoveredThemeOverride;
+	
+	CalculateAndSetActualWidgetThemeData();
+}
+
+void UThematicUIInteractable::SetWidgetPressedThemeOverrideDate(const FThematicUIThemeOverride& NewWidgetPressedThemeOverride)
+{
+	WidgetThemeOverrideData.PressedThemeOverride = NewWidgetPressedThemeOverride;
+	
+	CalculateAndSetActualWidgetThemeData();
+}
+
 const FThematicUIThemeData& UThematicUIInteractable::GetActualThemeData() const
 {
 	return ActualThemeData;
@@ -41,7 +62,7 @@ void UThematicUIInteractable::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 	
-	bIsFocusable = true;
+	SetIsFocusable(true);
 	
 	CalculateAndSetActualWidgetThemeData();
 	

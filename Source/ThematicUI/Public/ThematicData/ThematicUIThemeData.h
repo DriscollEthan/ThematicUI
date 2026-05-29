@@ -21,7 +21,7 @@ class THEMATICUI_API UThematicUIThemeDataAsset : public UPrimaryDataAsset
 	
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
-	UThematicUIThemeDataAsset* ParentThematicUIThemeDataAsset;
+	TObjectPtr<UThematicUIThemeDataAsset> ParentThematicUIThemeDataAsset = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI", meta = (EditCondition = "ParentThematicUIThemeDataAsset == nullptr", EditConditionHides))
 	FThematicUIThemeData ThematicUIThemeData = (ParentThematicUIThemeDataAsset != nullptr) ? ParentThematicUIThemeDataAsset->GetThematicUIThemeData() : FThematicUIThemeData();
