@@ -3,9 +3,13 @@
 
 #include "ThematicWidgets/ThematicUIDropDownMenu.h"
 
+#include "Blueprint/WidgetLayoutLibrary.h"
 #include "Components/Border.h"
+#include "Components/CanvasPanelSlot.h"
 #include "Components/ComboBoxString.h"
+#include "Components/OverlaySlot.h"
 #include "Components/SizeBox.h"
+#include "Components/TextBlock.h"
 
 #include "Sound/SoundBase.h"
 
@@ -54,6 +58,16 @@ void UThematicUIDropDownMenu::SetSelectedIndex(const int NewSelectedIndex)
 	HandleSelectionChanged(ComboBoxString->GetSelectedOption(), ESelectInfo::Type::Direct);
 }
 
+const FString UThematicUIDropDownMenu::GetSelectedOption() const
+{
+	return ComboBoxString->GetSelectedOption();
+}
+
+const int UThematicUIDropDownMenu::GetSelectedIndex() const
+{
+	return  ComboBoxString->GetSelectedIndex();
+}
+
 void UThematicUIDropDownMenu::HandleOpening()
 {
 	if (USoundBase* SoundBase = Cast<USoundBase>(ActualThemeData.PressedTheme.Sound.GetResourceObject()))
@@ -64,7 +78,12 @@ void UThematicUIDropDownMenu::HandleSelectionChanged(FString SelectedItem, ESele
 {
 	if (USoundBase* SoundBase = Cast<USoundBase>(ActualThemeData.PressedTheme.Sound.GetResourceObject()))
 		PlaySound(SoundBase);
+	
 	OnSelectionChanged.Broadcast(ComboBoxString->GetSelectedOption(), ComboBoxString->GetSelectedIndex());
+	if (SelectedOptionTextBlock)
+	{
+		SelectedOptionTextBlock->SetText(FText::FromString(SelectedItem));
+	}
 }
 
 void UThematicUIDropDownMenu::NativePreConstruct()
@@ -86,6 +105,17 @@ void UThematicUIDropDownMenu::NativePreConstruct()
 		
 		if (Options.IsValidIndex(0))
 			ComboBoxString->SetSelectedOption(Options[0]);
+	}
+	
+	if (SelectedOptionTextBlock)
+	{
+		if (UOverlaySlot* OverlaySlot = UWidgetLayoutLibrary::SlotAsOverlaySlot(SelectedOptionTextBlock))
+		{
+			OverlaySlot->SetHorizontalAlignment(HAlign_Left);
+			OverlaySlot->SetVerticalAlignment(VAlign_Center);
+			OverlaySlot->SetPadding(FMargin(4.0f, 0.0f, 0.0f, 0.0f));
+		}
+		SelectedOptionTextBlock->SetText(FText::FromString(ComboBoxString->GetSelectedOption()));
 	}
 }
 
@@ -114,15 +144,10 @@ void UThematicUIDropDownMenu::SetThemeNormal()
 {
 	Super::SetThemeNormal();
 	
-	if (ComboBoxString && WidgetTheme && Border)
+	if (ComboBoxString && WidgetTheme && SelectedOptionTextBlock)
 	{
-		FSlateBrush borderBrush;
-		borderBrush.TintColor = FSlateColor(FLinearColor::Transparent);
-		Border->SetBrushColor(FLinearColor::Transparent);
-		
-		
-		Border->SetBrush(borderBrush);
-		Border->SetContentColorAndOpacity(ActualThemeData.NormalTheme.TextColor);
+		SelectedOptionTextBlock->SetColorAndOpacity(ActualThemeData.NormalTheme.TextColor);
+		SelectedOptionTextBlock->SetFont(ActualThemeData.NormalTheme.TextFont);
 		
 		FComboBoxStyle DropDownStyle;
 		FTableRowStyle DropDownRowStyle;
@@ -169,14 +194,11 @@ void UThematicUIDropDownMenu::SetThemeHovered()
 {
 	Super::SetThemeHovered();
 	
-	if (ComboBoxString && WidgetTheme && Border)
+	if (ComboBoxString && WidgetTheme && SelectedOptionTextBlock)
 	{
-		FSlateBrush borderBrush;
-		borderBrush.TintColor = FSlateColor(FLinearColor::Transparent);
-		Border->SetBrushColor(FLinearColor::Transparent);
-		
-		Border->SetBrush(borderBrush);
-		Border->SetContentColorAndOpacity(ActualThemeData.NormalTheme.TextColor);
+		SelectedOptionTextBlock->SetColorAndOpacity(ActualThemeData.HoveredTheme.TextColor);
+		SelectedOptionTextBlock->SetFont(ActualThemeData.HoveredTheme.TextFont);
+
 		
 		FComboBoxStyle DropDownStyle;
 		FTableRowStyle DropDownRowStyle;
@@ -223,15 +245,11 @@ void UThematicUIDropDownMenu::SetThemePressed()
 {
 	Super::SetThemePressed();
 	
-	if (ComboBoxString && WidgetTheme && Border)
+	if (ComboBoxString && WidgetTheme && SelectedOptionTextBlock)
 	{
-		FSlateBrush borderBrush;
-		borderBrush.TintColor = FSlateColor(FLinearColor::Transparent);
-		Border->SetBrushColor(FLinearColor::Transparent);
+		SelectedOptionTextBlock->SetColorAndOpacity(ActualThemeData.PressedTheme.TextColor);
+		SelectedOptionTextBlock->SetFont(ActualThemeData.PressedTheme.TextFont);
 
-		
-		Border->SetBrush(borderBrush);
-		Border->SetContentColorAndOpacity(ActualThemeData.NormalTheme.TextColor);
 		
 		FComboBoxStyle DropDownStyle;
 		FTableRowStyle DropDownRowStyle;

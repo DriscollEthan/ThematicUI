@@ -20,10 +20,10 @@ class THEMATICUI_API UThematicUIDropDownMenu : public UThematicUIInteractable
 	TObjectPtr<class USizeBox> SizeBox;
 	
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
-	TObjectPtr<class UBorder> Border;
+	TObjectPtr<class UComboBoxString> ComboBoxString;
 	
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
-	TObjectPtr<class UComboBoxString> ComboBoxString;
+	TObjectPtr<class UTextBlock> SelectedOptionTextBlock;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "ThematicUI")
 	FSlateBrush DropDownArrowBrush;
@@ -40,13 +40,13 @@ public:
 	
 public:
 	/* Getters and Setters */
-	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
+	UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
 	const FVector2D& GetSizeBoxSize() const;
 	
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 	void SetSizeBoxSize(const FVector2D& NewSizeBoxSize);
 	
-	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
+	UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
 	const TArray<FString>& GetOptions() const;
     	
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
@@ -54,6 +54,12 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 	void SetSelectedIndex(const int NewSelectedIndex);
+	
+	UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
+	const FString GetSelectedOption() const;
+	
+	UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
+	const int GetSelectedIndex() const;
 	
 protected:
 	UFUNCTION()
