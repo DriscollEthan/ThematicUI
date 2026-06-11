@@ -3,7 +3,6 @@
 
 #include "ThematicWidgets/UThematicUISlider.h"
 
-#include "Components/SizeBox.h"
 #include "Components/Border.h"
 #include "Components/TextBlock.h"
 #include "Components/ProgressBar.h"
@@ -11,22 +10,6 @@
 #include "Kismet/GameplayStatics.h"
 
 #include "Sound/SoundBase.h"
-
-const FVector2D& UUThematicUISlider::GetSizeBoxSize() const
-{
-	return SizeBoxSize;
-}
-
-void UUThematicUISlider::SetSizeBoxSize(const FVector2D& NewSizeBoxSize)
-{
-	SizeBoxSize = NewSizeBoxSize;
-	
-	if (SizeBox)
-	{
-		SizeBox->SetWidthOverride(SizeBoxSize.X);
-		SizeBox->SetHeightOverride(SizeBoxSize.Y);
-	}
-}
 
 const float UUThematicUISlider::GetCurrentValue() const
 {
@@ -183,11 +166,6 @@ void UUThematicUISlider::NativePreConstruct()
 	
 	CurrentValue = CalculateCurrentValue(GetPercentage());
 	
-	if (SizeBox)
-	{
-		SizeBox->SetWidthOverride(SizeBoxSize.X);
-		SizeBox->SetHeightOverride(SizeBoxSize.Y);
-	}
 	if (TextBlock)
 	{
 		SetText(Text);
@@ -221,7 +199,7 @@ void UUThematicUISlider::SetThemeNormal()
 {
 	Super::SetThemeNormal();
 	
-	if (Slider && ProgressBar && TextBlock && WidgetTheme)
+	if (Slider && ProgressBar && TextBlock)
 	{
 		// Set Slider
 		FSliderStyle SliderStyle;
@@ -269,7 +247,7 @@ void UUThematicUISlider::SetThemeNormal()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UUThematicUISlider::SetThemeNormal : UUThematicUISlider::Slider == nullptr || UUThematicUISlider::ProgressBar == nullptr || UUThematicUISlider::TextBlock == nullptr || UUThematicUISlider::WidgetTheme == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UUThematicUISlider::SetThemeNormal : UUThematicUISlider::Slider == nullptr || UUThematicUISlider::ProgressBar == nullptr || UUThematicUISlider::TextBlock == nullptr");
 	}
 }
 
@@ -277,7 +255,7 @@ void UUThematicUISlider::SetThemeHovered()
 {
 	Super::SetThemeHovered();
 	
-	if (Slider && ProgressBar && TextBlock && WidgetTheme)
+	if (Slider && ProgressBar && TextBlock)
 	{
 		// Set Slider
 		FSliderStyle SliderStyle;
@@ -325,7 +303,7 @@ void UUThematicUISlider::SetThemeHovered()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UUThematicUISlider::SetThemeHovered : UUThematicUISlider::Slider == nullptr || UUThematicUISlider::ProgressBar == nullptr || UUThematicUISlider::TextBlock == nullptr || UUThematicUISlider::WidgetTheme == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UUThematicUISlider::SetThemeHovered : UUThematicUISlider::Slider == nullptr || UUThematicUISlider::ProgressBar == nullptr || UUThematicUISlider::TextBlock == nullptr");
 	}
 }
 
@@ -333,7 +311,7 @@ void UUThematicUISlider::SetThemePressed()
 {
 	Super::SetThemePressed();
 	
-	if (Slider && ProgressBar && TextBlock && WidgetTheme)
+	if (Slider && ProgressBar && TextBlock)
 	{
 		// Set Slider
 		FSliderStyle SliderStyle;
@@ -381,7 +359,7 @@ void UUThematicUISlider::SetThemePressed()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UUThematicUISlider::SetThemePressed : UUThematicUISlider::Slider == nullptr || UUThematicUISlider::ProgressBar == nullptr || UUThematicUISlider::TextBlock == nullptr || UUThematicUISlider::WidgetTheme == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UUThematicUISlider::SetThemePressed : UUThematicUISlider::Slider == nullptr || UUThematicUISlider::ProgressBar == nullptr || UUThematicUISlider::TextBlock == nullptr");
 	}
 }
 

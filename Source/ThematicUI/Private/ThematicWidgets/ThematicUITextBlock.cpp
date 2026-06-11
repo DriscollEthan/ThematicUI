@@ -4,24 +4,7 @@
 #include "ThematicWidgets/ThematicUITextBlock.h"
 
 #include "Components/Border.h"
-#include "Components/SizeBox.h"
 #include "Components/TextBlock.h"
-
-const FVector2D& UThematicUITextBlock::GetSizeBoxSize() const
-{
-	return SizeBoxSize;
-}
-
-void UThematicUITextBlock::SetSizeBoxSize(const FVector2D& NewSizeBoxSize)
-{
-	SizeBoxSize = NewSizeBoxSize;
-	
-	if (SizeBox)
-	{
-		SizeBox->SetWidthOverride(SizeBoxSize.X);
-		SizeBox->SetHeightOverride(SizeBoxSize.Y);
-	}
-}
 
 const FText& UThematicUITextBlock::GetText() const
 {
@@ -72,11 +55,6 @@ void UThematicUITextBlock::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 	
-	if (SizeBox)
-	{
-		SizeBox->SetWidthOverride(SizeBoxSize.X);
-		SizeBox->SetHeightOverride(SizeBoxSize.Y);
-	}
 	if (TextBlock)
 	{
 		TextBlock->SetText(Text);
@@ -94,7 +72,7 @@ void UThematicUITextBlock::SetThemeNormal()
 {
 	Super::SetThemeNormal();
 	
-	if (Border && TextBlock && WidgetTheme)
+	if (Border && TextBlock)
 	{
 		Border->SetBrush(ActualThemeData.NormalTheme.Image);
 		TextBlock->SetFont(ActualThemeData.NormalTheme.TextFont);
@@ -102,7 +80,7 @@ void UThematicUITextBlock::SetThemeNormal()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUITextBlock::SetThemeNormal : UThematicUITextBlock::Border == nullptr || UThematicUITextBlock::TextBlock == nullptr || UThematicUITextBlock::WidgetTheme == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUITextBlock::SetThemeNormal : UThematicUITextBlock::Border == nullptr || UThematicUITextBlock::TextBlock == nullptr");
 	}
 }
 
@@ -110,14 +88,14 @@ void UThematicUITextBlock::SetThemeHovered()
 {
 	Super::SetThemeHovered();
 	
-	if (Border && TextBlock && WidgetTheme)
+	if (Border && TextBlock)
 	{
 		Border->SetBrush(ActualThemeData.NormalTheme.Image);
 		TextBlock->SetFont(ActualThemeData.NormalTheme.TextFont);
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUITextBlock::SetThemeHovered : UThematicUITextBlock::Border == nullptr || UThematicUITextBlock::TextBlock == nullptr || UThematicUITextBlock::WidgetTheme == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUITextBlock::SetThemeHovered : UThematicUITextBlock::Border == nullptr || UThematicUITextBlock::TextBlock == nullptr");
 	}
 }
 
@@ -125,13 +103,13 @@ void UThematicUITextBlock::SetThemePressed()
 {
 	Super::SetThemePressed();
 	
-	if (Border && TextBlock && WidgetTheme)
+	if (Border && TextBlock)
 	{
 		Border->SetBrush(ActualThemeData.NormalTheme.Image);
 		TextBlock->SetFont(ActualThemeData.NormalTheme.TextFont);
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUITextBlock::SetThemePressed : UThematicUITextBlock::Border == nullptr || UThematicUITextBlock::TextBlock == nullptr || UThematicUITextBlock::WidgetTheme == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUITextBlock::SetThemePressed : UThematicUITextBlock::Border == nullptr || UThematicUITextBlock::TextBlock == nullptr");
 	}
 }

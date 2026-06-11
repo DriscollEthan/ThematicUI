@@ -3,26 +3,8 @@
 
 #include "ThematicWidgets/ThematicUIButton.h"
 
-#include "Components/SizeBox.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
-
-
-const FVector2D& UThematicUIButton::GetSizeBoxSize() const
-{
-	return SizeBoxSize;
-}
-
-void UThematicUIButton::SetSizeBoxSize(const FVector2D& value)
-{
-	SizeBoxSize = value;
-	
-	if (SizeBox)
-	{
-		SizeBox->SetWidthOverride(SizeBoxSize.X);
-		SizeBox->SetHeightOverride(SizeBoxSize.Y);
-	}
-}
 
 const FText& UThematicUIButton::GetText() const
 {
@@ -42,12 +24,7 @@ void UThematicUIButton::SetText(const FText& value)
 void UThematicUIButton::NativePreConstruct()
 {
 	Super::NativePreConstruct();
-
-	if (SizeBox)
-	{
-		SizeBox->SetWidthOverride(SizeBoxSize.X);
-		SizeBox->SetHeightOverride(SizeBoxSize.Y);
-	}
+	
 	if (TextBlock)
 	{
 		TextBlock->SetText(Text);
@@ -76,7 +53,7 @@ void UThematicUIButton::SetThemeNormal()
 {
 	Super::SetThemeNormal();
 	
-	if (Button && TextBlock && WidgetTheme) [[likely]]
+	if (Button && TextBlock) [[likely]]
 	{
 		// Create Button Style to Change
 		FButtonStyle Style;
@@ -99,7 +76,7 @@ void UThematicUIButton::SetThemeNormal()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUIButton::SetThemeNormal : UThematicUIButton::Button == nullptr || UThematicUIButton::TextBlock == nullptr || UThematicUIButton::WidgetTheme == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUIButton::SetThemeNormal : UThematicUIButton::Button == nullptr || UThematicUIButton::TextBlock == nullptr");
 	}
 }
 
@@ -107,7 +84,7 @@ void UThematicUIButton::SetThemeHovered()
 {
 	Super::SetThemeHovered();
 	
-	if (Button && TextBlock && WidgetTheme) [[likely]]
+	if (Button && TextBlock) [[likely]]
 	{
 		// Create Button Style to Change
 		FButtonStyle Style;
@@ -130,7 +107,7 @@ void UThematicUIButton::SetThemeHovered()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUIButton::SetThemeNormal : UThematicUIButton::Button == nullptr || UThematicUIButton::TextBlock == nullptr || UThematicUIButton::WidgetTheme == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUIButton::SetThemeNormal : UThematicUIButton::Button == nullptr || UThematicUIButton::TextBlock == nullptr");
 	}
 }
 
@@ -138,7 +115,7 @@ void UThematicUIButton::SetThemePressed()
 {
 	Super::SetThemePressed();
 	
-	if (Button && TextBlock && WidgetTheme) [[likely]]
+	if (Button && TextBlock) [[likely]]
 	{
 		// Create Button Style to Change
 		FButtonStyle Style;
@@ -161,7 +138,7 @@ void UThematicUIButton::SetThemePressed()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUIButton::SetThemeNormal : UThematicUIButton::Button == nullptr || UThematicUIButton::TextBlock == nullptr || UThematicUIButton::WidgetTheme == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUIButton::SetThemeNormal : UThematicUIButton::Button == nullptr || UThematicUIButton::TextBlock == nullptr");
 	}
 }
 

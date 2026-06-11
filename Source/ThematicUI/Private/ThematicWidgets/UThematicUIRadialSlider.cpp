@@ -4,29 +4,12 @@
 #include "ThematicWidgets/UThematicUIRadialSlider.h"
 
 #include "Blueprint/WidgetLayoutLibrary.h"
-#include "Components/SizeBox.h"
 #include "Components/RadialSlider.h"
 #include "Components/Image.h"
 #include "Components/OverlaySlot.h"
 #include "Components/TextBlock.h"
 
 #include "Sound/SoundBase.h"
-
-const FVector2D& UUThematicUIRadialSlider::GetSizeBoxSize() const
-{
-	return SizeBoxSize;
-}
-
-void UUThematicUIRadialSlider::SetSizeBoxSize(const FVector2D& NewSizeBoxSize)
-{
-	SizeBoxSize = NewSizeBoxSize;
-	
-	if (SizeBox)
-	{
-		SizeBox->SetWidthOverride(SizeBoxSize.X);
-		SizeBox->SetHeightOverride(SizeBoxSize.Y);
-	}
-}
 
 const float UUThematicUIRadialSlider::GetCurrentValue() const
 {
@@ -304,11 +287,6 @@ void UUThematicUIRadialSlider::NativePreConstruct()
 	
 	CurrentValue = CalculateCurrentValue(GetPercentage());
 	
-	if (SizeBox)
-	{
-		SizeBox->SetWidthOverride(SizeBoxSize.X);
-		SizeBox->SetHeightOverride(SizeBoxSize.Y);
-	}
 	if (TextBlock)
 	{
 		UOverlaySlot* OverlaySlot = UWidgetLayoutLibrary::SlotAsOverlaySlot(TextBlock);
@@ -359,7 +337,7 @@ void UUThematicUIRadialSlider::SetThemeNormal()
 {
 	Super::SetThemeNormal();
 	
-	if (RadialSlider && Image && TextBlock && WidgetTheme)
+	if (RadialSlider && Image && TextBlock)
 	{
 		// Set Slider Theme
 		FSlateBrush ThumbBrush = ThumbImage;
@@ -380,7 +358,7 @@ void UUThematicUIRadialSlider::SetThemeNormal()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UUThematicUIRadialSlider::SetThemeNormal : UUThematicUIRadialSlider::RadialSlider == nullptr || UUThematicUIRadialSlider::Image == nullptr || UUThematicUIRadialSlider::TextBlock == nullptr || UUThematicUIRadialSlider::WidgetTheme == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UUThematicUIRadialSlider::SetThemeNormal : UUThematicUIRadialSlider::RadialSlider == nullptr || UUThematicUIRadialSlider::Image == nullptr || UUThematicUIRadialSlider::TextBlock == nullptr");
 	}
 }
 
@@ -388,7 +366,7 @@ void UUThematicUIRadialSlider::SetThemeHovered()
 {
 	Super::SetThemeHovered();
 	
-	if (RadialSlider && Image && TextBlock && WidgetTheme)
+	if (RadialSlider && Image && TextBlock)
 	{
 		// Set Slider Theme
 		FSlateBrush ThumbBrush = ThumbImage;
@@ -409,7 +387,7 @@ void UUThematicUIRadialSlider::SetThemeHovered()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UUThematicUIRadialSlider::SetThemeHovered : UUThematicUIRadialSlider::RadialSlider == nullptr || UUThematicUIRadialSlider::Image == nullptr || UUThematicUIRadialSlider::TextBlock == nullptr || UUThematicUIRadialSlider::WidgetTheme == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UUThematicUIRadialSlider::SetThemeHovered : UUThematicUIRadialSlider::RadialSlider == nullptr || UUThematicUIRadialSlider::Image == nullptr || UUThematicUIRadialSlider::TextBlock == nullptr");
 	}
 }
 
@@ -417,7 +395,7 @@ void UUThematicUIRadialSlider::SetThemePressed()
 {
 	Super::SetThemePressed();
 	
-	if (RadialSlider && Image && TextBlock && WidgetTheme)
+		if (RadialSlider && Image && TextBlock)
 	{
 		// Set Slider Theme
 		FSlateBrush ThumbBrush = ThumbImage;
@@ -438,7 +416,7 @@ void UUThematicUIRadialSlider::SetThemePressed()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UUThematicUIRadialSlider::SetThemePressed : UUThematicUIRadialSlider::RadialSlider == nullptr || UUThematicUIRadialSlider::Image == nullptr || UUThematicUIRadialSlider::TextBlock == nullptr || UUThematicUIRadialSlider::WidgetTheme == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UUThematicUIRadialSlider::SetThemePressed : UUThematicUIRadialSlider::RadialSlider == nullptr || UUThematicUIRadialSlider::Image == nullptr || UUThematicUIRadialSlider::TextBlock == nullptr");
 	}
 }
 

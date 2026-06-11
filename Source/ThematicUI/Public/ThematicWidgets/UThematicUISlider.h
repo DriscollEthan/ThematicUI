@@ -19,9 +19,6 @@ class THEMATICUI_API UUThematicUISlider : public UThematicUIInteractable
 	
 private:
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
-	TObjectPtr<class USizeBox> SizeBox;
-	
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
 	TObjectPtr<class UTextBlock> TextBlock;
 	
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
@@ -31,9 +28,6 @@ private:
 	TObjectPtr<class USlider> Slider;
 	
 protected:
-	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUI")
-	FVector2D SizeBoxSize = FVector2D(250.0f, 50.0f);
-	
 	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Getter, Category = "ThematicUI|Slider")
 	float CurrentValue = 0.5f;
 	
@@ -63,12 +57,6 @@ protected:
 	
 public:
 	/* Getters and Setters */
-	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
-	const FVector2D& GetSizeBoxSize() const;
-	
-	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
-	void SetSizeBoxSize(const FVector2D& NewSizeBoxSize);
-	
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const float GetCurrentValue() const;
 	

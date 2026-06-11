@@ -5,6 +5,7 @@
  
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundBase.h"
+#include "Components/SizeBox.h"
 
 const FThematicUIThemeDataOverride& UThematicUIInteractable::GetWidgetThemeOverrideData() const
 {
@@ -58,11 +59,33 @@ void UThematicUIInteractable::CalculateAndSetActualWidgetThemeData()
 	
 }
 
+const FVector2D& UThematicUIInteractable::GetSizeBoxSize() const
+{
+	return SizeBoxSize;
+}
+
+void UThematicUIInteractable::SetSizeBoxSize(const FVector2D& NewSizeBoxSize)
+{
+	SizeBoxSize = NewSizeBoxSize;
+	
+	if (SizeBox)
+	{
+		SizeBox->SetWidthOverride(SizeBoxSize.X);
+		SizeBox->SetHeightOverride(SizeBoxSize.Y);
+	}
+}
+
 void UThematicUIInteractable::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 	
 	SetIsFocusable(true);
+	
+	if (SizeBox)
+	{
+		SizeBox->SetWidthOverride(SizeBoxSize.X);
+		SizeBox->SetHeightOverride(SizeBoxSize.Y);
+	}
 	
 	CalculateAndSetActualWidgetThemeData();
 	
@@ -103,14 +126,32 @@ void UThematicUIInteractable::NativeOnRemovedFromFocusPath(const FFocusEvent& In
 void UThematicUIInteractable::SetThemeNormal()
 {
 	UE_LOGFMT(LogThematicUI, Log, "{Name} is setting theme to normal settings", GetName());
+	
+	if (SizeBox)
+	{
+		SizeBox->SetWidthOverride(SizeBoxSize.X);
+		SizeBox->SetHeightOverride(SizeBoxSize.Y);
+	}
 }
 
 void UThematicUIInteractable::SetThemeHovered()
 {
 	UE_LOGFMT(LogThematicUI, Log, "{Name} is setting theme to hovered settings", GetName());
+	
+	if (SizeBox)
+	{
+		SizeBox->SetWidthOverride(SizeBoxSize.X * SizeBoxHoveredSizeMultiplier.X);
+		SizeBox->SetHeightOverride(SizeBoxSize.Y * SizeBoxHoveredSizeMultiplier.Y);
+	}
 }
 
 void UThematicUIInteractable::SetThemePressed()
 {
 	UE_LOGFMT(LogThematicUI, Log, "{Name} is setting theme to pressed settings", GetName());
+	
+	if (SizeBox)
+	{
+		SizeBox->SetWidthOverride(SizeBoxSize.X * SizeBoxPressedSizeMultiplier.X);
+		SizeBox->SetHeightOverride(SizeBoxSize.Y * SizeBoxPressedSizeMultiplier.Y);
+	}
 }

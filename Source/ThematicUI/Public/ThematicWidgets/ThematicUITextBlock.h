@@ -16,18 +16,12 @@ class THEMATICUI_API UThematicUITextBlock : public UThematicUIInteractable
 	GENERATED_BODY()
 	
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
-	TObjectPtr<class USizeBox> SizeBox;
-	
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
 	TObjectPtr<class UBorder> Border;
 	
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
 	TObjectPtr<class UTextBlock> TextBlock;
 	
 protected:
-	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUI")
-	FVector2D SizeBoxSize = FVector2D(250.0f, 50.0f);
-	
 	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Setter, Category = "ThematicUI", meta = (MultiLine = "true"))
 	FText Text;
 	
@@ -40,12 +34,6 @@ protected:
 	
 public:
 	/* Getters and Setters */
-	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
-	const FVector2D& GetSizeBoxSize() const;
-	
-	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
-	void SetSizeBoxSize(const FVector2D& NewSizeBoxSize);
-	
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const FText& GetText() const;
 	

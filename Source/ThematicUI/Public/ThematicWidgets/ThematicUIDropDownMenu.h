@@ -17,20 +17,17 @@ class THEMATICUI_API UThematicUIDropDownMenu : public UThematicUIInteractable
 	GENERATED_BODY()
 	
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
-	TObjectPtr<class USizeBox> SizeBox;
-	
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
 	TObjectPtr<class UComboBoxString> ComboBoxString;
 	
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
 	TObjectPtr<class UTextBlock> SelectedOptionTextBlock;
 	
-	UPROPERTY(EditDefaultsOnly, Category = "ThematicUI")
-	FSlateBrush DropDownArrowBrush;
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
+	TObjectPtr<class UImage> DropDownArrowImage;
 	
 public:
-	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUI")
-	FVector2D SizeBoxSize = FVector2D(250.0f, 50.0f);
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Setter, Category = "ThematicUI")
+	FSlateBrush DropDownArrowBrush;
 	
 	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUI")
 	TArray<FString> Options; 
@@ -40,11 +37,8 @@ public:
 	
 public:
 	/* Getters and Setters */
-	UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
-	const FVector2D& GetSizeBoxSize() const;
-	
-	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
-	void SetSizeBoxSize(const FVector2D& NewSizeBoxSize);
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
+	void SetDropDownArrowBrush(const FSlateBrush& NewDropDownArrowBrush);
 	
 	UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
 	const TArray<FString>& GetOptions() const;

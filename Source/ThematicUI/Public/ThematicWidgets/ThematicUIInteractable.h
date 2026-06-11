@@ -17,6 +17,9 @@ class THEMATICUI_API UThematicUIInteractable : public UUserWidget
 {
 	GENERATED_BODY()
 	
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI|Getters", meta = (AllowPrivateAccess, BindWidget))
+	TObjectPtr<class USizeBox> SizeBox;
+	
 protected:
 	/* Widget Theme Data */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI", meta = (DisplayPriority = 1))
@@ -30,8 +33,18 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Getter, Category = "ThematicUI")
 	FThematicUIThemeData ActualThemeData;
 	
+	/* Size Box Data */
+	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUI")
+	FVector2D SizeBoxSize = FVector2D(250.0f, 50.0f);
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	FVector2D SizeBoxHoveredSizeMultiplier = FVector2D(1.0f, 1.0f);
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	FVector2D SizeBoxPressedSizeMultiplier = FVector2D(1.0f, 1.0f);
+	
 public:
-	/* Getters and Setters */
+	/* Getters and Settes */
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const FThematicUIThemeDataOverride& GetWidgetThemeOverrideData() const;
 	
@@ -52,6 +65,12 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 	void CalculateAndSetActualWidgetThemeData();
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
+	const FVector2D& GetSizeBoxSize() const;
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	void SetSizeBoxSize(const FVector2D& NewSizeBoxSize);
 	
 protected:
 	/**

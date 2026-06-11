@@ -8,24 +8,19 @@
 #include "Components/CanvasPanelSlot.h"
 #include "Components/ComboBoxString.h"
 #include "Components/OverlaySlot.h"
-#include "Components/SizeBox.h"
 #include "Components/TextBlock.h"
+#include "Components/Image.h"
 
 #include "Sound/SoundBase.h"
 
-const FVector2D& UThematicUIDropDownMenu::GetSizeBoxSize() const
-{
-	return SizeBoxSize;
-}
 
-void UThematicUIDropDownMenu::SetSizeBoxSize(const FVector2D& NewSizeBoxSize)
+void UThematicUIDropDownMenu::SetDropDownArrowBrush(const FSlateBrush& NewDropDownArrowBrush)
 {
-	SizeBoxSize = NewSizeBoxSize;
+	DropDownArrowBrush = NewDropDownArrowBrush;
 	
-	if (SizeBox)
+	if (DropDownArrowImage)
 	{
-		SizeBox->SetWidthOverride(SizeBoxSize.X);
-		SizeBox->SetHeightOverride(SizeBoxSize.Y);
+		DropDownArrowImage->SetBrush(DropDownArrowBrush);
 	}
 }
 
@@ -90,11 +85,6 @@ void UThematicUIDropDownMenu::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 	
-	if (SizeBox)
-	{
-		SizeBox->SetWidthOverride(SizeBoxSize.X);
-		SizeBox->SetHeightOverride(SizeBoxSize.Y);
-	}
 	if (ComboBoxString)
 	{
 		ComboBoxString->ClearOptions();
@@ -144,7 +134,7 @@ void UThematicUIDropDownMenu::SetThemeNormal()
 {
 	Super::SetThemeNormal();
 	
-	if (ComboBoxString && WidgetTheme && SelectedOptionTextBlock)
+	if (ComboBoxString && SelectedOptionTextBlock && DropDownArrowImage)
 	{
 		SelectedOptionTextBlock->SetColorAndOpacity(ActualThemeData.NormalTheme.TextColor);
 		SelectedOptionTextBlock->SetFont(ActualThemeData.NormalTheme.TextFont);
@@ -180,13 +170,13 @@ void UThematicUIDropDownMenu::SetThemeNormal()
 		DropDownRowStyle.ParentRowBackgroundHoveredBrush = ItemStyleHoveredImage;
 		DropDownRowStyle.SelectorFocusedBrush = ItemStyleNormalImage;
 		
-		
+		DropDownArrowImage->SetBrush(DropDownArrowBrush);
 		ComboBoxString->SetWidgetStyle(DropDownStyle);
 		ComboBoxString->SetItemStyle(DropDownRowStyle);
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenu::SetThemeNormal : UThematicUIDropDownMenu::ComboBoxKey == nullptr || UThematicUIDropDownMenu::WidgetTheme == nullptr || UThematicUIDropDownMenu::Border == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenu::SetThemeNormal : UThematicUIDropDownMenu::ComboBoxKey == nullptr || UThematicUIDropDownMenu::DropDownArrowImage == nullptr || UThematicUIDropDownMenu::Border == nullptr");
 	}
 }
 
@@ -194,7 +184,7 @@ void UThematicUIDropDownMenu::SetThemeHovered()
 {
 	Super::SetThemeHovered();
 	
-	if (ComboBoxString && WidgetTheme && SelectedOptionTextBlock)
+	if (ComboBoxString && SelectedOptionTextBlock)
 	{
 		SelectedOptionTextBlock->SetColorAndOpacity(ActualThemeData.HoveredTheme.TextColor);
 		SelectedOptionTextBlock->SetFont(ActualThemeData.HoveredTheme.TextFont);
@@ -231,13 +221,13 @@ void UThematicUIDropDownMenu::SetThemeHovered()
 		DropDownRowStyle.ParentRowBackgroundHoveredBrush = ItemStyleHoveredImage;
 		DropDownRowStyle.SelectorFocusedBrush = ItemStyleNormalImage;
 		
-		
+		DropDownArrowImage->SetBrush(DropDownArrowBrush);
 		ComboBoxString->SetWidgetStyle(DropDownStyle);
 		ComboBoxString->SetItemStyle(DropDownRowStyle);
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenu::SetThemeHovered : UThematicUIDropDownMenu::ComboBoxKey == nullptr || UThematicUIDropDownMenu::WidgetTheme == nullptr || UThematicUIDropDownMenu::Border == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenu::SetThemeHovered : UThematicUIDropDownMenu::ComboBoxKey == nullptr || UThematicUIDropDownMenu::DropDownArrowImage == nullptr || UThematicUIDropDownMenu::Border == nullptr");
 	}
 }
 
@@ -245,7 +235,7 @@ void UThematicUIDropDownMenu::SetThemePressed()
 {
 	Super::SetThemePressed();
 	
-	if (ComboBoxString && WidgetTheme && SelectedOptionTextBlock)
+	if (ComboBoxString && SelectedOptionTextBlock)
 	{
 		SelectedOptionTextBlock->SetColorAndOpacity(ActualThemeData.PressedTheme.TextColor);
 		SelectedOptionTextBlock->SetFont(ActualThemeData.PressedTheme.TextFont);
@@ -282,12 +272,12 @@ void UThematicUIDropDownMenu::SetThemePressed()
 		DropDownRowStyle.ParentRowBackgroundHoveredBrush = ItemStyleHoveredImage;
 		DropDownRowStyle.SelectorFocusedBrush = ItemStyleNormalImage;
 		
-		
+		DropDownArrowImage->SetBrush(DropDownArrowBrush);
 		ComboBoxString->SetWidgetStyle(DropDownStyle);
 		ComboBoxString->SetItemStyle(DropDownRowStyle);
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenu::SetThemePressed : UThematicUIDropDownMenu::ComboBoxKey == nullptr || UThematicUIDropDownMenu::WidgetTheme == nullptr || UThematicUIDropDownMenu::Border == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenu::SetThemePressed : UThematicUIDropDownMenu::ComboBoxKey == nullptr || UThematicUIDropDownMenu::DropDownArrowImage == nullptr || UThematicUIDropDownMenu::Border == nullptr");
 	}
 }
