@@ -3,9 +3,9 @@
 
 #include "ThematicWidgets/ThematicUIInteractable.h"
  
+#include "Components/SizeBox.h"
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundBase.h"
-#include "Components/SizeBox.h"
 
 const FThematicUIThemeDataOverride& UThematicUIInteractable::GetWidgetThemeOverrideData() const
 {
@@ -57,11 +57,6 @@ void UThematicUIInteractable::CalculateAndSetActualWidgetThemeData()
 		ActualThemeData = WidgetThemeOverrideData.ConvertToThemeData();
 	}
 	
-}
-
-const FVector2D& UThematicUIInteractable::GetSizeBoxSize() const
-{
-	return SizeBoxSize;
 }
 
 void UThematicUIInteractable::SetSizeBoxSize(const FVector2D& NewSizeBoxSize)
@@ -132,6 +127,8 @@ void UThematicUIInteractable::SetThemeNormal()
 		SizeBox->SetWidthOverride(SizeBoxSize.X);
 		SizeBox->SetHeightOverride(SizeBoxSize.Y);
 	}
+	
+	OnTuiInteractableSetToNormalTheme.Broadcast(this);
 }
 
 void UThematicUIInteractable::SetThemeHovered()
@@ -143,6 +140,8 @@ void UThematicUIInteractable::SetThemeHovered()
 		SizeBox->SetWidthOverride(SizeBoxSize.X * SizeBoxHoveredSizeMultiplier.X);
 		SizeBox->SetHeightOverride(SizeBoxSize.Y * SizeBoxHoveredSizeMultiplier.Y);
 	}
+	
+	OnTuiInteractableSetToHoveredTheme.Broadcast(this);
 }
 
 void UThematicUIInteractable::SetThemePressed()
@@ -154,4 +153,6 @@ void UThematicUIInteractable::SetThemePressed()
 		SizeBox->SetWidthOverride(SizeBoxSize.X * SizeBoxPressedSizeMultiplier.X);
 		SizeBox->SetHeightOverride(SizeBoxSize.Y * SizeBoxPressedSizeMultiplier.Y);
 	}
+	
+	OnTuiInteractableSetToPressedTheme.Broadcast(this);
 }

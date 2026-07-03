@@ -34,6 +34,7 @@ const FThematicUIThemeData& UThematicUIThemeDataAsset::GetThematicUIThemeData()
 	
 	if (ParentThematicUIThemeDataAsset)
 	{
+		// @todo Update To New API
 		ThematicUIThemeData = ThematicUIThemeDataOverride.ConvertToThemeData(ParentThematicUIThemeDataAsset->GetThematicUIThemeData());
 	}
 	
@@ -49,6 +50,7 @@ const FThematicUIThemeDataOverride UThematicUIThemeDataAsset::GetThematicUITheme
 {
 	if (ParentThematicUIThemeDataAsset == this)
 	{
+		// @todo Update To New API
 		UE_LOGFMT(LogThematicUI, Error, "CANNOT BE IT'S OWN PARENT");
 		return ThematicUIThemeDataOverride.ForceToThemeOverrideData(ThematicUIThemeData);
 	}
@@ -58,5 +60,6 @@ const FThematicUIThemeDataOverride UThematicUIThemeDataAsset::GetThematicUITheme
 		return ThematicUIThemeDataOverride;
 	}
 	
+	// @todo Update To New API
 	return ThematicUIThemeDataOverride.ForceToThemeOverrideData(ThematicUIThemeData);
 }

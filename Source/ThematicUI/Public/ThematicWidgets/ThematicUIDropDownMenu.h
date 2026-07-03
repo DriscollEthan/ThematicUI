@@ -23,8 +23,7 @@
 
 // Class Details
 	// Forward Declarations 
-	class UComboBoxString;
-	class UTextBlock;
+	class UThematicUIButton;
 	class UImage;
 	
 	// Delegate Declarations 
@@ -45,56 +44,75 @@ class THEMATICUI_API UThematicUIDropDownMenu : public UThematicUIInteractable
 
 	// Variables 
 	public:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Setter, Category = "ThematicUI")
-	FSlateBrush DropDownArrowBrush;
 	
-	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUI")
-	TArray<FString> Options; 
-	
-	UPROPERTY(BlueprintAssignable, Category = "ThematicUI")
-	FTUiOnSelectionChangedSignare OnSelectionChanged;
 
 	protected:
+	/* Selection Menu Widget Theme Data */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI", meta = (DisplayPriority = 1))
+	TObjectPtr<UThematicUIThemeDataAsset> SelectionMenuWidgetTheme;
 	
+	/* Selection Menu Widget Theme Data Override */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI", meta = (DisplayPriority = 1))
+	FThematicUIThemeDataOverride SelectionMenuWidgetThemeOverrideData;
+	
+	/* Selection Menu Actual Widget Theme Data */
+	UPROPERTY(BlueprintReadOnly, Getter, Category = "ThematicUI")
+	FThematicUIThemeData SelectionMenuActualThemeData;
+	
+	/* Selection Menu Size Box Data */
+	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUI")
+	FVector2D SelectionMenuSizeBoxSize = FVector2D(250.0f, 50.0f);
+	
+	/* Selection Menu Size Box Multiplier When Hovered */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	FVector2D SelectionMenuSizeBoxHoveredSizeMultiplier = FVector2D(1.0f, 1.0f);
+	
+	/* Selection Menu Size Box Multiplier When Pressed */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	FVector2D SelectionMenuSizeBoxPressedSizeMultiplier = FVector2D(1.0f, 1.0f);
 
 	private:
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
-	TObjectPtr<UComboBoxString> ComboBoxString;
-	
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
-	TObjectPtr<UTextBlock> SelectedOptionTextBlock;
+	TObjectPtr<UThematicUIButton> DropDownButton;
 	
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
 	TObjectPtr<UImage> DropDownArrowImage;
 
+
 	
 // Class Functions
 	public:
-	/* Getters and Setters */ 
-	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
-	void SetDropDownArrowBrush(const FSlateBrush& NewDropDownArrowBrush);
+	/* Getters and Settes */
+		UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
+		const FThematicUIThemeDataOverride& GetSelectionMenuWidgetThemeOverrideData() const;
+
+		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+		void SetSelectionMenuWidgetThemeOverrideData(const FThematicUIThemeDataOverride& NewWidgetThemeOverrideData);
+
+		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+		void SetSelectionMenuWidgetNormalThemeOverrideDate(const FThematicUIThemeOverride& NewWidgetNormalThemeOverride);
+
+		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+		void SetSelectionMenuWidgetHoveredThemeOverrideDate(const FThematicUIThemeOverride& NewWidgetHoveredThemeOverride);
+
+		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+		void SetSelectionMenuWidgetPressedThemeOverrideDate(const FThematicUIThemeOverride& NewWidgetPressedThemeOverride);
+
+		UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
+		const FThematicUIThemeData& GetSelectionMenuActualThemeData() const;
+
+		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+		void SelectionMenuCalculateAndSetActualWidgetThemeData();
+
+		UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
+		const FVector2D& GetSelectionMenuSizeBoxSize() const;
+
+		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+		void SetSelectionMenuSizeBoxSize(const FVector2D& NewSizeBoxSize);
 	
-	UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
-	const TArray<FString>& GetOptions() const;
-    	
-	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
-	void SetOptions(const TArray<FString>& NewOptions);
-	
-	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
-	void SetSelectedIndex(const int NewSelectedIndex);
-	
-	UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
-	const FString GetSelectedOption() const;
-	
-	UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
-	const int GetSelectedIndex() const;
 
 	protected:
-	UFUNCTION()
-	void HandleOpening();
 	
-	UFUNCTION()
-	void HandleSelectionChanged(FString SelectedItem, ESelectInfo::Type SelectionType);
 
 	private:
 

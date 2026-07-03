@@ -27,7 +27,7 @@
 	class UTextBlock;
 	
 	// Delegate Declarations 
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTUiButtonPressedDelegate, UThematicUIButton*, ButtonPressed);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTuiButtonPressedAndReleased, UThematicUIButton*, Button);
 	
 	// Helper Enums 
 	
@@ -46,14 +46,12 @@ class THEMATICUI_API UThematicUIButton : public UThematicUIInteractable
 
 	// Variables 
 	public:
-
+	UPROPERTY(BlueprintAssignable, Category = "ThematicUI|Events")
+	FTuiButtonPressedAndReleased OnTuiButtonPressedAndReleased;
 
 	protected:
 	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUI", meta = (MultiLine = "true"))
 	FText Text;
-	
-	UPROPERTY(BlueprintAssignable, Category = "ThematicUI")
-	FTUiButtonPressedDelegate TUiButtonPressed;
 
 	private:
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))

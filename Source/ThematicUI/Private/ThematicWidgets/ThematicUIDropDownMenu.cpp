@@ -1,283 +1,112 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "ThematicWidgets/ThematicUIDropDownMenu.h"
 
-#include "Blueprint/WidgetLayoutLibrary.h"
-#include "Components/Border.h"
-#include "Components/CanvasPanelSlot.h"
-#include "Components/ComboBoxString.h"
-#include "Components/OverlaySlot.h"
-#include "Components/TextBlock.h"
-#include "Components/Image.h"
+// Includes
+	// Compiler Includes
+	#include "ThematicWidgets/ThematicUIDropDownMenu.h"
 
-#include "Sound/SoundBase.h"
+	// Engine Library Includes
 
 
-void UThematicUIDropDownMenu::SetDropDownArrowBrush(const FSlateBrush& NewDropDownArrowBrush)
-{
-	DropDownArrowBrush = NewDropDownArrowBrush;
+	// Project Library Includes
 	
-	if (DropDownArrowImage)
+
+	// Class Specific Includes
+	#include "Components/Image.h"
+	#include "Sound/SoundBase.h"
+	#include "ThematicWidgets/ThematicUIButton.h"
+
+
+const FThematicUIThemeDataOverride& UThematicUIDropDownMenu::GetSelectionMenuWidgetThemeOverrideData() const
+{
+	return SelectionMenuWidgetThemeOverrideData;
+}
+
+void UThematicUIDropDownMenu::SetSelectionMenuWidgetThemeOverrideData(const FThematicUIThemeDataOverride& NewWidgetThemeOverrideData)
+{
+	SelectionMenuWidgetThemeOverrideData = NewWidgetThemeOverrideData;
+	
+	SelectionMenuCalculateAndSetActualWidgetThemeData();
+}
+
+void UThematicUIDropDownMenu::SetSelectionMenuWidgetNormalThemeOverrideDate(const FThematicUIThemeOverride& NewWidgetNormalThemeOverride)
+{
+	SelectionMenuWidgetThemeOverrideData.NormalThemeOverride = NewWidgetNormalThemeOverride;
+	
+	SelectionMenuCalculateAndSetActualWidgetThemeData();
+}
+
+void UThematicUIDropDownMenu::SetSelectionMenuWidgetHoveredThemeOverrideDate(const FThematicUIThemeOverride& NewWidgetHoveredThemeOverride)
+{
+	SelectionMenuWidgetThemeOverrideData.HoveredThemeOverride = NewWidgetHoveredThemeOverride;
+	
+	SelectionMenuCalculateAndSetActualWidgetThemeData();
+}
+
+void UThematicUIDropDownMenu::SetSelectionMenuWidgetPressedThemeOverrideDate(const FThematicUIThemeOverride& NewWidgetPressedThemeOverride)
+{
+	SelectionMenuWidgetThemeOverrideData.PressedThemeOverride = NewWidgetPressedThemeOverride;
+	
+	SelectionMenuCalculateAndSetActualWidgetThemeData();
+}
+
+const FThematicUIThemeData& UThematicUIDropDownMenu::GetSelectionMenuActualThemeData() const
+{
+	return SelectionMenuActualThemeData;
+}
+
+void UThematicUIDropDownMenu::SelectionMenuCalculateAndSetActualWidgetThemeData()
+{
+// Figure Out ActualThemeData after overrides
+	if (SelectionMenuWidgetTheme)
 	{
-		DropDownArrowImage->SetBrush(DropDownArrowBrush);
+		SelectionMenuActualThemeData = SelectionMenuWidgetThemeOverrideData.ConvertToThemeData(SelectionMenuWidgetTheme->GetThematicUIThemeData());
+	}
+	else
+	{
+		SelectionMenuActualThemeData = WidgetThemeOverrideData.ConvertToThemeData();
 	}
 }
 
-const TArray<FString>& UThematicUIDropDownMenu::GetOptions() const
+const FVector2D& UThematicUIDropDownMenu::GetSelectionMenuSizeBoxSize() const
 {
-	return Options;
+	return SelectionMenuSizeBoxSize;
 }
 
-void UThematicUIDropDownMenu::SetOptions(const TArray<FString>& NewOptions)
+void UThematicUIDropDownMenu::SetSelectionMenuSizeBoxSize(const FVector2D& NewSizeBoxSize)
 {
-	Options = NewOptions;
+	SelectionMenuSizeBoxSize = NewSizeBoxSize;
 	
-	if (ComboBoxString)
-	{
-		ComboBoxString->ClearOptions();
-		for (auto& option : Options)
-		{
-			ComboBoxString->AddOption(option);
-		}
-		
-		if (Options.IsValidIndex(0))
-			ComboBoxString->SetSelectedOption(Options[0]);
-	}
-}
-
-void UThematicUIDropDownMenu::SetSelectedIndex(const int NewSelectedIndex)
-{
-	ComboBoxString->SetSelectedIndex(NewSelectedIndex);
-	
-	HandleSelectionChanged(ComboBoxString->GetSelectedOption(), ESelectInfo::Type::Direct);
-}
-
-const FString UThematicUIDropDownMenu::GetSelectedOption() const
-{
-	return ComboBoxString->GetSelectedOption();
-}
-
-const int UThematicUIDropDownMenu::GetSelectedIndex() const
-{
-	return  ComboBoxString->GetSelectedIndex();
-}
-
-void UThematicUIDropDownMenu::HandleOpening()
-{
-	if (USoundBase* SoundBase = Cast<USoundBase>(ActualThemeData.PressedTheme.Sound.GetResourceObject()))
-		PlaySound(SoundBase);
-}
-
-void UThematicUIDropDownMenu::HandleSelectionChanged(FString SelectedItem, ESelectInfo::Type SelectionType)
-{
-	if (USoundBase* SoundBase = Cast<USoundBase>(ActualThemeData.PressedTheme.Sound.GetResourceObject()))
-		PlaySound(SoundBase);
-	
-	OnSelectionChanged.Broadcast(ComboBoxString->GetSelectedOption(), ComboBoxString->GetSelectedIndex());
-	if (SelectedOptionTextBlock)
-	{
-		SelectedOptionTextBlock->SetText(FText::FromString(SelectedItem));
-	}
-}
-
-void UThematicUIDropDownMenu::NativePreConstruct()
-{
-	Super::NativePreConstruct();
-	
-	if (ComboBoxString)
-	{
-		ComboBoxString->ClearOptions();
-		for (auto& option : Options)
-		{
-			ComboBoxString->AddOption(option);
-		}
-		
-		if (Options.IsValidIndex(0))
-			ComboBoxString->SetSelectedOption(Options[0]);
-	}
-	
-	if (SelectedOptionTextBlock)
-	{
-		if (UOverlaySlot* OverlaySlot = UWidgetLayoutLibrary::SlotAsOverlaySlot(SelectedOptionTextBlock))
-		{
-			OverlaySlot->SetHorizontalAlignment(HAlign_Left);
-			OverlaySlot->SetVerticalAlignment(VAlign_Center);
-			OverlaySlot->SetPadding(FMargin(4.0f, 0.0f, 0.0f, 0.0f));
-		}
-		SelectedOptionTextBlock->SetText(FText::FromString(ComboBoxString->GetSelectedOption()));
-	}
-}
-
-void UThematicUIDropDownMenu::NativeConstruct()
-{
-	Super::NativeConstruct();
-	
-	if (ComboBoxString)
-	{
-		ComboBoxString->OnOpening.AddUniqueDynamic(this, &UThematicUIDropDownMenu::UThematicUIDropDownMenu::HandleOpening);
-		ComboBoxString->OnSelectionChanged.AddUniqueDynamic(this, &UThematicUIDropDownMenu::HandleSelectionChanged);
-	}
-}
-
-FReply UThematicUIDropDownMenu::NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent)
-{
-	if (ComboBoxString)
-	{
-		return FReply::Handled().SetUserFocus(ComboBoxString->TakeWidget(), InFocusEvent.GetCause());
-	}
-	
-	return Super::NativeOnFocusReceived(InGeometry, InFocusEvent);
+	// @todo CALL SETSIZEBOXSIZE ON Options Menu
 }
 
 void UThematicUIDropDownMenu::SetThemeNormal()
 {
 	Super::SetThemeNormal();
-	
-	if (ComboBoxString && SelectedOptionTextBlock && DropDownArrowImage)
-	{
-		SelectedOptionTextBlock->SetColorAndOpacity(ActualThemeData.NormalTheme.TextColor);
-		SelectedOptionTextBlock->SetFont(ActualThemeData.NormalTheme.TextFont);
-		
-		FComboBoxStyle DropDownStyle;
-		FTableRowStyle DropDownRowStyle;
-		FSlateBrush ItemStyleNormalImage = ActualThemeData.NormalTheme.Image;
-		ItemStyleNormalImage.OutlineSettings.Width = -100.0f;
-		ItemStyleNormalImage.OutlineSettings.RoundingType = ESlateBrushRoundingType::HalfHeightRadius;
-		FSlateBrush ItemStyleHoveredImage = ActualThemeData.HoveredTheme.Image;
-		ItemStyleHoveredImage.OutlineSettings.Width = -100.0f;
-		ItemStyleHoveredImage.OutlineSettings.RoundingType = ESlateBrushRoundingType::HalfHeightRadius;
-		FSlateBrush ItemStylePressedImage = ActualThemeData.PressedTheme.Image;
-		ItemStylePressedImage.OutlineSettings.Width = -100.0f;
-		ItemStylePressedImage.OutlineSettings.RoundingType = ESlateBrushRoundingType::HalfHeightRadius;
-		
-		DropDownStyle.ComboButtonStyle.ButtonStyle.Normal = ActualThemeData.NormalTheme.Image;
-		DropDownStyle.ComboButtonStyle.ButtonStyle.Hovered = ActualThemeData.NormalTheme.Image;
-		DropDownStyle.ComboButtonStyle.ButtonStyle.Pressed = ActualThemeData.NormalTheme.Image;
-		DropDownStyle.ComboButtonStyle.DownArrowImage = DropDownArrowBrush;
-		DropDownStyle.ComboButtonStyle.DownArrowImage.TintColor = ActualThemeData.NormalTheme.Image.OutlineSettings.Color;
-		
-		DropDownRowStyle.SelectorFocusedBrush.TintColor.GetSpecifiedColor() = ActualThemeData.NormalTheme.FillColor;
-		DropDownRowStyle.EvenRowBackgroundBrush = ItemStyleNormalImage;
-		DropDownRowStyle.OddRowBackgroundBrush = ItemStyleNormalImage;
-		DropDownRowStyle.EvenRowBackgroundHoveredBrush = ItemStyleHoveredImage;
-		DropDownRowStyle.OddRowBackgroundHoveredBrush = ItemStyleHoveredImage;
-		DropDownRowStyle.TextColor = ActualThemeData.NormalTheme.TextColor;
-		DropDownRowStyle.SelectedTextColor = ActualThemeData.PressedTheme.TextColor;
-		DropDownRowStyle.ActiveBrush = ItemStyleHoveredImage;
-		DropDownRowStyle.ActiveHoveredBrush = ItemStylePressedImage;
-		DropDownRowStyle.ParentRowBackgroundBrush = ItemStyleNormalImage;
-		DropDownRowStyle.ParentRowBackgroundHoveredBrush = ItemStyleHoveredImage;
-		DropDownRowStyle.SelectorFocusedBrush = ItemStyleNormalImage;
-		
-		DropDownArrowImage->SetBrush(DropDownArrowBrush);
-		ComboBoxString->SetWidgetStyle(DropDownStyle);
-		ComboBoxString->SetItemStyle(DropDownRowStyle);
-	}
-	else
-	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenu::SetThemeNormal : UThematicUIDropDownMenu::ComboBoxKey == nullptr || UThematicUIDropDownMenu::DropDownArrowImage == nullptr || UThematicUIDropDownMenu::Border == nullptr");
-	}
 }
 
 void UThematicUIDropDownMenu::SetThemeHovered()
 {
 	Super::SetThemeHovered();
-	
-	if (ComboBoxString && SelectedOptionTextBlock)
-	{
-		SelectedOptionTextBlock->SetColorAndOpacity(ActualThemeData.HoveredTheme.TextColor);
-		SelectedOptionTextBlock->SetFont(ActualThemeData.HoveredTheme.TextFont);
-
-		
-		FComboBoxStyle DropDownStyle;
-		FTableRowStyle DropDownRowStyle;
-		FSlateBrush ItemStyleNormalImage = ActualThemeData.NormalTheme.Image;
-		ItemStyleNormalImage.OutlineSettings.Width = -100.0f;
-		ItemStyleNormalImage.OutlineSettings.RoundingType = ESlateBrushRoundingType::HalfHeightRadius;
-		FSlateBrush ItemStyleHoveredImage = ActualThemeData.HoveredTheme.Image;
-		ItemStyleHoveredImage.OutlineSettings.Width = -100.0f;
-		ItemStyleHoveredImage.OutlineSettings.RoundingType = ESlateBrushRoundingType::HalfHeightRadius;
-		FSlateBrush ItemStylePressedImage = ActualThemeData.PressedTheme.Image;
-		ItemStylePressedImage.OutlineSettings.Width = -100.0f;
-		ItemStylePressedImage.OutlineSettings.RoundingType = ESlateBrushRoundingType::HalfHeightRadius;
-		
-		DropDownStyle.ComboButtonStyle.ButtonStyle.Normal = ActualThemeData.HoveredTheme.Image;
-		DropDownStyle.ComboButtonStyle.ButtonStyle.Hovered = ActualThemeData.HoveredTheme.Image;
-		DropDownStyle.ComboButtonStyle.ButtonStyle.Pressed = ActualThemeData.HoveredTheme.Image;
-		DropDownStyle.ComboButtonStyle.DownArrowImage = DropDownArrowBrush;
-		DropDownStyle.ComboButtonStyle.DownArrowImage.TintColor = ActualThemeData.HoveredTheme.Image.OutlineSettings.Color;
-		
-		DropDownRowStyle.SelectorFocusedBrush.TintColor.GetSpecifiedColor() = ActualThemeData.NormalTheme.FillColor;
-		DropDownRowStyle.EvenRowBackgroundBrush = ItemStyleNormalImage;
-		DropDownRowStyle.OddRowBackgroundBrush = ItemStyleNormalImage;
-		DropDownRowStyle.EvenRowBackgroundHoveredBrush = ItemStyleHoveredImage;
-		DropDownRowStyle.OddRowBackgroundHoveredBrush = ItemStyleHoveredImage;
-		DropDownRowStyle.TextColor = ActualThemeData.NormalTheme.TextColor;
-		DropDownRowStyle.SelectedTextColor = ActualThemeData.PressedTheme.TextColor;
-		DropDownRowStyle.ActiveBrush = ItemStyleHoveredImage;
-		DropDownRowStyle.ActiveHoveredBrush = ItemStylePressedImage;
-		DropDownRowStyle.ParentRowBackgroundBrush = ItemStyleNormalImage;
-		DropDownRowStyle.ParentRowBackgroundHoveredBrush = ItemStyleHoveredImage;
-		DropDownRowStyle.SelectorFocusedBrush = ItemStyleNormalImage;
-		
-		DropDownArrowImage->SetBrush(DropDownArrowBrush);
-		ComboBoxString->SetWidgetStyle(DropDownStyle);
-		ComboBoxString->SetItemStyle(DropDownRowStyle);
-	}
-	else
-	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenu::SetThemeHovered : UThematicUIDropDownMenu::ComboBoxKey == nullptr || UThematicUIDropDownMenu::DropDownArrowImage == nullptr || UThematicUIDropDownMenu::Border == nullptr");
-	}
 }
 
 void UThematicUIDropDownMenu::SetThemePressed()
 {
 	Super::SetThemePressed();
-	
-	if (ComboBoxString && SelectedOptionTextBlock)
-	{
-		SelectedOptionTextBlock->SetColorAndOpacity(ActualThemeData.PressedTheme.TextColor);
-		SelectedOptionTextBlock->SetFont(ActualThemeData.PressedTheme.TextFont);
+}
 
-		
-		FComboBoxStyle DropDownStyle;
-		FTableRowStyle DropDownRowStyle;
-		FSlateBrush ItemStyleNormalImage = ActualThemeData.NormalTheme.Image;
-		ItemStyleNormalImage.OutlineSettings.Width = -100.0f;
-		ItemStyleNormalImage.OutlineSettings.RoundingType = ESlateBrushRoundingType::HalfHeightRadius;
-		FSlateBrush ItemStyleHoveredImage = ActualThemeData.HoveredTheme.Image;
-		ItemStyleHoveredImage.OutlineSettings.Width = -100.0f;
-		ItemStyleHoveredImage.OutlineSettings.RoundingType = ESlateBrushRoundingType::HalfHeightRadius;
-		FSlateBrush ItemStylePressedImage = ActualThemeData.PressedTheme.Image;
-		ItemStylePressedImage.OutlineSettings.Width = -100.0f;
-		ItemStylePressedImage.OutlineSettings.RoundingType = ESlateBrushRoundingType::HalfHeightRadius;
-		
-		DropDownStyle.ComboButtonStyle.ButtonStyle.Normal = ActualThemeData.PressedTheme.Image;
-		DropDownStyle.ComboButtonStyle.ButtonStyle.Hovered = ActualThemeData.PressedTheme.Image;
-		DropDownStyle.ComboButtonStyle.ButtonStyle.Pressed = ActualThemeData.PressedTheme.Image;
-		DropDownStyle.ComboButtonStyle.DownArrowImage = DropDownArrowBrush;
-		DropDownStyle.ComboButtonStyle.DownArrowImage.TintColor = ActualThemeData.PressedTheme.Image.OutlineSettings.Color;
-		
-		DropDownRowStyle.SelectorFocusedBrush.TintColor.GetSpecifiedColor() = ActualThemeData.NormalTheme.FillColor;
-		DropDownRowStyle.EvenRowBackgroundBrush = ItemStyleNormalImage;
-		DropDownRowStyle.OddRowBackgroundBrush = ItemStyleNormalImage;
-		DropDownRowStyle.EvenRowBackgroundHoveredBrush = ItemStyleHoveredImage;
-		DropDownRowStyle.OddRowBackgroundHoveredBrush = ItemStyleHoveredImage;
-		DropDownRowStyle.TextColor = ActualThemeData.NormalTheme.TextColor;
-		DropDownRowStyle.SelectedTextColor = ActualThemeData.PressedTheme.TextColor;
-		DropDownRowStyle.ActiveBrush = ItemStyleHoveredImage;
-		DropDownRowStyle.ActiveHoveredBrush = ItemStylePressedImage;
-		DropDownRowStyle.ParentRowBackgroundBrush = ItemStyleNormalImage;
-		DropDownRowStyle.ParentRowBackgroundHoveredBrush = ItemStyleHoveredImage;
-		DropDownRowStyle.SelectorFocusedBrush = ItemStyleNormalImage;
-		
-		DropDownArrowImage->SetBrush(DropDownArrowBrush);
-		ComboBoxString->SetWidgetStyle(DropDownStyle);
-		ComboBoxString->SetItemStyle(DropDownRowStyle);
-	}
-	else
-	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenu::SetThemePressed : UThematicUIDropDownMenu::ComboBoxKey == nullptr || UThematicUIDropDownMenu::DropDownArrowImage == nullptr || UThematicUIDropDownMenu::Border == nullptr");
-	}
+void UThematicUIDropDownMenu::NativePreConstruct()
+{
+	Super::NativePreConstruct();
+}
+
+void UThematicUIDropDownMenu::NativeConstruct()
+{
+	Super::NativeConstruct();
+}
+
+FReply UThematicUIDropDownMenu::NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent)
+{
+	return Super::NativeOnFocusReceived(InGeometry, InFocusEvent);
 }

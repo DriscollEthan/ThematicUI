@@ -29,7 +29,9 @@
 	class USizeBox;
 	
 	// Delegate Declarations 
-	
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTuiInteractableSetToNormalTheme, UThematicUIInteractable*, Interactable);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTuiInteractableSetToHoveredTheme, UThematicUIInteractable*, Interactable);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTuiInteractableSetToPressedTheme, UThematicUIInteractable*, Interactable);
 	
 	// Helper Enums 
 	
@@ -48,8 +50,15 @@ class THEMATICUI_API UThematicUIInteractable : public UUserWidget
 
 // Variables 
 	public:
+	UPROPERTY(BlueprintAssignable, Category = "ThematicUI|Events")
+	FTuiInteractableSetToNormalTheme OnTuiInteractableSetToNormalTheme;
 
+	UPROPERTY(BlueprintAssignable, Category = "ThematicUI|Events")
+	FTuiInteractableSetToHoveredTheme OnTuiInteractableSetToHoveredTheme;
 
+	UPROPERTY(BlueprintAssignable, Category = "ThematicUI|Events")
+	FTuiInteractableSetToPressedTheme OnTuiInteractableSetToPressedTheme;
+	
 	protected:
 	/* Widget Theme Data */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI", meta = (DisplayPriority = 1))
@@ -67,9 +76,11 @@ class THEMATICUI_API UThematicUIInteractable : public UUserWidget
 	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUI")
 	FVector2D SizeBoxSize = FVector2D(250.0f, 50.0f);
 	
+	/* Size Box Multiplier When Hovered */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
 	FVector2D SizeBoxHoveredSizeMultiplier = FVector2D(1.0f, 1.0f);
 	
+	/* Size Box Multiplier When Pressed */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
 	FVector2D SizeBoxPressedSizeMultiplier = FVector2D(1.0f, 1.0f);
 
@@ -85,7 +96,7 @@ class THEMATICUI_API UThematicUIInteractable : public UUserWidget
 		const FThematicUIThemeDataOverride& GetWidgetThemeOverrideData() const;
 
 		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
-		void SetWidgetThemeOverrideData(const FThematicUIThemeDataOverride& NewWidgetTHemeOverrideData);
+		void SetWidgetThemeOverrideData(const FThematicUIThemeDataOverride& NewWidgetThemeOverrideData);
 
 		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 		void SetWidgetNormalThemeOverrideDate(const FThematicUIThemeOverride& NewWidgetNormalThemeOverride);

@@ -158,6 +158,7 @@ void UThematicUIButton::HandleButtonReleased()
 	if (Button->HasAnyUserFocus())
 	{
 		SetThemeHovered();
-		TUiButtonPressed.Broadcast(this);
+		
+		OnTuiButtonPressedAndReleased.Broadcast(this);
 	}
 }
