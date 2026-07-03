@@ -59,6 +59,11 @@ void UThematicUIInteractable::CalculateAndSetActualWidgetThemeData()
 	
 }
 
+const FVector2D& UThematicUIInteractable::GetSizeBoxSize() const
+{
+	return SizeBoxSize;
+}
+
 void UThematicUIInteractable::SetSizeBoxSize(const FVector2D& NewSizeBoxSize)
 {
 	SizeBoxSize = NewSizeBoxSize;

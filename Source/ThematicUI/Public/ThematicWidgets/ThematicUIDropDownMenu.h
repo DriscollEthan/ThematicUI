@@ -25,6 +25,7 @@
 	// Forward Declarations 
 	class UThematicUIButton;
 	class UImage;
+	class UThematicUIDropDownMenuSelection;
 	
 	// Delegate Declarations 
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FTUiOnSelectionChangedSignare, FString, SelectedOption, int, SelectedIndex);
@@ -47,28 +48,34 @@ class THEMATICUI_API UThematicUIDropDownMenu : public UThematicUIInteractable
 	
 
 	protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
+	TArray<FText> Options;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
+	TSubclassOf<UThematicUIDropDownMenuSelection> SelectionMenuSubclass;
+	
 	/* Selection Menu Widget Theme Data */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI", meta = (DisplayPriority = 1))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI|SelectionMenuData")
 	TObjectPtr<UThematicUIThemeDataAsset> SelectionMenuWidgetTheme;
 	
 	/* Selection Menu Widget Theme Data Override */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI", meta = (DisplayPriority = 1))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI|SelectionMenuData")
 	FThematicUIThemeDataOverride SelectionMenuWidgetThemeOverrideData;
 	
 	/* Selection Menu Actual Widget Theme Data */
-	UPROPERTY(BlueprintReadOnly, Getter, Category = "ThematicUI")
+	UPROPERTY(BlueprintReadOnly, Getter, Category = "ThematicUI|SelectionMenuData")
 	FThematicUIThemeData SelectionMenuActualThemeData;
 	
 	/* Selection Menu Size Box Data */
-	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUI|SelectionMenuData")
 	FVector2D SelectionMenuSizeBoxSize = FVector2D(250.0f, 50.0f);
 	
 	/* Selection Menu Size Box Multiplier When Hovered */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI|SelectionMenuData")
 	FVector2D SelectionMenuSizeBoxHoveredSizeMultiplier = FVector2D(1.0f, 1.0f);
 	
 	/* Selection Menu Size Box Multiplier When Pressed */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI|SelectionMenuData")
 	FVector2D SelectionMenuSizeBoxPressedSizeMultiplier = FVector2D(1.0f, 1.0f);
 
 	private:

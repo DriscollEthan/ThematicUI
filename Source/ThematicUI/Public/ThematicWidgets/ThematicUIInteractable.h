@@ -85,7 +85,7 @@ class THEMATICUI_API UThematicUIInteractable : public UUserWidget
 	FVector2D SizeBoxPressedSizeMultiplier = FVector2D(1.0f, 1.0f);
 
 	private:
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI|Getters", meta = (AllowPrivateAccess, BindWidget))
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta = (AllowPrivateAccess, BindWidget))
 	TObjectPtr<USizeBox> SizeBox;
 
 	
