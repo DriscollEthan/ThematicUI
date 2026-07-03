@@ -1,10 +1,37 @@
 ﻿#pragma once
 
-#include "CoreMinimal.h"
-#include "Styling/SlateBrush.h"
-#include "Sound/SlateSound.h"
-#include "Fonts/SlateFontInfo.h"
-#include "ThematicUIData.generated.h"
+// Includes
+	// Compiler Includes
+	#include "CoreMinimal.h"
+
+	// Engine Library Includes
+
+
+	// Project Library Includes
+
+
+	// Class Specific Includes
+	#include "Styling/SlateBrush.h"
+	#include "Sound/SlateSound.h"
+	#include "Fonts/SlateFontInfo.h"
+
+	// UE Generated Includes
+	#include "ThematicUIData.generated.h"
+
+
+// Class Details
+	// Forward Declarations 
+	
+	
+	// Delegate Declarations 
+	
+	
+	// Helper Enums 
+	
+	
+	// Helper Structs 
+
+
 
 USTRUCT(BlueprintType)
 struct FThematicUITheme
@@ -88,6 +115,7 @@ struct FThematicUIThemeOverride
 	bool bOverrideSound = false;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI", meta = (EditCondition = "bOverrideSound"))
+	
 	FSlateSound Sound;
 	
 	FThematicUITheme ConvertToTheme() const
@@ -138,6 +166,25 @@ struct FThematicUIThemeOverride
 		Sound = (bOverrideSound) ? Sound : InTheme.Sound;
 		
 		return *this;
+	}
+	
+	static FThematicUIThemeOverride ForceThemeOverride(const FThematicUITheme& InTheme)
+	{
+		FThematicUIThemeOverride Theme;
+		
+		Theme.bOverrideImage = true;
+		Theme.bOverrideFillColor = true;
+		Theme.bOverrideSound = true;
+		Theme.bOverrideTextColor = true;
+		Theme.bOverrideTextFont = true;
+		
+		Theme.Image = InTheme.Image;
+		Theme.FillColor = InTheme.FillColor;
+		Theme.Sound = InTheme.Sound;
+		Theme.TextColor = InTheme.TextColor;
+		Theme.TextFont = InTheme.TextFont;
+		
+		return Theme;
 	}
 };
 
@@ -198,5 +245,16 @@ struct FThematicUIThemeDataOverride
 		PressedThemeOverride.ConvertFromTheme(InThemeData.PressedTheme);
 		
 		return *this;
+	}
+	
+	static FThematicUIThemeDataOverride ForceToThemeOverrideData(const FThematicUIThemeData& InThemeData)
+	{
+		FThematicUIThemeDataOverride ThemeData;
+		
+		ThemeData.NormalThemeOverride = FThematicUIThemeOverride::ForceThemeOverride(InThemeData.NormalTheme);
+		ThemeData.HoveredThemeOverride = FThematicUIThemeOverride::ForceThemeOverride(InThemeData.HoveredTheme);
+		ThemeData.PressedThemeOverride = FThematicUIThemeOverride::ForceThemeOverride(InThemeData.PressedTheme);
+		
+		return ThemeData;
 	}
 };

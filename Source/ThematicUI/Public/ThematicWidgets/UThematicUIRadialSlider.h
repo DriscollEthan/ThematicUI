@@ -2,11 +2,37 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "ThematicUIInteractable.h"
-#include "UThematicUIRadialSlider.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTuiSliderValueChangedDelegate, float, NewValue);
+
+// Includes
+	// Compiler Includes
+	#include "CoreMinimal.h"
+
+	// Engine Library Includes
+
+
+	// Project Library Includes
+	
+
+	// Class Specific Includes
+	#include "ThematicUIInteractable.h"
+
+
+	// UE Generated Includes
+	#include "UThematicUIRadialSlider.generated.h"
+
+
+// Class Details
+	// Forward Declarations 
+	
+	
+	// Delegate Declarations 
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTuiSliderValueChangedDelegate, float, NewValue);
+	
+	// Helper Enums 
+	
+	
+	// Helper Structs 
 
 /**
  * 
@@ -15,18 +41,12 @@ UCLASS(HideDropdown, NotPlaceable)
 class THEMATICUI_API UUThematicUIRadialSlider : public UThematicUIInteractable
 {
 	GENERATED_BODY()
-	
-private:
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
-	TObjectPtr<class UImage> Image;
-	
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
-	TObjectPtr<class URadialSlider> RadialSlider;
-	
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
-	TObjectPtr<class UTextBlock> TextBlock;
-	
-protected:
+
+	// Variables 
+	public:
+
+
+	protected:
 	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Getter, Category = "ThematicUI|Slider")
 	float CurrentValue = 0.5f;
 	
@@ -78,8 +98,20 @@ protected:
 	
 	UPROPERTY(BlueprintAssignable, Category = "ThematicUI")
 	FTuiSliderValueChangedDelegate TUiValueChanged;
+
+	private:
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
+	TObjectPtr<class UImage> Image;
 	
-public:
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
+	TObjectPtr<class URadialSlider> RadialSlider;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
+	TObjectPtr<class UTextBlock> TextBlock;
+
+	
+// Class Functions
+	public:
 	/* Getters and Setters */
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const float GetCurrentValue() const;
@@ -183,21 +215,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI", meta = (BlueprintProtected = "true"))
 	const float CalculateCurrentValue(const float Percentage) const;
 
-protected:
-	virtual void NativePreConstruct() override;
-	
-	virtual void NativeConstruct() override;
-	
-	virtual void SetThemeNormal() override;
-	
-	virtual void SetThemeHovered() override;
-	
-	virtual void SetThemePressed() override;
-	
-	virtual FReply NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent) override;
-	
-protected:
-	// Handle Dispatchers
+	protected:
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI", meta = (BlueprintProtected = "true"))
 	void HandleFloatValueChanged(const float NewValue);
 	
@@ -206,4 +224,38 @@ protected:
 	
 	UFUNCTION()
 	void HandleControllerUnFocused();
+
+	private:
+
+
+
+// Project Class Virtual Functions
+	public:
+	virtual void SetThemeNormal() override;
+	
+	virtual void SetThemeHovered() override;
+	
+	virtual void SetThemePressed() override;
+
+	protected:
+	
+
+	private:
+	
+
+
+// Unreal Class Virtual Functions
+	public:
+
+
+	protected:
+	virtual void NativePreConstruct() override;
+	
+	virtual void NativeConstruct() override;
+	
+	virtual FReply NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent) override;
+
+	private:
+	
+
 };

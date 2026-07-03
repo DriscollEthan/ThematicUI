@@ -44,3 +44,19 @@ void UThematicUIThemeDataAsset::SetThematicUIThemeData(const FThematicUIThemeDat
 {
 	ThematicUIThemeData = NewThematicUIThemeData;
 }
+
+const FThematicUIThemeDataOverride UThematicUIThemeDataAsset::GetThematicUIThemeDataOverride()
+{
+	if (ParentThematicUIThemeDataAsset == this)
+	{
+		UE_LOGFMT(LogThematicUI, Error, "CANNOT BE IT'S OWN PARENT");
+		return ThematicUIThemeDataOverride.ForceToThemeOverrideData(ThematicUIThemeData);
+	}
+	
+	if (ParentThematicUIThemeDataAsset)
+	{
+		return ThematicUIThemeDataOverride;
+	}
+	
+	return ThematicUIThemeDataOverride.ForceToThemeOverrideData(ThematicUIThemeData);
+}

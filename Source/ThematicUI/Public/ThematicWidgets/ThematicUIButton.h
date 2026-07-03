@@ -2,11 +2,39 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "ThematicWidgets/ThematicUIInteractable.h"
-#include "ThematicUIButton.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTUiButtonPressedDelegate);
+// Includes
+	// Compiler Includes
+	#include "CoreMinimal.h"
+
+	// Engine Library Includes
+
+
+	// Project Library Includes
+	
+
+	// Class Specific Includes
+	#include "ThematicWidgets/ThematicUIInteractable.h"
+
+	// UE Generated Includes
+	#include "ThematicUIButton.generated.h"
+
+
+
+// Class Details
+	// Forward Declarations 
+	class UButton;
+	class UTextBlock;
+	
+	// Delegate Declarations 
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTUiButtonPressedDelegate, UThematicUIButton*, ButtonPressed);
+	
+	// Helper Enums 
+	
+	
+	// Helper Structs 
+
+
 
 /**
  * 
@@ -15,22 +43,28 @@ UCLASS(HideDropdown, NotPlaceable)
 class THEMATICUI_API UThematicUIButton : public UThematicUIInteractable
 {
 	GENERATED_BODY()
-	
-private:
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
-	TObjectPtr<class UButton> Button;
-	
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
-	TObjectPtr<class UTextBlock> TextBlock;
-	
-protected:
+
+	// Variables 
+	public:
+
+
+	protected:
 	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUI", meta = (MultiLine = "true"))
 	FText Text;
 	
 	UPROPERTY(BlueprintAssignable, Category = "ThematicUI")
 	FTUiButtonPressedDelegate TUiButtonPressed;
 
-public:
+	private:
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
+	TObjectPtr<UButton> Button;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
+	TObjectPtr<UTextBlock> TextBlock;
+
+	
+// Class Functions
+	public:
 	/* Getters and Setters */
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const FText& GetText() const;
@@ -38,22 +72,44 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 	void SetText(const FText& NewText);
 	
-protected:
-	virtual void NativePreConstruct() override;
-	
-	virtual void NativeConstruct() override;
-	
-	virtual FReply NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent) override;
-	
-	virtual void SetThemeNormal() override;
-	
-	virtual void SetThemeHovered() override;
-	
-	virtual void SetThemePressed() override;
-	
+	protected:
 	UFUNCTION()
 	void HandleButtonPressed();
 	
 	UFUNCTION()
 	void HandleButtonReleased();
+
+	private:
+
+
+
+// Project Class Virtual Functions
+	public:
+	virtual bool TuiHasUserFocus() override;
+
+	protected:
+	virtual void SetThemeNormal() override;
+	
+	virtual void SetThemeHovered() override;
+	
+	virtual void SetThemePressed() override;
+
+	private:
+	
+
+
+// Unreal Class Virtual Functions
+	public:
+
+
+	protected:
+	virtual void NativePreConstruct() override;
+	
+	virtual void NativeConstruct() override;
+	
+	virtual FReply NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent) override;
+
+	private:
+
+
 };

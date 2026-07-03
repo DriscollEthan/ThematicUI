@@ -2,12 +2,36 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "ThematicUIInteractable.h"
-#include "Widgets/Notifications/SProgressBar.h"
-#include "UThematicUISlider.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTUiSliderValueChangedDelegate, float, NewValue);
+
+// Includes
+	// Compiler Includes
+	#include "CoreMinimal.h"
+
+	// Engine Library Includes
+#include "Widgets/Notifications/SProgressBar.h"
+
+	// Project Library Includes
+	
+
+	// Class Specific Includes
+	#include "ThematicUIInteractable.h"
+
+	// UE Generated Includes
+	#include "UThematicUISlider.generated.h"
+
+
+// Class Details
+	// Forward Declarations 
+	
+	
+	// Delegate Declarations 
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTUiSliderValueChangedDelegate, float, NewValue);
+	
+	// Helper Enums 
+	
+	
+	// Helper Structs 
 
 /**
  * 
@@ -16,18 +40,12 @@ UCLASS(HideDropdown, NotPlaceable)
 class THEMATICUI_API UUThematicUISlider : public UThematicUIInteractable
 {
 	GENERATED_BODY()
-	
-private:
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
-	TObjectPtr<class UTextBlock> TextBlock;
-	
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
-	TObjectPtr<class UProgressBar> ProgressBar;
-	
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
-	TObjectPtr<class USlider> Slider;
-	
-protected:
+
+	// Variables 
+	public:
+
+
+	protected:
 	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Getter, Category = "ThematicUI|Slider")
 	float CurrentValue = 0.5f;
 	
@@ -54,8 +72,20 @@ protected:
 	
 	UPROPERTY(BlueprintAssignable, Category = "ThematicUI")
 	FTUiSliderValueChangedDelegate TUiOnValueChanged;
+
+	private:
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
+	TObjectPtr<class UTextBlock> TextBlock;
 	
-public:
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
+	TObjectPtr<class UProgressBar> ProgressBar;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
+	TObjectPtr<class USlider> Slider;
+
+	
+// Class Functions
+	public:
 	/* Getters and Setters */
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
 	const float GetCurrentValue() const;
@@ -110,23 +140,8 @@ public:
 	
 	UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
 	const float CalculateCurrentValue(const float Percentage) const;
-	
-protected:
-	// Overrides To Add Custom Functionality Ontop of Base Functionality
-	virtual void NativePreConstruct() override;
-	
-	virtual void NativeConstruct() override;
-	
-	virtual void SetThemeNormal() override;
-	
-	virtual void SetThemeHovered() override;
-	
-	virtual void SetThemePressed() override;
 
-	virtual FReply NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent) override;
-
-protected:
-	// Handle Dispatchers
+	protected:
 	UFUNCTION(BlueprintCallable, Category = "ThematicUI", meta = (BlueprintProtected = "true"))
 	void HandleFloatValueChanged(const float NewValue);
 	
@@ -135,4 +150,38 @@ protected:
 	
 	UFUNCTION()
 	void HandleControllerUnFocused();
+
+	private:
+
+
+
+// Project Class Virtual Functions
+	public:
+
+
+	protected:
+	virtual void SetThemeNormal() override;
+	
+	virtual void SetThemeHovered() override;
+	
+	virtual void SetThemePressed() override;
+
+	private:
+	
+
+
+// Unreal Class Virtual Functions
+	public:
+
+
+	protected:
+	virtual void NativePreConstruct() override;
+	
+	virtual void NativeConstruct() override;
+	
+	virtual FReply NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent) override;
+
+	private:
+
+
 };

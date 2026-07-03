@@ -21,6 +21,11 @@ void UThematicUIButton::SetText(const FText& value)
 	}
 }
 
+bool UThematicUIButton::TuiHasUserFocus()
+{
+	return Button->HasAnyUserFocus();
+}
+
 void UThematicUIButton::NativePreConstruct()
 {
 	Super::NativePreConstruct();
@@ -153,6 +158,6 @@ void UThematicUIButton::HandleButtonReleased()
 	if (Button->HasAnyUserFocus())
 	{
 		SetThemeHovered();
-		TUiButtonPressed.Broadcast();
+		TUiButtonPressed.Broadcast(this);
 	}
 }
