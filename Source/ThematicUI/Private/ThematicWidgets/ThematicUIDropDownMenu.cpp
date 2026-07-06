@@ -16,6 +16,7 @@
 	#include "Components/Image.h"
 	#include "Sound/SoundBase.h"
 	#include "ThematicWidgets/ThematicUIButton.h"
+	#include "ThematicWidgets/ThematicUIDropDownMenuSelection.h"
 
 
 const FThematicUIThemeDataOverride& UThematicUIDropDownMenu::GetSelectionMenuWidgetThemeOverrideData() const
@@ -79,6 +80,26 @@ void UThematicUIDropDownMenu::SetSelectionMenuSizeBoxSize(const FVector2D& NewSi
 	SelectionMenuSizeBoxSize = NewSizeBoxSize;
 	
 	// @todo CALL SETSIZEBOXSIZE ON Options Menu
+}
+
+void UThematicUIDropDownMenu::HandleDropDownButtonPressed()
+{
+	// @todo Creation and Setup Options Logic
+	
+	SelectionMenu = CreateWidget<UThematicUIDropDownMenuSelection>(this, SelectionMenuSubclass, NAME_None);
+	SelectionMenu->AddToViewport(100);
+	SelectionMenu->SetOwningPlayer(GetOwningPlayer());
+	
+	SelectionMenu->SetWidgetThemeOverrideData(FThematicUIThemeDataOverride::ForceToThemeOverrideData(SelectionMenuActualThemeData));
+	SelectionMenu->SetSizeBoxSize(SelectionMenuSizeBoxSize);
+	
+	
+	SelectionMenu->SetRenderTranslation(GetCachedGeometry().LocalToAbsolute(FVector2D::ZeroVector) + FVector2D(0.0f, GetSizeBoxSize().Y));
+}
+
+void UThematicUIDropDownMenu::HandleOptionSelected(FText SelectedOption, int SelectedIndex)
+{
+
 }
 
 void UThematicUIDropDownMenu::SetThemeNormal()

@@ -28,7 +28,7 @@
 	class UThematicUIDropDownMenuSelection;
 	
 	// Delegate Declarations 
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FTUiOnSelectionChangedSignare, FString, SelectedOption, int, SelectedIndex);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FTUiOnSelectionChangedSignature, FText, SelectedOption, int, SelectedIndex);
 	
 	// Helper Enums 
 	
@@ -45,7 +45,8 @@ class THEMATICUI_API UThematicUIDropDownMenu : public UThematicUIInteractable
 
 	// Variables 
 	public:
-	
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI|Events")
+	FTUiOnSelectionChangedSignature OnTUiOnSelectionChanged;
 
 	protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
@@ -69,14 +70,6 @@ class THEMATICUI_API UThematicUIDropDownMenu : public UThematicUIInteractable
 	/* Selection Menu Size Box Data */
 	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUI|SelectionMenuData")
 	FVector2D SelectionMenuSizeBoxSize = FVector2D(250.0f, 50.0f);
-	
-	/* Selection Menu Size Box Multiplier When Hovered */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI|SelectionMenuData")
-	FVector2D SelectionMenuSizeBoxHoveredSizeMultiplier = FVector2D(1.0f, 1.0f);
-	
-	/* Selection Menu Size Box Multiplier When Pressed */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI|SelectionMenuData")
-	FVector2D SelectionMenuSizeBoxPressedSizeMultiplier = FVector2D(1.0f, 1.0f);
 
 	private:
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
@@ -84,7 +77,8 @@ class THEMATICUI_API UThematicUIDropDownMenu : public UThematicUIInteractable
 	
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
 	TObjectPtr<UImage> DropDownArrowImage;
-
+	
+	TObjectPtr<UThematicUIDropDownMenuSelection> SelectionMenu;
 
 	
 // Class Functions
@@ -116,10 +110,14 @@ class THEMATICUI_API UThematicUIDropDownMenu : public UThematicUIInteractable
 
 		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 		void SetSelectionMenuSizeBoxSize(const FVector2D& NewSizeBoxSize);
-	
+		
 
 	protected:
+	UFUNCTION()
+	void HandleDropDownButtonPressed();
 	
+	UFUNCTION()
+	void HandleOptionSelected(FText SelectedOption, int SelectedIndex);
 
 	private:
 
