@@ -98,6 +98,11 @@ void UThematicUIDropDownMenu::HandleOptionSelected(int SelectedOptionIndex)
 	
 	SelectionMenu->OnTuiOnOptionSelected.RemoveDynamic(this, &UThematicUIDropDownMenu::HandleOptionSelected);
 	
+	if (DropDownButton)
+	{
+		DropDownButton->SetUserFocus(GetOwningPlayer());
+	}
+	
 	SelectionMenu->RemoveFromParent();
 }
 

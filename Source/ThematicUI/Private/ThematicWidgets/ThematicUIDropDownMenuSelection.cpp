@@ -14,13 +14,13 @@ bool UThematicUIDropDownMenuSelection::CheckUserFocus()
 	
 	for (UThematicUIButton* Button : Buttons)
 	{
-		if (!Button->TuiHasUserFocus())
+		if (Button->TuiHasUserFocus())
 		{
-			return false;
+			return true;
 		}
 	}
 
-	return true;
+	return false;
 }
 
 void UThematicUIDropDownMenuSelection::HandleTickCheckForUserFocus()
@@ -31,31 +31,12 @@ void UThematicUIDropDownMenuSelection::HandleTickCheckForUserFocus()
 	}
 	else
 	{
-		//OnTuiOnOptionSelected.Broadcast(-1);
+		OnTuiOnOptionSelected.Broadcast(-1);
 	}
 }
 
 void UThematicUIDropDownMenuSelection::CreateOptionButtons()
 {
-	
-}
-
-void UThematicUIDropDownMenuSelection::SetupButtonNavigation()
-{
-	
-}
-
-void UThematicUIDropDownMenuSelection::HandleOptionSelected(UThematicUIButton* ButtonPressed)
-{
-	
-}
-
-void UThematicUIDropDownMenuSelection::NativeCreated(UThematicUIDropDownMenu* OwnerMenu, TArray<FText>& OptionsArray)
-{
-	OwningDropDownMenuRef = OwnerMenu;
-	
-	Options = OptionsArray;
-	
 	if (!DropDownButtonSubclass->IsValidLowLevel())
 	{
 		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenuSelection::NativeCreated, {Name}::DropDownButtonSubclass is NOT VALID", GetName());
@@ -72,7 +53,56 @@ void UThematicUIDropDownMenuSelection::NativeCreated(UThematicUIDropDownMenu* Ow
 		Button->SetPrimaryWidgetData(PrimaryWidgetData);
 		
 		SelectionButtonsMap.Add(Button, i);
+		
+		if (i == 0)
+		{
+			Button->SetUserFocus(GetOwningPlayer());
+		}
 	}
+}
+
+void UThematicUIDropDownMenuSelection::SetupButtonNavigation()
+{
+	TArray<TObjectPtr<UThematicUIButton>> Buttons;
+	SelectionButtonsMap.GetKeys(Buttons);
+	
+	for (int i = 0; i < Buttons.Num(); i++)
+	{
+		Buttons[i]->SetAllNavigationRules(EUINavigationRule::Stop, NAME_None);
+		
+		if (i == 0)
+		{
+			Buttons[i]->SetNavigationRuleBase(EUINavigation::Up, EUINavigationRule::Escape);
+		}
+		else if (i == Buttons.Num() - 1)
+		{
+			Buttons[i]->SetNavigationRuleBase(EUINavigation::Down, EUINavigationRule::Escape);
+		}
+		
+		if (Buttons.IsValidIndex(i - 1))
+		{
+			Buttons[i]->SetNavigationRuleExplicit(EUINavigation::Up, Buttons[i - 1]);
+		}
+		if (Buttons.IsValidIndex(i + 1))
+		{
+			Buttons[i]->SetNavigationRuleExplicit(EUINavigation::Down, Buttons[i + 1]);
+		}
+	}
+}
+
+void UThematicUIDropDownMenuSelection::HandleOptionSelected(UThematicUIButton* ButtonPressed)
+{
+	
+}
+
+void UThematicUIDropDownMenuSelection::NativeCreated(UThematicUIDropDownMenu* OwnerMenu, TArray<FText>& OptionsArray)
+{
+	OwningDropDownMenuRef = OwnerMenu;
+	
+	Options = OptionsArray;
+	
+	CreateOptionButtons();
+	SetupButtonNavigation();
 }
 
 void UThematicUIDropDownMenuSelection::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
