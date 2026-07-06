@@ -27,7 +27,7 @@
 	class UThematicUIButton;
 	
 	// Delegate Declarations 
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FTuiOnOptionSelectedSignature, FText, SelectedOption, int, SelectedIndex);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTuiOnOptionSelectedSignature, int, SelectedIndex);
 	
 	// Helper Enums 
 	
@@ -52,6 +52,9 @@ class THEMATICUI_API UThematicUIDropDownMenuSelection : public UThematicUIIntera
 	protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
 	TArray<FText> Options;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ThematicUI")
+	TSubclassOf<UThematicUIButton> DropDownButtonSubclass;
 
 	private:
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta = (AllowPrivateAccess))
@@ -89,7 +92,7 @@ class THEMATICUI_API UThematicUIDropDownMenuSelection : public UThematicUIIntera
 
 	// Project Class Virtual Functions
 	public:
-	
+	virtual void NativeCreated(UThematicUIDropDownMenu* OwnerMenu, TArray<FText>& OptionsArray);
 	
 	protected:
 	
@@ -101,7 +104,7 @@ class THEMATICUI_API UThematicUIDropDownMenuSelection : public UThematicUIIntera
 	public:
 	
 	
-	protected:
+	protected:	
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 	
 	virtual void NativeDestruct() override;

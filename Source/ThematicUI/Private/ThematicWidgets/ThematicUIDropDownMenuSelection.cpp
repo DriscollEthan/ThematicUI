@@ -3,6 +3,7 @@
 
 #include "ThematicWidgets/ThematicUIDropDownMenuSelection.h"
 
+#include "Components/ScrollBox.h"
 #include "ThematicWidgets/ThematicUIButton.h"
 
 bool UThematicUIDropDownMenuSelection::CheckUserFocus()
@@ -30,7 +31,7 @@ void UThematicUIDropDownMenuSelection::HandleTickCheckForUserFocus()
 	}
 	else
 	{
-		RemoveFromParent();
+		//OnTuiOnOptionSelected.Broadcast(-1);
 	}
 }
 
@@ -47,6 +48,31 @@ void UThematicUIDropDownMenuSelection::SetupButtonNavigation()
 void UThematicUIDropDownMenuSelection::HandleOptionSelected(UThematicUIButton* ButtonPressed)
 {
 	
+}
+
+void UThematicUIDropDownMenuSelection::NativeCreated(UThematicUIDropDownMenu* OwnerMenu, TArray<FText>& OptionsArray)
+{
+	OwningDropDownMenuRef = OwnerMenu;
+	
+	Options = OptionsArray;
+	
+	if (!DropDownButtonSubclass->IsValidLowLevel())
+	{
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenuSelection::NativeCreated, {Name}::DropDownButtonSubclass is NOT VALID", GetName());
+		return;
+	}
+	
+	for (int i = 0; i < Options.Num(); i++)
+	{
+		UThematicUIButton* Button = CreateWidget<UThematicUIButton>(this, DropDownButtonSubclass, NAME_None);
+		
+		verifyf(Button != nullptr, TEXT("UThematicUIDropDownMenuSelection::NativeCreated, Button Created For Options Menu == nullptr"));
+		
+		ScrollBox->AddChild(Button);
+		Button->SetPrimaryWidgetData(PrimaryWidgetData);
+		
+		SelectionButtonsMap.Add(Button, i);
+	}
 }
 
 void UThematicUIDropDownMenuSelection::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)

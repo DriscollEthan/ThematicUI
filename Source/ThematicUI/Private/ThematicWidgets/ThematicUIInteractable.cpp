@@ -16,6 +16,14 @@ const FThematicUIMainWidgetData& UThematicUIInteractable::GetPrimaryWidgetData()
 void UThematicUIInteractable::SetPrimaryWidgetData(const FThematicUIMainWidgetData& NewPrimaryWidgetData)
 {
 	PrimaryWidgetData = NewPrimaryWidgetData;
+	
+	CalculateAndSetActualWidgetThemeData();
+	
+	if (SizeBox)
+	{
+		SizeBox->SetWidthOverride(PrimaryWidgetData.SizeBoxSize.X);
+		SizeBox->SetHeightOverride(PrimaryWidgetData.SizeBoxSize.Y);
+	}
 }
 
 
