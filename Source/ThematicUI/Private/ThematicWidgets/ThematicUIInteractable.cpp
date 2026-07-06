@@ -7,72 +7,108 @@
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundBase.h"
 
-const FThematicUIThemeDataOverride& UThematicUIInteractable::GetWidgetThemeOverrideData() const
+
+const FThematicUIMainWidgetData& UThematicUIInteractable::GetPrimaryWidgetData() const
 {
-	return WidgetThemeOverrideData;
+	return PrimaryWidgetData;
 }
 
-void UThematicUIInteractable::SetWidgetThemeOverrideData(const FThematicUIThemeDataOverride& NewWidgetThemeOverrideData)
+void UThematicUIInteractable::SetPrimaryWidgetData(const FThematicUIMainWidgetData& NewPrimaryWidgetData)
 {
-	WidgetThemeOverrideData = NewWidgetThemeOverrideData;
-	
-	CalculateAndSetActualWidgetThemeData();
+	PrimaryWidgetData = NewPrimaryWidgetData;
 }
 
-void UThematicUIInteractable::SetWidgetNormalThemeOverrideDate(const FThematicUIThemeOverride& NewWidgetNormalThemeOverride)
-{
-	WidgetThemeOverrideData.NormalThemeOverride = NewWidgetNormalThemeOverride;
-	
-	CalculateAndSetActualWidgetThemeData();
-}
-
-void UThematicUIInteractable::SetWidgetHoveredThemeOverrideDate(const FThematicUIThemeOverride& NewWidgetHoveredThemeOverride)
-{
-	WidgetThemeOverrideData.HoveredThemeOverride = NewWidgetHoveredThemeOverride;
-	
-	CalculateAndSetActualWidgetThemeData();
-}
-
-void UThematicUIInteractable::SetWidgetPressedThemeOverrideDate(const FThematicUIThemeOverride& NewWidgetPressedThemeOverride)
-{
-	WidgetThemeOverrideData.PressedThemeOverride = NewWidgetPressedThemeOverride;
-	
-	CalculateAndSetActualWidgetThemeData();
-}
 
 const FThematicUIThemeData& UThematicUIInteractable::GetActualThemeData() const
 {
 	return ActualThemeData;
 }
 
-void UThematicUIInteractable::CalculateAndSetActualWidgetThemeData()
+UThematicUIThemeDataAsset* UThematicUIInteractable::GetWidgetTheme() const
 {
-	// Figure Out ActualThemeData after overrides
-	if (WidgetTheme)
-	{
-		ActualThemeData = WidgetThemeOverrideData.ConvertToThemeData(WidgetTheme->GetThematicUIThemeData());
-	}
-	else
-	{
-		ActualThemeData = WidgetThemeOverrideData.ConvertToThemeData();
-	}
+	return PrimaryWidgetData.WidgetTheme;
+}
+
+void UThematicUIInteractable::SetWidgetTheme(UThematicUIThemeDataAsset* NewWidgetTheme)
+{
+	PrimaryWidgetData.WidgetTheme = NewWidgetTheme;
 	
+	CalculateAndSetActualWidgetThemeData();
+}
+
+const FThematicUIThemeDataOverride& UThematicUIInteractable::GetWidgetThemeOverrideData() const
+{
+	return PrimaryWidgetData.WidgetThemeOverrideData;
+}
+
+void UThematicUIInteractable::SetWidgetThemeOverrideData(FThematicUIThemeDataOverride NewWidgetThemeOverrideData)
+{
+	PrimaryWidgetData.WidgetThemeOverrideData = NewWidgetThemeOverrideData;
+	
+	CalculateAndSetActualWidgetThemeData();
 }
 
 const FVector2D& UThematicUIInteractable::GetSizeBoxSize() const
 {
-	return SizeBoxSize;
+	return PrimaryWidgetData.SizeBoxSize;
 }
 
 void UThematicUIInteractable::SetSizeBoxSize(const FVector2D& NewSizeBoxSize)
 {
-	SizeBoxSize = NewSizeBoxSize;
+	PrimaryWidgetData.SizeBoxSize = NewSizeBoxSize;
 	
 	if (SizeBox)
 	{
-		SizeBox->SetWidthOverride(SizeBoxSize.X);
-		SizeBox->SetHeightOverride(SizeBoxSize.Y);
+		SizeBox->SetWidthOverride(PrimaryWidgetData.SizeBoxSize.X);
+		SizeBox->SetHeightOverride(PrimaryWidgetData.SizeBoxSize.Y);
 	}
+}
+
+const FVector2D& UThematicUIInteractable::GetSizeBoxHoveredSizeMultiplier() const
+{
+	return PrimaryWidgetData.SizeBoxHoveredSizeMultiplier;
+}
+
+void UThematicUIInteractable::SetSizeBoxHoveredSizeMultiplier(const FVector2D& NewGetSizeBoxHoveredSizeMultiplier)
+{
+	PrimaryWidgetData.SizeBoxHoveredSizeMultiplier = NewGetSizeBoxHoveredSizeMultiplier;
+	
+	if (SizeBox)
+	{
+		SizeBox->SetWidthOverride(GetSizeBoxSize().X * GetSizeBoxHoveredSizeMultiplier().X);
+		SizeBox->SetHeightOverride(GetSizeBoxSize().Y * GetSizeBoxHoveredSizeMultiplier().Y);
+	}
+}
+
+const FVector2D& UThematicUIInteractable::GetSizeBoxPressedSizeMultiplier() const
+{
+	return PrimaryWidgetData.SizeBoxPressedSizeMultiplier;
+}
+
+void UThematicUIInteractable::SetSizeBoxPressedSizeMultiplier(const FVector2D& NewSizeBoxPressedSizeMultiplier)
+{
+	PrimaryWidgetData.SizeBoxPressedSizeMultiplier = NewSizeBoxPressedSizeMultiplier;
+	
+	if (SizeBox)
+	{
+		SizeBox->SetWidthOverride(GetSizeBoxSize().X * GetSizeBoxPressedSizeMultiplier().X);
+		SizeBox->SetHeightOverride(GetSizeBoxSize().Y * GetSizeBoxPressedSizeMultiplier().Y);
+	}
+}
+
+void UThematicUIInteractable::CalculateAndSetActualWidgetThemeData()
+{
+	// Figure Out ActualThemeData after overrides
+	if (GetWidgetTheme())
+	{
+		
+		ActualThemeData = GetWidgetThemeOverrideData().ConvertToThemeData(GetWidgetTheme()->GetThematicUIThemeData());
+	}
+	else
+	{
+		ActualThemeData = GetWidgetThemeOverrideData().ConvertToThemeData();
+	}
+	
 }
 
 void UThematicUIInteractable::NativePreConstruct()
@@ -83,8 +119,8 @@ void UThematicUIInteractable::NativePreConstruct()
 	
 	if (SizeBox)
 	{
-		SizeBox->SetWidthOverride(SizeBoxSize.X);
-		SizeBox->SetHeightOverride(SizeBoxSize.Y);
+		SizeBox->SetWidthOverride(GetSizeBoxSize().X);
+		SizeBox->SetHeightOverride(GetSizeBoxSize().Y);
 	}
 	
 	CalculateAndSetActualWidgetThemeData();
@@ -129,8 +165,8 @@ void UThematicUIInteractable::SetThemeNormal()
 	
 	if (SizeBox)
 	{
-		SizeBox->SetWidthOverride(SizeBoxSize.X);
-		SizeBox->SetHeightOverride(SizeBoxSize.Y);
+		SizeBox->SetWidthOverride(GetSizeBoxSize().X);
+		SizeBox->SetHeightOverride(GetSizeBoxSize().Y);
 	}
 	
 	OnTuiInteractableSetToNormalTheme.Broadcast(this);
@@ -142,8 +178,8 @@ void UThematicUIInteractable::SetThemeHovered()
 	
 	if (SizeBox)
 	{
-		SizeBox->SetWidthOverride(SizeBoxSize.X * SizeBoxHoveredSizeMultiplier.X);
-		SizeBox->SetHeightOverride(SizeBoxSize.Y * SizeBoxHoveredSizeMultiplier.Y);
+		SizeBox->SetWidthOverride(GetSizeBoxSize().X * GetSizeBoxHoveredSizeMultiplier().X);
+		SizeBox->SetHeightOverride(GetSizeBoxSize().Y * GetSizeBoxHoveredSizeMultiplier().Y);
 	}
 	
 	OnTuiInteractableSetToHoveredTheme.Broadcast(this);
@@ -155,8 +191,8 @@ void UThematicUIInteractable::SetThemePressed()
 	
 	if (SizeBox)
 	{
-		SizeBox->SetWidthOverride(SizeBoxSize.X * SizeBoxPressedSizeMultiplier.X);
-		SizeBox->SetHeightOverride(SizeBoxSize.Y * SizeBoxPressedSizeMultiplier.Y);
+		SizeBox->SetWidthOverride(GetSizeBoxSize().X * GetSizeBoxPressedSizeMultiplier().X);
+		SizeBox->SetHeightOverride(GetSizeBoxSize().Y * GetSizeBoxPressedSizeMultiplier().Y);
 	}
 	
 	OnTuiInteractableSetToPressedTheme.Broadcast(this);

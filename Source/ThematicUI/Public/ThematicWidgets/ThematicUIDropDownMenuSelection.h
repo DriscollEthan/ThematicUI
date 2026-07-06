@@ -54,7 +54,7 @@ class THEMATICUI_API UThematicUIDropDownMenuSelection : public UThematicUIIntera
 	TArray<FText> Options;
 
 	private:
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta = (AllowPrivateAccess, BindWidget))
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta = (AllowPrivateAccess))
 	TObjectPtr<UThematicUIDropDownMenu> OwningDropDownMenuRef;
 	
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta = (AllowPrivateAccess, BindWidget))

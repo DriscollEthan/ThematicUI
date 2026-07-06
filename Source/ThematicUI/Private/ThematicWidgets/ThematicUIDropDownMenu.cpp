@@ -66,7 +66,7 @@ void UThematicUIDropDownMenu::SelectionMenuCalculateAndSetActualWidgetThemeData(
 	}
 	else
 	{
-		SelectionMenuActualThemeData = WidgetThemeOverrideData.ConvertToThemeData();
+		SelectionMenuActualThemeData = GetWidgetThemeOverrideData().ConvertToThemeData();
 	}
 }
 
@@ -85,6 +85,11 @@ void UThematicUIDropDownMenu::SetSelectionMenuSizeBoxSize(const FVector2D& NewSi
 void UThematicUIDropDownMenu::HandleDropDownButtonPressed()
 {
 	// @todo Creation and Setup Options Logic
+	if (!SelectionMenuSubclass->IsValidLowLevel())
+	{
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenu::HandleDropDownButtonPressed(), {Name}::SelectionMenuSubclass is INVALID", GetName());
+		return;
+	}
 	
 	SelectionMenu = CreateWidget<UThematicUIDropDownMenuSelection>(this, SelectionMenuSubclass, NAME_None);
 	SelectionMenu->AddToViewport(100);
@@ -99,7 +104,7 @@ void UThematicUIDropDownMenu::HandleDropDownButtonPressed()
 
 void UThematicUIDropDownMenu::HandleOptionSelected(FText SelectedOption, int SelectedIndex)
 {
-
+	
 }
 
 void UThematicUIDropDownMenu::SetThemeNormal()
@@ -120,6 +125,13 @@ void UThematicUIDropDownMenu::SetThemePressed()
 void UThematicUIDropDownMenu::NativePreConstruct()
 {
 	Super::NativePreConstruct();
+	
+	// Setup Defaults
+	
+
+	// Bind to Delegates
+	
+	
 }
 
 void UThematicUIDropDownMenu::NativeConstruct()

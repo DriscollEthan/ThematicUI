@@ -34,10 +34,35 @@
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTuiInteractableSetToPressedTheme, UThematicUIInteractable*, Interactable);
 	
 	// Helper Enums 
-	
+
 	
 	// Helper Structs 
-
+	USTRUCT(BlueprintType, Blueprintable)
+	struct FThematicUIMainWidgetData
+	{
+		GENERATED_BODY()
+		
+		public:
+		/* Widget Theme Data */
+			UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+			TObjectPtr<UThematicUIThemeDataAsset> WidgetTheme;
+			
+			/* Widget Theme Data Override */
+			UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
+			FThematicUIThemeDataOverride WidgetThemeOverrideData;
+			
+			/* Size Box Data */
+			UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+			FVector2D SizeBoxSize = FVector2D(250.0f, 50.0f);
+			
+			/* Size Box Multiplier When Hovered */
+			UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+			FVector2D SizeBoxHoveredSizeMultiplier = FVector2D(1.0f, 1.0f);
+			
+			/* Size Box Multiplier When Pressed */
+			UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+			FVector2D SizeBoxPressedSizeMultiplier = FVector2D(1.0f, 1.0f);
+	};
 
 
 /**
@@ -60,29 +85,13 @@ class THEMATICUI_API UThematicUIInteractable : public UUserWidget
 	FTuiInteractableSetToPressedTheme OnTuiInteractableSetToPressedTheme;
 	
 	protected:
-	/* Widget Theme Data */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI", meta = (DisplayPriority = 1))
-	TObjectPtr<UThematicUIThemeDataAsset> WidgetTheme;
-	
-	/* Widget Theme Data Override */
+	/* Primary Widget Data */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI", meta = (DisplayPriority = 1))
-	FThematicUIThemeDataOverride WidgetThemeOverrideData;
+	FThematicUIMainWidgetData PrimaryWidgetData;
 	
 	/* Actual Widget Theme Data */
 	UPROPERTY(BlueprintReadOnly, Getter, Category = "ThematicUI")
 	FThematicUIThemeData ActualThemeData;
-	
-	/* Size Box Data */
-	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUI")
-	FVector2D SizeBoxSize = FVector2D(250.0f, 50.0f);
-	
-	/* Size Box Multiplier When Hovered */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
-	FVector2D SizeBoxHoveredSizeMultiplier = FVector2D(1.0f, 1.0f);
-	
-	/* Size Box Multiplier When Pressed */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
-	FVector2D SizeBoxPressedSizeMultiplier = FVector2D(1.0f, 1.0f);
 
 	private:
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta = (AllowPrivateAccess, BindWidget))
@@ -93,31 +102,47 @@ class THEMATICUI_API UThematicUIInteractable : public UUserWidget
 	public:
 	/* Getters and Settes */
 		UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
-		const FThematicUIThemeDataOverride& GetWidgetThemeOverrideData() const;
-
+		const FThematicUIMainWidgetData& GetPrimaryWidgetData() const;
+		
 		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
-		void SetWidgetThemeOverrideData(const FThematicUIThemeDataOverride& NewWidgetThemeOverrideData);
-
-		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
-		void SetWidgetNormalThemeOverrideDate(const FThematicUIThemeOverride& NewWidgetNormalThemeOverride);
-
-		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
-		void SetWidgetHoveredThemeOverrideDate(const FThematicUIThemeOverride& NewWidgetHoveredThemeOverride);
-
-		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
-		void SetWidgetPressedThemeOverrideDate(const FThematicUIThemeOverride& NewWidgetPressedThemeOverride);
+		void SetPrimaryWidgetData(const FThematicUIMainWidgetData& NewPrimaryWidgetData);
 
 		UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
 		const FThematicUIThemeData& GetActualThemeData() const;
-
+		
+		UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
+		UThematicUIThemeDataAsset* GetWidgetTheme() const;
+		
 		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
-		void CalculateAndSetActualWidgetThemeData();
+		void SetWidgetTheme(UThematicUIThemeDataAsset* NewWidgetTheme);
+		
+		UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
+		const FThematicUIThemeDataOverride& GetWidgetThemeOverrideData() const;
+		
+		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+		void SetWidgetThemeOverrideData(FThematicUIThemeDataOverride NewWidgetThemeOverrideData);
 
+		// Returns Normal SizeBoxSize
 		UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
 		const FVector2D& GetSizeBoxSize() const;
 
 		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 		void SetSizeBoxSize(const FVector2D& NewSizeBoxSize);
+		
+		UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
+		const FVector2D& GetSizeBoxHoveredSizeMultiplier() const;
+		
+		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+		void SetSizeBoxHoveredSizeMultiplier(const FVector2D& NewSizeBoxHoveredSizeMultiplier);
+		
+		UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
+		const FVector2D& GetSizeBoxPressedSizeMultiplier() const;
+		
+		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+		void SetSizeBoxPressedSizeMultiplier(const FVector2D& NewSizeBoxPressedSizeMultiplier);
+		
+	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	void CalculateAndSetActualWidgetThemeData();
 
 	protected:
 	
