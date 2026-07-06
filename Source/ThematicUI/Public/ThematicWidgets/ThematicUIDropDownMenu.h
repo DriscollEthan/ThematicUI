@@ -54,7 +54,7 @@
 /**
  * 
  */
-UCLASS(HideDropdown, NotPlaceable)
+UCLASS(HideDropdown, NotPlaceable, Abstract, Category = "ThematicUI")
 class THEMATICUI_API UThematicUIDropDownMenu : public UThematicUIInteractable
 {
 	GENERATED_BODY()
