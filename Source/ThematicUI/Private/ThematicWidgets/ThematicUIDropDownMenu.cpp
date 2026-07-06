@@ -13,9 +13,10 @@
 	
 
 	// Class Specific Includes
-#include "Blueprint/SlateBlueprintLibrary.h"
-	#include "Components/Image.h"
-	#include "Sound/SoundBase.h"
+#include "Blueprint/WidgetLayoutLibrary.h"
+#include "Components/Image.h"
+#include "Components/OverlaySlot.h"
+#include "Sound/SoundBase.h"
 	#include "ThematicWidgets/ThematicUIButton.h"
 	#include "ThematicWidgets/ThematicUIDropDownMenuSelection.h"
 
@@ -44,14 +45,34 @@ const int UThematicUIDropDownMenu::GetSelectedOption(FText& SelectedOption) cons
 	return SelectedIndex;
 }
 
+const FThematicUIMainWidgetData& UThematicUIDropDownMenu::GetSelectionMenuWidgetThemeData() const
+{
+	return SelectionMenuData.SelectionMenuWidgetThemeData;
+}
+
 void UThematicUIDropDownMenu::SetSelectionMenuWidgetThemeData(const FThematicUIMainWidgetData& NewSelectionMenuWidgetThemeData)
 {
-	SelectionMenuWidgetThemeData = NewSelectionMenuWidgetThemeData;
+	SelectionMenuData.SelectionMenuWidgetThemeData = NewSelectionMenuWidgetThemeData;
+}
+
+const FVector2D& UThematicUIDropDownMenu::GetSelectionMenuSize() const
+{
+	return SelectionMenuData.SelectionMenuSize;
 }
 
 void UThematicUIDropDownMenu::SetSelectionMenuSize(const FVector2D& NewSelectionMenuSize)
 {
-	SelectionMenuSize = NewSelectionMenuSize;
+	SelectionMenuData.SelectionMenuSize = NewSelectionMenuSize;
+}
+
+const FMargin& UThematicUIDropDownMenu::GetSelectionMenuOptionsPadding() const
+{	
+	return SelectionMenuData.SelectionMenuOptionsPadding;
+}
+
+void UThematicUIDropDownMenu::SetSelectionMenuOptionsPadding(const FMargin& NewSelectionMenuOptionsPadding)
+{
+	SelectionMenuData.SelectionMenuOptionsPadding = NewSelectionMenuOptionsPadding;
 }
 
 void UThematicUIDropDownMenu::HandleDropDownButtonPressed(UThematicUIButton* PressedButton)
@@ -69,56 +90,75 @@ void UThematicUIDropDownMenu::HandleDropDownButtonPressed(UThematicUIButton* Pre
 	
 	SelectionMenu->AddToViewport(100);
 	SelectionMenu->SetOwningPlayer(GetOwningPlayer());
-	SelectionMenu->SetPrimaryWidgetData(SelectionMenuWidgetThemeData);
-	SelectionMenu->NativeCreated(this, Options);
-	
-	
-	FVector2D PixelPosition;
-	FVector2D ViewportPosition;
-	USlateBlueprintLibrary::LocalToViewport(GetWorld(), GetTickSpaceGeometry(), FVector2D::ZeroVector, PixelPosition, ViewportPosition);
-	FVector2D SelectionMenuPosition = ViewportPosition;
-	SelectionMenuPosition.X += (GetSizeBoxSize().X / 2.0f) - (SelectionMenuSize.X / 2.0f);
-	
-	SelectionMenuPosition.Y += GetSizeBoxSize().Y;
-	SelectionMenu->SetRenderTranslation(SelectionMenuPosition);
-	
-	SelectionMenu->SetSizeBoxSize(SelectionMenuSize);
+	SelectionMenu->NativeCreated(this, Options, SelectionMenuData);
 	
 	SelectionMenu->OnTuiOnOptionSelected.AddUniqueDynamic(this, &UThematicUIDropDownMenu::HandleOptionSelected);
 }
 
 void UThematicUIDropDownMenu::HandleOptionSelected(int SelectedOptionIndex)
 {
+	// BTW THE SelectionMenu WILL DESTROY ITSELF AFTER THIS
+
 	if (Options.IsValidIndex(SelectedOptionIndex))
 	{
 		SelectedIndex = SelectedOptionIndex;
 		
+		DropDownButton->SetText(Options[SelectedIndex]);
+		
 		OnTUiOnSelectionChanged.Broadcast(Options[SelectedIndex], SelectedIndex);
 	}
 	
+	if (SelectionMenu)
+	{
 	SelectionMenu->OnTuiOnOptionSelected.RemoveDynamic(this, &UThematicUIDropDownMenu::HandleOptionSelected);
+	}
 	
 	if (DropDownButton)
 	{
 		DropDownButton->SetUserFocus(GetOwningPlayer());
 	}
-	
-	SelectionMenu->RemoveFromParent();
 }
 
 void UThematicUIDropDownMenu::SetThemeNormal()
 {
 	Super::SetThemeNormal();
+	
+	if (DropDownButton)
+	{
+		DropDownButton->SetThemeNormal();
+	}
+	else
+	{
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenu::SetThemeNormal : UThematicUIDropDownMenu::DropDownButton == nullptr");
+	}
 }
 
 void UThematicUIDropDownMenu::SetThemeHovered()
 {
 	Super::SetThemeHovered();
+	
+	if (DropDownButton)
+	{
+		DropDownButton->SetThemeHovered();
+	}
+	else
+	{
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenu::SetThemeHovered : UThematicUIDropDownMenu::DropDownButton == nullptr");
+	}
 }
 
 void UThematicUIDropDownMenu::SetThemePressed()
 {
 	Super::SetThemePressed();
+	
+	if (DropDownButton)
+	{
+		DropDownButton->SetThemePressed();
+	}
+	else
+	{
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenu::SetThemePressed : UThematicUIDropDownMenu::DropDownButton == nullptr");
+	}
 }
 
 void UThematicUIDropDownMenu::NativePreConstruct()
@@ -126,10 +166,25 @@ void UThematicUIDropDownMenu::NativePreConstruct()
 	Super::NativePreConstruct();
 	
 	// Setup Defaults
-	DropDownButton->SetPrimaryWidgetData(GetPrimaryWidgetData());
+	if (DropDownButton)
+	{
+		DropDownButton->SetPrimaryWidgetData(GetPrimaryWidgetData());
+		DropDownButton->SetThemeNormal();
+		
+		if (Options.IsValidIndex(0))
+		{
+			DropDownButton->SetText(Options[0]);
+		}
+	}
+	
 	if (DropDownArrowImage)
 	{
 		DropDownArrowImage->SetBrush(DropDownArrowBrush);
+		
+		if (UOverlaySlot* OverlaySlot = UWidgetLayoutLibrary::SlotAsOverlaySlot(DropDownArrowImage))
+		{
+			OverlaySlot->SetPadding(FMargin(0.0f, 0.0f, ActualThemeData.NormalTheme.Image.OutlineSettings.Width + 2.0f, 0.0f));
+		}
 	}
 }
 

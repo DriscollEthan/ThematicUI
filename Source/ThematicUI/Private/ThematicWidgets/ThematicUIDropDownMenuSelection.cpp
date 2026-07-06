@@ -4,6 +4,10 @@
 #include "ThematicWidgets/ThematicUIDropDownMenuSelection.h"
 
 #include "Components/ScrollBox.h"
+#include "Blueprint/SlateBlueprintLibrary.h"
+#include "Blueprint/WidgetLayoutLibrary.h"
+#include "Components/ScrollBoxSlot.h"
+
 #include "ThematicWidgets/ThematicUIButton.h"
 
 bool UThematicUIDropDownMenuSelection::CheckUserFocus()
@@ -31,7 +35,7 @@ void UThematicUIDropDownMenuSelection::HandleTickCheckForUserFocus()
 	}
 	else
 	{
-		OnTuiOnOptionSelected.Broadcast(-1);
+		HandleOptionSelected(-1);
 	}
 }
 
@@ -50,7 +54,8 @@ void UThematicUIDropDownMenuSelection::CreateOptionButtons()
 		verifyf(Button != nullptr, TEXT("UThematicUIDropDownMenuSelection::NativeCreated, Button Created For Options Menu == nullptr"));
 		
 		ScrollBox->AddChild(Button);
-		Button->SetPrimaryWidgetData(PrimaryWidgetData);
+		Button->SetPrimaryWidgetData(SelectionMenuData.SelectionMenuWidgetThemeData);
+		Button->SetText(Options[i]);
 		
 		SelectionButtonsMap.Add(Button, i);
 		
@@ -58,6 +63,13 @@ void UThematicUIDropDownMenuSelection::CreateOptionButtons()
 		{
 			Button->SetUserFocus(GetOwningPlayer());
 		}
+		
+		if (UScrollBoxSlot* ScrollBoxSlot = UWidgetLayoutLibrary::SlotAsScrollBoxSlot(Button))
+		{
+			ScrollBoxSlot->SetPadding(SelectionMenuData.SelectionMenuOptionsPadding);
+		}
+		
+		Button->OnTuiButtonPressedAndReleased.AddUniqueDynamic(this, &ThisClass::HandleOptionSelected);
 	}
 }
 
@@ -92,15 +104,57 @@ void UThematicUIDropDownMenuSelection::SetupButtonNavigation()
 
 void UThematicUIDropDownMenuSelection::HandleOptionSelected(UThematicUIButton* ButtonPressed)
 {
-	
+	if (SelectionButtonsMap.Find(ButtonPressed))
+	{
+		HandleOptionSelected(SelectionButtonsMap.FindRef(ButtonPressed));
+	}
 }
 
-void UThematicUIDropDownMenuSelection::NativeCreated(UThematicUIDropDownMenu* OwnerMenu, TArray<FText>& OptionsArray)
+void UThematicUIDropDownMenuSelection::HandleOptionSelected(int32 SelectedIndex)
+{
+	OnTuiOnOptionSelected.Broadcast(SelectedIndex);
+
+	TArray<TObjectPtr<UThematicUIButton>> Buttons;
+	SelectionButtonsMap.GetKeys(Buttons);
+	
+	for (UThematicUIButton* Button : Buttons)
+	{
+		Button->OnTuiButtonPressedAndReleased.RemoveDynamic(this, &ThisClass::HandleOptionSelected);
+	}
+	
+	RemoveFromParent();
+}
+
+void UThematicUIDropDownMenuSelection::UpdatePosition()
+{
+	if (!OwningDropDownMenuRef)
+	{
+		return;
+	}
+
+	FVector2D PixelPosition;
+	FVector2D ViewportPosition;
+	USlateBlueprintLibrary::LocalToViewport(GetWorld(), OwningDropDownMenuRef->GetTickSpaceGeometry(), FVector2D::ZeroVector, PixelPosition, ViewportPosition);
+	FVector2D SelectionMenuPosition = ViewportPosition;
+	SelectionMenuPosition.X += (OwningDropDownMenuRef->GetSizeBoxSize().X / 2.0f) - (GetSizeBoxSize().X / 2.0f);
+	
+	SelectionMenuPosition.Y += OwningDropDownMenuRef->GetSizeBoxSize().Y;
+	SetRenderTranslation(SelectionMenuPosition);
+}
+
+void UThematicUIDropDownMenuSelection::NativeCreated(UThematicUIDropDownMenu* OwnerMenu, TArray<FText>& OptionsArray, const FThematicUISelectionMenuData& NewData)
 {
 	OwningDropDownMenuRef = OwnerMenu;
 	
 	Options = OptionsArray;
 	
+	SelectionMenuData = NewData;
+	
+	SetPrimaryWidgetData(SelectionMenuData.SelectionMenuWidgetThemeData);
+	
+	SetSizeBoxSize(SelectionMenuData.SelectionMenuSize);
+	
+	UpdatePosition();
 	CreateOptionButtons();
 	SetupButtonNavigation();
 }

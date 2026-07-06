@@ -55,6 +55,9 @@ class THEMATICUI_API UThematicUIDropDownMenuSelection : public UThematicUIIntera
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ThematicUI")
 	TSubclassOf<UThematicUIButton> DropDownButtonSubclass;
+	
+	UPROPERTY(BlueprintReadWrite, Category = "ThematicUI")
+	FThematicUISelectionMenuData SelectionMenuData;
 
 	private:
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta = (AllowPrivateAccess))
@@ -88,11 +91,13 @@ class THEMATICUI_API UThematicUIDropDownMenuSelection : public UThematicUIIntera
 	void HandleOptionSelected(UThematicUIButton* ButtonPressed);
 	
 	private:
+	void HandleOptionSelected(int32 SelectedIndex);
 	
+	void UpdatePosition();
 
 	// Project Class Virtual Functions
 	public:
-	virtual void NativeCreated(UThematicUIDropDownMenu* OwnerMenu, TArray<FText>& OptionsArray);
+	virtual void NativeCreated(UThematicUIDropDownMenu* OwnerMenu, TArray<FText>& OptionsArray, const FThematicUISelectionMenuData& NewData);
 	
 	protected:
 	

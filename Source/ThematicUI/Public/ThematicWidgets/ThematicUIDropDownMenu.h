@@ -34,7 +34,23 @@
 	
 	
 	// Helper Structs 
-
+	USTRUCT(BlueprintType, Blueprintable)
+	struct FThematicUISelectionMenuData
+	{
+		GENERATED_BODY()
+		
+		/* Selection Menu Widget Theme Data */
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI|SelectionMenuData")
+		FThematicUIMainWidgetData SelectionMenuWidgetThemeData;
+		
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI|SelectionMenuData")
+		FVector2D SelectionMenuSize = FVector2D(250.0f, 100.0f);
+		
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI|SelectionMenuData")
+		FMargin SelectionMenuOptionsPadding = FMargin();
+	};
+	
+	
 /**
  * 
  */
@@ -58,15 +74,11 @@ class THEMATICUI_API UThematicUIDropDownMenu : public UThematicUIInteractable
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI")
 	FSlateBrush DropDownArrowBrush;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ThematicUI")
 	TSubclassOf<UThematicUIDropDownMenuSelection> SelectionMenuSubclass;
 	
-	/* Selection Menu Widget Theme Data */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Setter, Category = "ThematicUI|SelectionMenuData")
-	FThematicUIMainWidgetData SelectionMenuWidgetThemeData;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Setter, Category = "ThematicUI|SelectionMenuData")
-	FVector2D SelectionMenuSize = FVector2D(250.0f, 100.0f);
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+	FThematicUISelectionMenuData SelectionMenuData;
 
 	private:
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
@@ -91,13 +103,25 @@ class THEMATICUI_API UThematicUIDropDownMenu : public UThematicUIInteractable
 		UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
 		const int GetSelectedOption(FText& SelectedOption) const;
 		
+		UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
+		const FThematicUIMainWidgetData& GetSelectionMenuWidgetThemeData() const;
+		
 		// Doesn't change data until you reopen the selection menu
 		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 		void SetSelectionMenuWidgetThemeData(const FThematicUIMainWidgetData& NewSelectionMenuWidgetThemeData);
 		
+		UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
+		const FVector2D& GetSelectionMenuSize() const;
+		
 		// Doesn't change size until you reopen the selection menu
 		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
 		void SetSelectionMenuSize(const FVector2D& NewSelectionMenuSize);
+		
+		UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
+		const FMargin& GetSelectionMenuOptionsPadding() const;
+		
+		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+		void SetSelectionMenuOptionsPadding(const FMargin& NewSelectionMenuOptionsPadding);
 
 	protected:
 	UFUNCTION()
@@ -112,15 +136,15 @@ class THEMATICUI_API UThematicUIDropDownMenu : public UThematicUIInteractable
 
 // Project Class Virtual Functions
 	public:
-
-
-	protected:
 	virtual void SetThemeNormal() override;
 	
 	virtual void SetThemeHovered() override;
 	
 	virtual void SetThemePressed() override;
 
+	protected:
+	
+	
 	private:
 	
 

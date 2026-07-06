@@ -153,9 +153,6 @@ class THEMATICUI_API UThematicUIInteractable : public UUserWidget
 
 // Project Class Virtual Functions
 	public:
-
-
-	protected:
 	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI | SetTheme")
 	virtual void SetThemeNormal();
 	
@@ -164,6 +161,9 @@ class THEMATICUI_API UThematicUIInteractable : public UUserWidget
 	
 	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI | SetTheme")
 	virtual void SetThemePressed();
+
+	protected:
+	
 
 	private:
 	

@@ -84,13 +84,15 @@ class THEMATICUI_API UThematicUIButton : public UThematicUIInteractable
 // Project Class Virtual Functions
 	public:
 	virtual bool TuiHasUserFocus() override;
-
-	protected:
+	
 	virtual void SetThemeNormal() override;
 	
 	virtual void SetThemeHovered() override;
 	
 	virtual void SetThemePressed() override;
+
+	protected:
+	
 
 	private:
 	

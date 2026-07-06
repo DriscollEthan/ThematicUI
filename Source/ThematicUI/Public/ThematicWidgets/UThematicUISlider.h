@@ -157,14 +157,14 @@ class THEMATICUI_API UUThematicUISlider : public UThematicUIInteractable
 
 // Project Class Virtual Functions
 	public:
-
-
-	protected:
 	virtual void SetThemeNormal() override;
 	
 	virtual void SetThemeHovered() override;
 	
 	virtual void SetThemePressed() override;
+
+	protected:
+	
 
 	private:
 	
