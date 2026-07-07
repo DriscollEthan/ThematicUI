@@ -65,7 +65,7 @@ class THEMATICUI_API UThematicUIDropDownMenu : public UThematicUIInteractable
 	FTUiOnSelectionChangedSignature OnTUiOnSelectionChanged;
 
 	protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Setter, Category = "ThematicUI")
 	TArray<FText> Options;
 	
 	UPROPERTY()
@@ -93,7 +93,10 @@ class THEMATICUI_API UThematicUIDropDownMenu : public UThematicUIInteractable
 	
 // Class Functions
 	public:
-	/* Getters and Setters */                                                                                                                                                                            
+	/* Getters and Setters */                                              
+		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+		void SetOptions(const TArray<FText>& NewOptions);
+	                                                                                                                              
 		UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
 		const FSlateBrush& GetDropDownArrowBrush() const;
 		

@@ -21,6 +21,11 @@
 	#include "ThematicWidgets/ThematicUIDropDownMenuSelection.h"
 
 
+void UThematicUIDropDownMenu::SetOptions(const TArray<FText>& NewOptions)
+{
+	Options = NewOptions;
+} 
+
 const FSlateBrush& UThematicUIDropDownMenu::GetDropDownArrowBrush() const
 {
 	return DropDownArrowBrush;
