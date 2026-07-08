@@ -23,6 +23,8 @@
 
 // Class Details
 	// Forward Declarations 
+	class UBackgroundBlur;
+	class UImage;
 	class UScrollBox;
 	class UThematicUIButton;
 	
@@ -62,6 +64,12 @@ class THEMATICUI_API UThematicUIDropDownMenuSelection : public UThematicUIIntera
 	private:
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta = (AllowPrivateAccess))
 	TObjectPtr<UThematicUIDropDownMenu> OwningDropDownMenuRef;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta = (AllowPrivateAccess, BindWidget))
+	TObjectPtr<UBackgroundBlur> BackgroundBlur;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta = (AllowPrivateAccess, BindWidget))
+	TObjectPtr<UImage> BackgroundImage;
 	
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta = (AllowPrivateAccess, BindWidget))
 	TObjectPtr<UScrollBox> ScrollBox;

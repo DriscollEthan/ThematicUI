@@ -31,7 +31,13 @@
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FTUiOnSelectionChangedSignature, FText, SelectedOption, int, SelectedIndex);
 	
 	// Helper Enums 
-	
+	UENUM(Blueprintable, BlueprintType)
+	enum class ESelectionMenuBackground : uint8 
+	{
+		None,
+		Image,
+		BackgroundBlur
+	};
 	
 	// Helper Structs 
 	USTRUCT(BlueprintType, Blueprintable)
@@ -48,6 +54,15 @@
 		
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI|SelectionMenuData")
 		FMargin SelectionMenuOptionsPadding = FMargin();
+		
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI|SelectionMenuData")
+		ESelectionMenuBackground SelectionMenuBackground = ESelectionMenuBackground::None;
+		
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI|SelectionMenuData", meta = (EditCondition = "SelectionMenuBackground == ESelectionMenuBackground::Image", EditConditionHides))
+		FSlateBrush BackgroundImageBrush = FSlateBrush();
+		
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI|SelectionMenuData", meta = (EditCondition = "SelectionMenuBackground == ESelectionMenuBackground::BackgroundBlur", EditConditionHides))
+		float BackgroundBlurStrength = 50.0f;
 	};
 	
 	

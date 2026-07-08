@@ -6,6 +6,8 @@
 #include "Components/ScrollBox.h"
 #include "Blueprint/SlateBlueprintLibrary.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
+#include "Components/BackgroundBlur.h"
+#include "Components/Image.h"
 #include "Components/ScrollBoxSlot.h"
 
 #include "ThematicWidgets/ThematicUIButton.h"
@@ -153,6 +155,28 @@ void UThematicUIDropDownMenuSelection::NativeCreated(UThematicUIDropDownMenu* Ow
 	SetPrimaryWidgetData(SelectionMenuData.SelectionMenuWidgetThemeData);
 	
 	SetSizeBoxSize(SelectionMenuData.SelectionMenuSize);
+	
+	switch (SelectionMenuData.SelectionMenuBackground)
+	{
+		case ESelectionMenuBackground::None:
+		{
+			BackgroundBlur->SetVisibility(ESlateVisibility::Collapsed);
+			BackgroundImage->SetVisibility(ESlateVisibility::Collapsed);
+			break;
+		}
+		case ESelectionMenuBackground::Image:
+		{
+			BackgroundBlur->SetVisibility(ESlateVisibility::Collapsed);
+			BackgroundImage->SetBrush(SelectionMenuData.BackgroundImageBrush);
+			break;
+		}
+		case ESelectionMenuBackground::BackgroundBlur:
+		{
+			BackgroundBlur->SetBlurStrength(SelectionMenuData.BackgroundBlurStrength);
+			BackgroundImage->SetVisibility(ESlateVisibility::Collapsed);
+			break;
+		}
+	}
 	
 	UpdatePosition();
 	CreateOptionButtons();
