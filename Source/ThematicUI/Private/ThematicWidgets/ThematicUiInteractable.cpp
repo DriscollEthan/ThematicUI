@@ -141,9 +141,6 @@ void UThematicUiInteractable::NativePreConstruct()
 	CalculateAndSetActualWidgetThemeData();
 	
 	SetThemeNormal();
-	
-	FDataValidationContext valid;
-	IsDataValid(valid);
 }
 
 void UThematicUiInteractable::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
