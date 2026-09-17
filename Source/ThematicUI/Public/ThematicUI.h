@@ -2,9 +2,10 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "Modules/ModuleManager.h"
-#include "Logging/StructuredLog.h"
+#include <CoreMinimal.h>
+#include <Logging/StructuredLog.h>
+#include <Misc/AutomationTest.h>
+#include <Modules/ModuleManager.h>
 
 DECLARE_LOG_CATEGORY_EXTERN(LogThematicUI, Log, All)
 

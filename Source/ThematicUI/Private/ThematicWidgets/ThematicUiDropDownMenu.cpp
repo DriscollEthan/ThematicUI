@@ -4,9 +4,9 @@
 
 // Includes
 	// Compiler Includes
-	#include "ThematicWidgets/ThematicUIDropDownMenu.h"
+	#include "ThematicWidgets/ThematicUiDropDownMenu.h"
 
-	// Engine Library Includes
+// Engine Library Includes
 
 
 	// Project Library Includes
@@ -17,21 +17,21 @@
 #include "Components/Image.h"
 #include "Components/OverlaySlot.h"
 #include "Sound/SoundBase.h"
-	#include "ThematicWidgets/ThematicUIButton.h"
-	#include "ThematicWidgets/ThematicUIDropDownMenuSelection.h"
+	#include "ThematicWidgets/ThematicUiButton.h"
+#include "ThematicWidgets/ThematicUiDropDownMenuSelection.h"
 
 
-void UThematicUIDropDownMenu::SetOptions(const TArray<FText>& NewOptions)
+void UThematicUiDropDownMenu::SetOptions(const TArray<FText>& NewOptions)
 {
 	Options = NewOptions;
 } 
 
-const FSlateBrush& UThematicUIDropDownMenu::GetDropDownArrowBrush() const
+const FSlateBrush& UThematicUiDropDownMenu::GetDropDownArrowBrush() const
 {
 	return DropDownArrowBrush;
 }
 
-void UThematicUIDropDownMenu::SetDropDownArrowBrush(const FSlateBrush& NewDropDownArrowBrush)
+void UThematicUiDropDownMenu::SetDropDownArrowBrush(const FSlateBrush& NewDropDownArrowBrush)
 {
 	DropDownArrowBrush = NewDropDownArrowBrush;
 	
@@ -41,7 +41,7 @@ void UThematicUIDropDownMenu::SetDropDownArrowBrush(const FSlateBrush& NewDropDo
 	}
 }
 
-const int UThematicUIDropDownMenu::GetSelectedOption(FText& SelectedOption) const
+const int UThematicUiDropDownMenu::GetSelectedOption(FText& SelectedOption) const
 {
 	if (Options.IsValidIndex(SelectedIndex))
 	{
@@ -50,57 +50,57 @@ const int UThematicUIDropDownMenu::GetSelectedOption(FText& SelectedOption) cons
 	return SelectedIndex;
 }
 
-const FThematicUIMainWidgetData& UThematicUIDropDownMenu::GetSelectionMenuWidgetThemeData() const
+const FThematicUIMainWidgetData& UThematicUiDropDownMenu::GetSelectionMenuWidgetThemeData() const
 {
 	return SelectionMenuData.SelectionMenuWidgetThemeData;
 }
 
-void UThematicUIDropDownMenu::SetSelectionMenuWidgetThemeData(const FThematicUIMainWidgetData& NewSelectionMenuWidgetThemeData)
+void UThematicUiDropDownMenu::SetSelectionMenuWidgetThemeData(const FThematicUIMainWidgetData& NewSelectionMenuWidgetThemeData)
 {
 	SelectionMenuData.SelectionMenuWidgetThemeData = NewSelectionMenuWidgetThemeData;
 }
 
-const FVector2D& UThematicUIDropDownMenu::GetSelectionMenuSize() const
+const FVector2D& UThematicUiDropDownMenu::GetSelectionMenuSize() const
 {
 	return SelectionMenuData.SelectionMenuSize;
 }
 
-void UThematicUIDropDownMenu::SetSelectionMenuSize(const FVector2D& NewSelectionMenuSize)
+void UThematicUiDropDownMenu::SetSelectionMenuSize(const FVector2D& NewSelectionMenuSize)
 {
 	SelectionMenuData.SelectionMenuSize = NewSelectionMenuSize;
 }
 
-const FMargin& UThematicUIDropDownMenu::GetSelectionMenuOptionsPadding() const
+const FMargin& UThematicUiDropDownMenu::GetSelectionMenuOptionsPadding() const
 {	
 	return SelectionMenuData.SelectionMenuOptionsPadding;
 }
 
-void UThematicUIDropDownMenu::SetSelectionMenuOptionsPadding(const FMargin& NewSelectionMenuOptionsPadding)
+void UThematicUiDropDownMenu::SetSelectionMenuOptionsPadding(const FMargin& NewSelectionMenuOptionsPadding)
 {
 	SelectionMenuData.SelectionMenuOptionsPadding = NewSelectionMenuOptionsPadding;
 }
 
-void UThematicUIDropDownMenu::HandleDropDownButtonPressed(UThematicUIButton* PressedButton)
+void UThematicUiDropDownMenu::HandleDropDownButtonPressed(UThematicUiButton* PressedButton)
 {
 	// @todo Creation and Setup Options Logic
 	if (!SelectionMenuSubclass->IsValidLowLevel() || DropDownButton != PressedButton)
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenu::HandleDropDownButtonPressed(), {Name}::SelectionMenuSubclass is INVALID", GetName());
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUiDropDownMenu::HandleDropDownButtonPressed(), {Name}::SelectionMenuSubclass is INVALID", GetName());
 		return;
 	}
 	
-	SelectionMenu = CreateWidget<UThematicUIDropDownMenuSelection>(GetOwningPlayer(), SelectionMenuSubclass, NAME_None);
+	SelectionMenu = CreateWidget<UThematicUiDropDownMenuSelection>(GetOwningPlayer(), SelectionMenuSubclass, NAME_None);
 	
-	verifyf(SelectionMenu->IsValidLowLevel(), TEXT("UThematicUIDropDownMenu::HandleDropDownButtonPressed, SelectionMenu == nullptr || Failed To Create"));
+	verifyf(SelectionMenu->IsValidLowLevel(), TEXT("UThematicUiDropDownMenu::HandleDropDownButtonPressed, SelectionMenu == nullptr || Failed To Create"));
 	
 	SelectionMenu->AddToViewport(100);
 	SelectionMenu->SetOwningPlayer(GetOwningPlayer());
 	SelectionMenu->NativeCreated(this, Options, SelectionMenuData);
 	
-	SelectionMenu->OnTuiOnOptionSelected.AddUniqueDynamic(this, &UThematicUIDropDownMenu::HandleOptionSelected);
+	SelectionMenu->OnTuiOnOptionSelected.AddUniqueDynamic(this, &UThematicUiDropDownMenu::HandleOptionSelected);
 }
 
-void UThematicUIDropDownMenu::HandleOptionSelected(int SelectedOptionIndex)
+void UThematicUiDropDownMenu::HandleOptionSelected(int SelectedOptionIndex)
 {
 	// BTW THE SelectionMenu WILL DESTROY ITSELF AFTER THIS
 
@@ -115,7 +115,7 @@ void UThematicUIDropDownMenu::HandleOptionSelected(int SelectedOptionIndex)
 	
 	if (SelectionMenu)
 	{
-	SelectionMenu->OnTuiOnOptionSelected.RemoveDynamic(this, &UThematicUIDropDownMenu::HandleOptionSelected);
+	SelectionMenu->OnTuiOnOptionSelected.RemoveDynamic(this, &UThematicUiDropDownMenu::HandleOptionSelected);
 	}
 	
 	if (DropDownButton)
@@ -124,7 +124,7 @@ void UThematicUIDropDownMenu::HandleOptionSelected(int SelectedOptionIndex)
 	}
 }
 
-void UThematicUIDropDownMenu::SetThemeNormal()
+void UThematicUiDropDownMenu::SetThemeNormal()
 {
 	Super::SetThemeNormal();
 	
@@ -134,11 +134,11 @@ void UThematicUIDropDownMenu::SetThemeNormal()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenu::SetThemeNormal : UThematicUIDropDownMenu::DropDownButton == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUiDropDownMenu::SetThemeNormal : UThematicUiDropDownMenu::DropDownButton == nullptr");
 	}
 }
 
-void UThematicUIDropDownMenu::SetThemeHovered()
+void UThematicUiDropDownMenu::SetThemeHovered()
 {
 	Super::SetThemeHovered();
 	
@@ -148,11 +148,11 @@ void UThematicUIDropDownMenu::SetThemeHovered()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenu::SetThemeHovered : UThematicUIDropDownMenu::DropDownButton == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUiDropDownMenu::SetThemeHovered : UThematicUiDropDownMenu::DropDownButton == nullptr");
 	}
 }
 
-void UThematicUIDropDownMenu::SetThemePressed()
+void UThematicUiDropDownMenu::SetThemePressed()
 {
 	Super::SetThemePressed();
 	
@@ -162,11 +162,11 @@ void UThematicUIDropDownMenu::SetThemePressed()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenu::SetThemePressed : UThematicUIDropDownMenu::DropDownButton == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUiDropDownMenu::SetThemePressed : UThematicUiDropDownMenu::DropDownButton == nullptr");
 	}
 }
 
-void UThematicUIDropDownMenu::NativePreConstruct()
+void UThematicUiDropDownMenu::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 	
@@ -193,16 +193,16 @@ void UThematicUIDropDownMenu::NativePreConstruct()
 	}
 }
 
-void UThematicUIDropDownMenu::NativeConstruct()
+void UThematicUiDropDownMenu::NativeConstruct()
 {
 	Super::NativeConstruct();
 	
 	
 	// Bind to Delegates
-	DropDownButton->OnTuiButtonPressedAndReleased.AddUniqueDynamic(this, &UThematicUIDropDownMenu::HandleDropDownButtonPressed);
+	DropDownButton->OnTuiButtonPressedAndReleased.AddUniqueDynamic(this, &UThematicUiDropDownMenu::HandleDropDownButtonPressed);
 }
 
-FReply UThematicUIDropDownMenu::NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent)
+FReply UThematicUiDropDownMenu::NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent)
 {
 	if (DropDownButton)
 	{
@@ -212,9 +212,9 @@ FReply UThematicUIDropDownMenu::NativeOnFocusReceived(const FGeometry& InGeometr
 	return Super::NativeOnFocusReceived(InGeometry, InFocusEvent);
 }
 
-void UThematicUIDropDownMenu::NativeDestruct()
+void UThematicUiDropDownMenu::NativeDestruct()
 {
 	Super::NativeDestruct();
 	
-	DropDownButton->OnTuiButtonPressedAndReleased.RemoveDynamic(this, &UThematicUIDropDownMenu::HandleDropDownButtonPressed);
+	DropDownButton->OnTuiButtonPressedAndReleased.RemoveDynamic(this, &UThematicUiDropDownMenu::HandleDropDownButtonPressed);
 }

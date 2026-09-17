@@ -1,7 +1,9 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "ThematicWidgets/ThematicUIDropDownMenuSelection.h"
+#include "ThematicWidgets/ThematicUiDropDownMenuSelection.h"
+
+#include <Components/CanvasPanelSlot.h>
 
 #include "Components/ScrollBox.h"
 #include "Blueprint/SlateBlueprintLibrary.h"
@@ -10,15 +12,15 @@
 #include "Components/Image.h"
 #include "Components/ScrollBoxSlot.h"
 
-#include "ThematicWidgets/ThematicUIButton.h"
+#include "ThematicWidgets/ThematicUiButton.h"
 
-bool UThematicUIDropDownMenuSelection::CheckUserFocus()
+bool UThematicUiDropDownMenuSelection::CheckUserFocus()
 {
-	TArray<TObjectPtr<UThematicUIButton>> Buttons;
+	TArray<TObjectPtr<UThematicUiButton>> Buttons;
 	
 	SelectionButtonsMap.GetKeys(Buttons);
 	
-	for (UThematicUIButton* Button : Buttons)
+	for (UThematicUiButton* Button : Buttons)
 	{
 		if (Button->TuiHasUserFocus())
 		{
@@ -29,7 +31,7 @@ bool UThematicUIDropDownMenuSelection::CheckUserFocus()
 	return false;
 }
 
-void UThematicUIDropDownMenuSelection::HandleTickCheckForUserFocus()
+void UThematicUiDropDownMenuSelection::HandleTickCheckForUserFocus()
 {
 	if (CheckUserFocus())
 	{
@@ -41,19 +43,19 @@ void UThematicUIDropDownMenuSelection::HandleTickCheckForUserFocus()
 	}
 }
 
-void UThematicUIDropDownMenuSelection::CreateOptionButtons()
+void UThematicUiDropDownMenuSelection::CreateOptionButtons()
 {
 	if (!DropDownButtonSubclass->IsValidLowLevel())
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUIDropDownMenuSelection::NativeCreated, {Name}::DropDownButtonSubclass is NOT VALID", GetName());
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUiDropDownMenuSelection::NativeCreated, {Name}::DropDownButtonSubclass is NOT VALID", GetName());
 		return;
 	}
 	
 	for (int i = 0; i < Options.Num(); i++)
 	{
-		UThematicUIButton* Button = CreateWidget<UThematicUIButton>(this, DropDownButtonSubclass, NAME_None);
+		UThematicUiButton* Button = CreateWidget<UThematicUiButton>(this, DropDownButtonSubclass, NAME_None);
 		
-		verifyf(Button != nullptr, TEXT("UThematicUIDropDownMenuSelection::NativeCreated, Button Created For Options Menu == nullptr"));
+		verifyf(Button != nullptr, TEXT("UThematicUiDropDownMenuSelection::NativeCreated, Button Created For Options Menu == nullptr"));
 		
 		ScrollBox->AddChild(Button);
 		Button->SetPrimaryWidgetData(SelectionMenuData.SelectionMenuWidgetThemeData);
@@ -75,9 +77,9 @@ void UThematicUIDropDownMenuSelection::CreateOptionButtons()
 	}
 }
 
-void UThematicUIDropDownMenuSelection::SetupButtonNavigation()
+void UThematicUiDropDownMenuSelection::SetupButtonNavigation()
 {
-	TArray<TObjectPtr<UThematicUIButton>> Buttons;
+	TArray<TObjectPtr<UThematicUiButton>> Buttons;
 	SelectionButtonsMap.GetKeys(Buttons);
 	
 	for (int i = 0; i < Buttons.Num(); i++)
@@ -104,7 +106,7 @@ void UThematicUIDropDownMenuSelection::SetupButtonNavigation()
 	}
 }
 
-void UThematicUIDropDownMenuSelection::HandleOptionSelected(UThematicUIButton* ButtonPressed)
+void UThematicUiDropDownMenuSelection::HandleOptionSelected(UThematicUiButton* ButtonPressed)
 {
 	if (SelectionButtonsMap.Find(ButtonPressed))
 	{
@@ -112,14 +114,14 @@ void UThematicUIDropDownMenuSelection::HandleOptionSelected(UThematicUIButton* B
 	}
 }
 
-void UThematicUIDropDownMenuSelection::HandleOptionSelected(int32 SelectedIndex)
+void UThematicUiDropDownMenuSelection::HandleOptionSelected(int32 SelectedIndex)
 {
 	OnTuiOnOptionSelected.Broadcast(SelectedIndex);
 
-	TArray<TObjectPtr<UThematicUIButton>> Buttons;
+	TArray<TObjectPtr<UThematicUiButton>> Buttons;
 	SelectionButtonsMap.GetKeys(Buttons);
 	
-	for (UThematicUIButton* Button : Buttons)
+	for (UThematicUiButton* Button : Buttons)
 	{
 		Button->OnTuiButtonPressedAndReleased.RemoveDynamic(this, &ThisClass::HandleOptionSelected);
 	}
@@ -127,7 +129,7 @@ void UThematicUIDropDownMenuSelection::HandleOptionSelected(int32 SelectedIndex)
 	RemoveFromParent();
 }
 
-void UThematicUIDropDownMenuSelection::UpdatePosition()
+void UThematicUiDropDownMenuSelection::UpdatePosition()
 {
 	if (!OwningDropDownMenuRef)
 	{
@@ -144,7 +146,7 @@ void UThematicUIDropDownMenuSelection::UpdatePosition()
 	SetRenderTranslation(SelectionMenuPosition);
 }
 
-void UThematicUIDropDownMenuSelection::NativeCreated(UThematicUIDropDownMenu* OwnerMenu, TArray<FText>& OptionsArray, const FThematicUISelectionMenuData& NewData)
+void UThematicUiDropDownMenuSelection::NativeCreated(UThematicUiDropDownMenu* OwnerMenu, TArray<FText>& OptionsArray, const FThematicUISelectionMenuData& NewData)
 {
 	OwningDropDownMenuRef = OwnerMenu;
 	
@@ -183,14 +185,14 @@ void UThematicUIDropDownMenuSelection::NativeCreated(UThematicUIDropDownMenu* Ow
 	SetupButtonNavigation();
 }
 
-void UThematicUIDropDownMenuSelection::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
+void UThematicUiDropDownMenuSelection::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
 	
 	HandleTickCheckForUserFocus();
 }
 
-void UThematicUIDropDownMenuSelection::NativeDestruct()
+void UThematicUiDropDownMenuSelection::NativeDestruct()
 {
 	Super::NativeDestruct();
 }

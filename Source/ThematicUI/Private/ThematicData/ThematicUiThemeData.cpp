@@ -1,14 +1,17 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-#include "ThematicData/ThematicUIThemeData.h"
+#include "ThematicData/ThematicUiThemeData.h"
+
+#include <Misc/DataValidation.h>
+
 #include "ThematicUI.h"
 
 #if WITH_EDITOR
-void UThematicUIThemeDataAsset::PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent)
+void UThematicUiThemeDataAsset::PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent)
 {
 	FName PropertyName = PropertyChangedEvent.GetPropertyName();
 	
-	if (PropertyName == GET_MEMBER_NAME_CHECKED(UThematicUIThemeDataAsset, ParentThematicUIThemeDataAsset))
+	if (PropertyName == GET_MEMBER_NAME_CHECKED(UThematicUiThemeDataAsset, ParentThematicUIThemeDataAsset))
 	{
 		if (ParentThematicUIThemeDataAsset)
 		{
@@ -24,7 +27,7 @@ void UThematicUIThemeDataAsset::PostEditChangeProperty(struct FPropertyChangedEv
 }
 #endif
 
-const FThematicUIThemeData& UThematicUIThemeDataAsset::GetThematicUIThemeData()
+const FThematicUiThemeData& UThematicUiThemeDataAsset::GetThematicUIThemeData()
 {
 	if (ParentThematicUIThemeDataAsset == this)
 	{
@@ -41,12 +44,12 @@ const FThematicUIThemeData& UThematicUIThemeDataAsset::GetThematicUIThemeData()
 	return ThematicUIThemeData;
 }
 
-void UThematicUIThemeDataAsset::SetThematicUIThemeData(const FThematicUIThemeData& NewThematicUIThemeData)
+void UThematicUiThemeDataAsset::SetThematicUIThemeData(const FThematicUiThemeData& NewThematicUIThemeData)
 {
 	ThematicUIThemeData = NewThematicUIThemeData;
 }
 
-const FThematicUIThemeDataOverride UThematicUIThemeDataAsset::GetThematicUIThemeDataOverride()
+const FThematicUIThemeDataOverride UThematicUiThemeDataAsset::GetThematicUIThemeDataOverride()
 {
 	if (ParentThematicUIThemeDataAsset == this)
 	{
@@ -62,4 +65,19 @@ const FThematicUIThemeDataOverride UThematicUIThemeDataAsset::GetThematicUITheme
 	
 	// @todo Update To New API
 	return ThematicUIThemeDataOverride.ForceToThemeOverrideData(ThematicUIThemeData);
+}
+
+EDataValidationResult UThematicUiThemeDataAsset::IsDataValid(class FDataValidationContext& Context) const
+{
+	if (ThematicUIThemeData.NormalTheme.TextFont.FontObject == nullptr)
+	{
+		Context.AddError(FText::FromString(TEXT("ThematicUIThemeData.NormalTheme.TextFont.FontObject == NULL")));
+	}
+	
+	if (ThematicUIThemeDataOverride.NormalThemeOverride.TextFont.FontObject == nullptr && ParentThematicUIThemeDataAsset != nullptr)
+	{
+		Context.AddError(FText::FromString(TEXT("ThematicUIThemeDataOverride.NormalThemeOverride.TextFont.FontObject == NULL")));
+	}
+
+	return Super::IsDataValid(Context);
 }

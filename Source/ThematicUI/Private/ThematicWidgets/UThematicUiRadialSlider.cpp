@@ -1,7 +1,7 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "ThematicWidgets/UThematicUIRadialSlider.h"
+#include "ThematicWidgets/UThematicUiRadialSlider.h"
 
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Components/RadialSlider.h"
@@ -11,12 +11,12 @@
 
 #include "Sound/SoundBase.h"
 
-const float UUThematicUIRadialSlider::GetCurrentValue() const
+const float UUThematicUiRadialSlider::GetCurrentValue() const
 {
 	return CurrentValue;
 }
 
-void UUThematicUIRadialSlider::SetCurrentValue(const float NewCurrentValue)
+void UUThematicUiRadialSlider::SetCurrentValue(const float NewCurrentValue)
 {
 	CurrentValue = NewCurrentValue;
 	
@@ -28,12 +28,12 @@ void UUThematicUIRadialSlider::SetCurrentValue(const float NewCurrentValue)
 	SetText(Text);
 }
 
-const FVector2D& UUThematicUIRadialSlider::GetValueRange() const
+const FVector2D& UUThematicUiRadialSlider::GetValueRange() const
 {
 	return ValueRange;
 }
 
-void UUThematicUIRadialSlider::SetValueRange(const FVector2D& NewValueRange)
+void UUThematicUiRadialSlider::SetValueRange(const FVector2D& NewValueRange)
 {
 	ValueRange = NewValueRange;
 	
@@ -45,12 +45,12 @@ void UUThematicUIRadialSlider::SetValueRange(const FVector2D& NewValueRange)
 	CurrentValue = CalculateCurrentValue(Percentage);
 }
 
-const float UUThematicUIRadialSlider::GetStepAmount() const
+const float UUThematicUiRadialSlider::GetStepAmount() const
 {
 	return StepAmount;
 }
 
-void UUThematicUIRadialSlider::SetStepAmount(const float NewStepAmount)
+void UUThematicUiRadialSlider::SetStepAmount(const float NewStepAmount)
 {
 	StepAmount = NewStepAmount;
 	
@@ -63,12 +63,12 @@ void UUThematicUIRadialSlider::SetStepAmount(const float NewStepAmount)
 	}
 }
 
-const FVector2D& UUThematicUIRadialSlider::GetStartAndEndAngles() const
+const FVector2D& UUThematicUiRadialSlider::GetStartAndEndAngles() const
 {
 	return StartAndEndAngles;
 }
 
-void UUThematicUIRadialSlider::SetStartAndEndAngles(const FVector2D& NewStartAndEndAngles)
+void UUThematicUiRadialSlider::SetStartAndEndAngles(const FVector2D& NewStartAndEndAngles)
 {
 	StartAndEndAngles = NewStartAndEndAngles;
 	
@@ -79,12 +79,12 @@ void UUThematicUIRadialSlider::SetStartAndEndAngles(const FVector2D& NewStartAnd
 	}
 }
 
-const float UUThematicUIRadialSlider::GetBarThickness() const
+const float UUThematicUiRadialSlider::GetBarThickness() const
 {
 	return BarThickness;
 }
 
-void UUThematicUIRadialSlider::SetBarThickness(const float NewBarThickness)
+void UUThematicUiRadialSlider::SetBarThickness(const float NewBarThickness)
 {
 	BarThickness = NewBarThickness;
 	
@@ -94,12 +94,12 @@ void UUThematicUIRadialSlider::SetBarThickness(const float NewBarThickness)
 	}
 }
 
-const bool UUThematicUIRadialSlider::GetbShowSliderThumb() const
+const bool UUThematicUiRadialSlider::GetbShowSliderThumb() const
 {
 	return bShowSliderThumb;
 }
 
-void UUThematicUIRadialSlider::SetbShowSliderThumb(const bool bNewShowSliderThumb)
+void UUThematicUiRadialSlider::SetbShowSliderThumb(const bool bNewShowSliderThumb)
 {
 	bShowSliderThumb = bNewShowSliderThumb;
 	
@@ -109,12 +109,12 @@ void UUThematicUIRadialSlider::SetbShowSliderThumb(const bool bNewShowSliderThum
 	}
 }
 
-const bool UUThematicUIRadialSlider::GetbShowSliderHandle() const
+const bool UUThematicUiRadialSlider::GetbShowSliderHandle() const
 {
 	return bShowSliderHandle;
 }
 
-void UUThematicUIRadialSlider::SetbShowSliderHandle(const bool bNewShowSliderHandle)
+void UUThematicUiRadialSlider::SetbShowSliderHandle(const bool bNewShowSliderHandle)
 {
 	bShowSliderHandle = bNewShowSliderHandle;
 	
@@ -124,22 +124,22 @@ void UUThematicUIRadialSlider::SetbShowSliderHandle(const bool bNewShowSliderHan
 	}
 }
 
-const FSlateBrush& UUThematicUIRadialSlider::GetThumbImage() const
+const FSlateBrush& UUThematicUiRadialSlider::GetThumbImage() const
 {
 	return ThumbImage;
 }
 
-void UUThematicUIRadialSlider::SetThumbImage(const FSlateBrush& NewThumbImage)
+void UUThematicUiRadialSlider::SetThumbImage(const FSlateBrush& NewThumbImage)
 {
 	ThumbImage = NewThumbImage;
 }
 
-const float UUThematicUIRadialSlider::GetRadialSliderPadding() const
+const float UUThematicUiRadialSlider::GetRadialSliderPadding() const
 {
 	return RadialSliderPadding;
 }
 
-void UUThematicUIRadialSlider::SetRadialSliderPadding(const float NewRadialSliderPadding)
+void UUThematicUiRadialSlider::SetRadialSliderPadding(const float NewRadialSliderPadding)
 {
 	RadialSliderPadding = NewRadialSliderPadding;
 	
@@ -150,12 +150,12 @@ void UUThematicUIRadialSlider::SetRadialSliderPadding(const float NewRadialSlide
 	}
 }
 
-const FMargin& UUThematicUIRadialSlider::GetImagePadding() const
+const FMargin& UUThematicUiRadialSlider::GetImagePadding() const
 {
 	return ImagePadding;
 }
 
-void UUThematicUIRadialSlider::SetImagePadding(const FMargin& NewImagePadding)
+void UUThematicUiRadialSlider::SetImagePadding(const FMargin& NewImagePadding)
 {
 	ImagePadding = NewImagePadding;
 	
@@ -166,12 +166,12 @@ void UUThematicUIRadialSlider::SetImagePadding(const FMargin& NewImagePadding)
 	}
 }
 
-const EHorizontalAlignment UUThematicUIRadialSlider::GetTextHorizontalAlignment() const
+const EHorizontalAlignment UUThematicUiRadialSlider::GetTextHorizontalAlignment() const
 {
 	return TextHorizontalAlignment;
 }
 
-void UUThematicUIRadialSlider::SetTextHorizontalAlignment(const EHorizontalAlignment& NewTextHorizontalAlignment)
+void UUThematicUiRadialSlider::SetTextHorizontalAlignment(const EHorizontalAlignment& NewTextHorizontalAlignment)
 {
 	TextHorizontalAlignment = NewTextHorizontalAlignment;
 	
@@ -182,12 +182,12 @@ void UUThematicUIRadialSlider::SetTextHorizontalAlignment(const EHorizontalAlign
 	}
 }
 
-const EVerticalAlignment UUThematicUIRadialSlider::GetTextVerticalAlignment() const
+const EVerticalAlignment UUThematicUiRadialSlider::GetTextVerticalAlignment() const
 {
 	return TextVerticalAlignment;
 }
 
-void UUThematicUIRadialSlider::SetTextVerticalAlignment(const EVerticalAlignment& NewTextVerticalAlignment)
+void UUThematicUiRadialSlider::SetTextVerticalAlignment(const EVerticalAlignment& NewTextVerticalAlignment)
 {
 	this->TextVerticalAlignment = NewTextVerticalAlignment;
 	
@@ -198,12 +198,12 @@ void UUThematicUIRadialSlider::SetTextVerticalAlignment(const EVerticalAlignment
 	}
 }
 
-const FText& UUThematicUIRadialSlider::GetText() const
+const FText& UUThematicUiRadialSlider::GetText() const
 {
 	return Text;
 }
 
-void UUThematicUIRadialSlider::SetText(const FText& NewText)
+void UUThematicUiRadialSlider::SetText(const FText& NewText)
 {
 	Text = NewText;
 	
@@ -229,22 +229,22 @@ void UUThematicUIRadialSlider::SetText(const FText& NewText)
 #undef LOCTEXT_NAMESPACE
 }
 
-const bool UUThematicUIRadialSlider::GetbAlwaysDisplayValue() const
+const bool UUThematicUiRadialSlider::GetbAlwaysDisplayValue() const
 {
 	return bAlwaysDisplayValue;
 }
 
-void UUThematicUIRadialSlider::SetbAlwaysDisplayValue(const bool bNewAlwaysDisplayValue)
+void UUThematicUiRadialSlider::SetbAlwaysDisplayValue(const bool bNewAlwaysDisplayValue)
 {
 	bAlwaysDisplayValue = bNewAlwaysDisplayValue;
 }
 
-const FMargin& UUThematicUIRadialSlider::GetTextPadding() const
+const FMargin& UUThematicUiRadialSlider::GetTextPadding() const
 {
 	return TextPadding;
 }
 
-void UUThematicUIRadialSlider::SetTextPadding(const FMargin& NewTextPadding)
+void UUThematicUiRadialSlider::SetTextPadding(const FMargin& NewTextPadding)
 {
 	this->TextPadding = NewTextPadding;
 	
@@ -255,24 +255,24 @@ void UUThematicUIRadialSlider::SetTextPadding(const FMargin& NewTextPadding)
 	}
 }
 
-const bool UUThematicUIRadialSlider::GetbShowValueAsPercentage() const
+const bool UUThematicUiRadialSlider::GetbShowValueAsPercentage() const
 {
 	return bShowValueAsPercentage;
 }
 
-void UUThematicUIRadialSlider::SetbShowValueAsPercentage(const bool NewbShowValueAsPercentage)
+void UUThematicUiRadialSlider::SetbShowValueAsPercentage(const bool NewbShowValueAsPercentage)
 {
 	bShowValueAsPercentage = NewbShowValueAsPercentage;
 	SetText(Text);
 }
 
 
-const float UUThematicUIRadialSlider::GetPercentage() const
+const float UUThematicUiRadialSlider::GetPercentage() const
 {
 	return ((CurrentValue - ValueRange.X) / (ValueRange.Y - ValueRange.X));
 }
 
-const float UUThematicUIRadialSlider::CalculateCurrentValue(const float Percentage) const
+const float UUThematicUiRadialSlider::CalculateCurrentValue(const float Percentage) const
 {
 	float Value = ValueRange.Y - ValueRange.X;
 	Value *= Percentage;
@@ -281,7 +281,7 @@ const float UUThematicUIRadialSlider::CalculateCurrentValue(const float Percenta
 	return Value;
 }
 
-void UUThematicUIRadialSlider::NativePreConstruct()
+void UUThematicUiRadialSlider::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 	
@@ -320,20 +320,20 @@ void UUThematicUIRadialSlider::NativePreConstruct()
 	}
 }
 
-void UUThematicUIRadialSlider::NativeConstruct()
+void UUThematicUiRadialSlider::NativeConstruct()
 {
 	Super::NativeConstruct();
 	
 	if (RadialSlider)
 	{
-		RadialSlider->OnValueChanged.AddUniqueDynamic(this, &UUThematicUIRadialSlider::HandleFloatValueChanged);
-		RadialSlider->OnControllerCaptureBegin.AddUniqueDynamic(this, &UUThematicUIRadialSlider::HandleControllerFocus);
-		RadialSlider->OnControllerCaptureEnd.AddUniqueDynamic(this, &UUThematicUIRadialSlider::HandleControllerUnFocused);
+		RadialSlider->OnValueChanged.AddUniqueDynamic(this, &UUThematicUiRadialSlider::HandleFloatValueChanged);
+		RadialSlider->OnControllerCaptureBegin.AddUniqueDynamic(this, &UUThematicUiRadialSlider::HandleControllerFocus);
+		RadialSlider->OnControllerCaptureEnd.AddUniqueDynamic(this, &UUThematicUiRadialSlider::HandleControllerUnFocused);
 	}
 	SetStepAmount(StepAmount);
 }
 
-void UUThematicUIRadialSlider::SetThemeNormal()
+void UUThematicUiRadialSlider::SetThemeNormal()
 {
 	Super::SetThemeNormal();
 	
@@ -358,11 +358,11 @@ void UUThematicUIRadialSlider::SetThemeNormal()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UUThematicUIRadialSlider::SetThemeNormal : UUThematicUIRadialSlider::RadialSlider == nullptr || UUThematicUIRadialSlider::Image == nullptr || UUThematicUIRadialSlider::TextBlock == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UUThematicUiRadialSlider::SetThemeNormal : UUThematicUiRadialSlider::RadialSlider == nullptr || UUThematicUiRadialSlider::Image == nullptr || UUThematicUiRadialSlider::TextBlock == nullptr");
 	}
 }
 
-void UUThematicUIRadialSlider::SetThemeHovered()
+void UUThematicUiRadialSlider::SetThemeHovered()
 {
 	Super::SetThemeHovered();
 	
@@ -387,11 +387,11 @@ void UUThematicUIRadialSlider::SetThemeHovered()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UUThematicUIRadialSlider::SetThemeHovered : UUThematicUIRadialSlider::RadialSlider == nullptr || UUThematicUIRadialSlider::Image == nullptr || UUThematicUIRadialSlider::TextBlock == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UUThematicUiRadialSlider::SetThemeHovered : UUThematicUiRadialSlider::RadialSlider == nullptr || UUThematicUiRadialSlider::Image == nullptr || UUThematicUiRadialSlider::TextBlock == nullptr");
 	}
 }
 
-void UUThematicUIRadialSlider::SetThemePressed()
+void UUThematicUiRadialSlider::SetThemePressed()
 {
 	Super::SetThemePressed();
 	
@@ -416,11 +416,11 @@ void UUThematicUIRadialSlider::SetThemePressed()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UUThematicUIRadialSlider::SetThemePressed : UUThematicUIRadialSlider::RadialSlider == nullptr || UUThematicUIRadialSlider::Image == nullptr || UUThematicUIRadialSlider::TextBlock == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UUThematicUiRadialSlider::SetThemePressed : UUThematicUiRadialSlider::RadialSlider == nullptr || UUThematicUiRadialSlider::Image == nullptr || UUThematicUiRadialSlider::TextBlock == nullptr");
 	}
 }
 
-FReply UUThematicUIRadialSlider::NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent)
+FReply UUThematicUiRadialSlider::NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent)
 {
 	if (RadialSlider)
 	{
@@ -429,22 +429,27 @@ FReply UUThematicUIRadialSlider::NativeOnFocusReceived(const FGeometry& InGeomet
 	return Super::NativeOnFocusReceived(InGeometry, InFocusEvent);
 }
 
-void UUThematicUIRadialSlider::HandleFloatValueChanged(const float NewValue)
+void UUThematicUiRadialSlider::HandleFloatValueChanged(const float NewValue)
 {
 	CurrentValue = CalculateCurrentValue(NewValue);
 	SetText(Text);
 	TUiValueChanged.Broadcast(CurrentValue);
 }
 
-void UUThematicUIRadialSlider::HandleControllerFocus()
+void UUThematicUiRadialSlider::HandleControllerFocus()
 {
 	SetThemePressed();
 	if (USoundBase* SoundBase = Cast<USoundBase>(ActualThemeData.PressedTheme.Sound.GetResourceObject()))
 		PlaySound(SoundBase);
 }
 
-void UUThematicUIRadialSlider::HandleControllerUnFocused()
+void UUThematicUiRadialSlider::HandleControllerUnFocused()
 {
 	if (RadialSlider->HasAnyUserFocus())
 		SetThemeHovered();
 }
+
+//EDataValidationResult UUThematicUiRadialSlider::IsDataValid(class FDataValidationContext& Context) const
+//{
+//	return Super::IsDataValid(Context);
+//}

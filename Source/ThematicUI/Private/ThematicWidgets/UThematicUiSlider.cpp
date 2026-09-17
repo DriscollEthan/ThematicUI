@@ -1,7 +1,7 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "ThematicWidgets/UThematicUISlider.h"
+#include "ThematicWidgets/UThematicUiSlider.h"
 
 #include "Components/Border.h"
 #include "Components/TextBlock.h"
@@ -11,12 +11,12 @@
 
 #include "Sound/SoundBase.h"
 
-const float UUThematicUISlider::GetCurrentValue() const
+const float UUThematicUiSlider::GetCurrentValue() const
 {
 	return CurrentValue;
 }
 
-void UUThematicUISlider::SetCurrentValue(const float NewCurrentValue)
+void UUThematicUiSlider::SetCurrentValue(const float NewCurrentValue)
 {
 	CurrentValue = NewCurrentValue;
 
@@ -30,12 +30,12 @@ void UUThematicUISlider::SetCurrentValue(const float NewCurrentValue)
 	}
 }
 
-FVector2D UUThematicUISlider::GetValueRange() const
+FVector2D UUThematicUiSlider::GetValueRange() const
 {
 	return ValueRange;
 }
 
-void UUThematicUISlider::SetValueRange(const FVector2D& NewValueRange)
+void UUThematicUiSlider::SetValueRange(const FVector2D& NewValueRange)
 {
 	ValueRange = NewValueRange;
 	
@@ -47,12 +47,12 @@ void UUThematicUISlider::SetValueRange(const FVector2D& NewValueRange)
 	CurrentValue = CalculateCurrentValue(Slider->GetValue());
 }
 
-float UUThematicUISlider::GetStepAmount() const
+float UUThematicUiSlider::GetStepAmount() const
 {
 	return StepAmount;
 }
 
-void UUThematicUISlider::SetStepAmount(const float NewStepAmount)
+void UUThematicUiSlider::SetStepAmount(const float NewStepAmount)
 {
 	StepAmount = NewStepAmount;
 	
@@ -65,12 +65,12 @@ void UUThematicUISlider::SetStepAmount(const float NewStepAmount)
 	}
 }
 
-const bool UUThematicUISlider::GetbIsHorizontal() const
+const bool UUThematicUiSlider::GetbIsHorizontal() const
 {
 	return bIsHorizontal;
 }
 
-void UUThematicUISlider::SetbIsHorizontal(const bool NewbIsHorizontal)
+void UUThematicUiSlider::SetbIsHorizontal(const bool NewbIsHorizontal)
 {
 	bIsHorizontal = NewbIsHorizontal;
 	
@@ -81,23 +81,23 @@ void UUThematicUISlider::SetbIsHorizontal(const bool NewbIsHorizontal)
 	}
 }
 
-const FVector2D& UUThematicUISlider::GetThumbSize() const
+const FVector2D& UUThematicUiSlider::GetThumbSize() const
 {
 	return ThumbSize;
 }
 
-void UUThematicUISlider::SetThumbSize(const FVector2D& NewThumbSize)
+void UUThematicUiSlider::SetThumbSize(const FVector2D& NewThumbSize)
 {
 	ThumbSize = NewThumbSize;
 }
 
 
-const FText& UUThematicUISlider::GetText() const
+const FText& UUThematicUiSlider::GetText() const
 {
 	return Text;
 }
 
-void UUThematicUISlider::SetText(const FText& NewText)
+void UUThematicUiSlider::SetText(const FText& NewText)
 {
 	Text = NewText;
 	
@@ -123,35 +123,35 @@ void UUThematicUISlider::SetText(const FText& NewText)
 #undef LOCTEXT_NAMESPACE
 }
 
-const bool UUThematicUISlider::GetbAlwaysShowValue() const
+const bool UUThematicUiSlider::GetbAlwaysShowValue() const
 {
 	return bAlwaysShowValue;
 }
 
-void UUThematicUISlider::SetbAlwaysShowValue(const bool NewbAlwaysShowValue)
+void UUThematicUiSlider::SetbAlwaysShowValue(const bool NewbAlwaysShowValue)
 {
 	bAlwaysShowValue = NewbAlwaysShowValue;
 	
 	SetText(Text);
 }
 
-const bool UUThematicUISlider::GetbShowValueAsPercentage() const
+const bool UUThematicUiSlider::GetbShowValueAsPercentage() const
 {
 	return bShowValueAsPercentage;
 }
 
-void UUThematicUISlider::SetbShowValueAsPercentage(const bool NewbShowValueAsPercentage)
+void UUThematicUiSlider::SetbShowValueAsPercentage(const bool NewbShowValueAsPercentage)
 {
 	bShowValueAsPercentage = NewbShowValueAsPercentage;
 	SetText(Text);
 }
 
-const float UUThematicUISlider::GetPercentage() const
+const float UUThematicUiSlider::GetPercentage() const
 {
 	return ((CurrentValue - ValueRange.X) / (ValueRange.Y - ValueRange.X));
 }
 
-const float UUThematicUISlider::CalculateCurrentValue(const float Percentage) const
+const float UUThematicUiSlider::CalculateCurrentValue(const float Percentage) const
 {
 	float Value = ValueRange.Y - ValueRange.X;
 	Value *= Percentage;
@@ -160,7 +160,7 @@ const float UUThematicUISlider::CalculateCurrentValue(const float Percentage) co
 	return Value;
 }
 
-void UUThematicUISlider::NativePreConstruct()
+void UUThematicUiSlider::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 	
@@ -182,20 +182,20 @@ void UUThematicUISlider::NativePreConstruct()
 	}
 }
 
-void UUThematicUISlider::NativeConstruct()
+void UUThematicUiSlider::NativeConstruct()
 {
 	Super::NativeConstruct();
 	
 	if (Slider)
 	{
-		Slider->OnValueChanged.AddUniqueDynamic(this, &UUThematicUISlider::HandleFloatValueChanged);
-		Slider->OnControllerCaptureBegin.AddUniqueDynamic(this, &UUThematicUISlider::HandleControllerFocus);
-		Slider->OnControllerCaptureEnd.AddUniqueDynamic(this, &UUThematicUISlider::HandleControllerUnFocused);
+		Slider->OnValueChanged.AddUniqueDynamic(this, &UUThematicUiSlider::HandleFloatValueChanged);
+		Slider->OnControllerCaptureBegin.AddUniqueDynamic(this, &UUThematicUiSlider::HandleControllerFocus);
+		Slider->OnControllerCaptureEnd.AddUniqueDynamic(this, &UUThematicUiSlider::HandleControllerUnFocused);
 	}
 	SetStepAmount(StepAmount);
 }
 
-void UUThematicUISlider::SetThemeNormal()
+void UUThematicUiSlider::SetThemeNormal()
 {
 	Super::SetThemeNormal();
 	
@@ -247,11 +247,11 @@ void UUThematicUISlider::SetThemeNormal()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UUThematicUISlider::SetThemeNormal : UUThematicUISlider::Slider == nullptr || UUThematicUISlider::ProgressBar == nullptr || UUThematicUISlider::TextBlock == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UUThematicUiSlider::SetThemeNormal : UUThematicUiSlider::Slider == nullptr || UUThematicUiSlider::ProgressBar == nullptr || UUThematicUiSlider::TextBlock == nullptr");
 	}
 }
 
-void UUThematicUISlider::SetThemeHovered()
+void UUThematicUiSlider::SetThemeHovered()
 {
 	Super::SetThemeHovered();
 	
@@ -303,11 +303,11 @@ void UUThematicUISlider::SetThemeHovered()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UUThematicUISlider::SetThemeHovered : UUThematicUISlider::Slider == nullptr || UUThematicUISlider::ProgressBar == nullptr || UUThematicUISlider::TextBlock == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UUThematicUiSlider::SetThemeHovered : UUThematicUiSlider::Slider == nullptr || UUThematicUiSlider::ProgressBar == nullptr || UUThematicUiSlider::TextBlock == nullptr");
 	}
 }
 
-void UUThematicUISlider::SetThemePressed()
+void UUThematicUiSlider::SetThemePressed()
 {
 	Super::SetThemePressed();
 	
@@ -359,11 +359,11 @@ void UUThematicUISlider::SetThemePressed()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UUThematicUISlider::SetThemePressed : UUThematicUISlider::Slider == nullptr || UUThematicUISlider::ProgressBar == nullptr || UUThematicUISlider::TextBlock == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UUThematicUiSlider::SetThemePressed : UUThematicUiSlider::Slider == nullptr || UUThematicUiSlider::ProgressBar == nullptr || UUThematicUiSlider::TextBlock == nullptr");
 	}
 }
 
-FReply UUThematicUISlider::NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent)
+FReply UUThematicUiSlider::NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent)
 {
 	if (Slider)
 	{
@@ -373,7 +373,7 @@ FReply UUThematicUISlider::NativeOnFocusReceived(const FGeometry& InGeometry, co
 	return Super::NativeOnFocusReceived(InGeometry, InFocusEvent);
 }
 
-void UUThematicUISlider::HandleFloatValueChanged(const float NewValue)
+void UUThematicUiSlider::HandleFloatValueChanged(const float NewValue)
 {
 	CurrentValue = CalculateCurrentValue(NewValue);
 	ProgressBar->SetPercent(GetPercentage());
@@ -381,14 +381,14 @@ void UUThematicUISlider::HandleFloatValueChanged(const float NewValue)
 	TUiOnValueChanged.Broadcast(CurrentValue);
 }
 
-void UUThematicUISlider::HandleControllerFocus()
+void UUThematicUiSlider::HandleControllerFocus()
 {
 	SetThemePressed();
 	if (USoundBase* SoundBase = Cast<USoundBase>(ActualThemeData.PressedTheme.Sound.GetResourceObject()))
 		PlaySound(SoundBase);
 }
 
-void UUThematicUISlider::HandleControllerUnFocused()
+void UUThematicUiSlider::HandleControllerUnFocused()
 {
 	if (Slider->HasAnyUserFocus())
 		SetThemeHovered();

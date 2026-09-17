@@ -14,20 +14,20 @@
 	
 
 	// Class Specific Includes
-	#include "ThematicWidgets/ThematicUIInteractable.h"
+	#include "ThematicWidgets/ThematicUiInteractable.h"
 
-	// UE Generated Includes
-	#include "ThematicUIButton.generated.h"
+// UE Generated Includes
+	#include "ThematicUiButton.generated.h"
 
 
 
 // Class Details
-	// Forward Declarations 
+	// Forward Declarations 1
 	class UButton;
 	class UTextBlock;
 	
 	// Delegate Declarations 
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTuiButtonPressedAndReleased, UThematicUIButton*, Button);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTuiButtonPressedAndReleased, UThematicUiButton*, Button);
 	
 	// Helper Enums 
 	
@@ -39,35 +39,35 @@
 /**
  * 
  */
-UCLASS(HideDropdown, NotPlaceable, Abstract, Category = "ThematicUI"	)
-class THEMATICUI_API UThematicUIButton : public UThematicUIInteractable
+UCLASS(HideDropdown, NotPlaceable, Abstract, Category = "ThematicUi")
+class THEMATICUI_API UThematicUiButton : public UThematicUiInteractable
 {
 	GENERATED_BODY()
 
 	// Variables 
 	public:
-	UPROPERTY(BlueprintAssignable, Category = "ThematicUI|Events")
+	UPROPERTY(BlueprintAssignable, Category = "ThematicUi|Events")
 	FTuiButtonPressedAndReleased OnTuiButtonPressedAndReleased;
 
 	protected:
-	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUI", meta = (MultiLine = "true"))
+	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUi", meta = (MultiLine = "true"))
 	FText Text;
 
 	private:
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUi", meta=(AllowPrivateAccess, BindWidget))
 	TObjectPtr<UButton> Button;
 	
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta=(AllowPrivateAccess, BindWidget))
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUi", meta=(AllowPrivateAccess, BindWidget))
 	TObjectPtr<UTextBlock> TextBlock;
 
 	
 // Class Functions
 	public:
 	/* Getters and Setters */
-	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Getters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUi|Getters")
 	const FText& GetText() const;
 	
-	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUi|Setters")
 	void SetText(const FText& NewText);
 	
 	protected:
@@ -80,8 +80,7 @@ class THEMATICUI_API UThematicUIButton : public UThematicUIInteractable
 	private:
 
 
-
-// Project Class Virtual Functions
+// Virtual Functions
 	public:
 	virtual bool TuiHasUserFocus() override;
 	
@@ -90,17 +89,6 @@ class THEMATICUI_API UThematicUIButton : public UThematicUIInteractable
 	virtual void SetThemeHovered() override;
 	
 	virtual void SetThemePressed() override;
-
-	protected:
-	
-
-	private:
-	
-
-
-// Unreal Class Virtual Functions
-	public:
-
 
 	protected:
 	virtual void NativePreConstruct() override;

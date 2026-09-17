@@ -17,11 +17,11 @@
 
 	// Class Specific Includes
 	#include "Blueprint/UserWidget.h"
-	#include "ThematicData/ThematicUIThemeData.h"
+	#include "ThematicData/ThematicUiThemeData.h"
 
 
 	// UE Generated Includes
-	#include "ThematicUIInteractable.generated.h"
+	#include "ThematicUiInteractable.generated.h"
 
 
 // Class Details
@@ -29,9 +29,9 @@
 	class USizeBox;
 	
 	// Delegate Declarations 
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTuiInteractableSetToNormalTheme, UThematicUIInteractable*, Interactable);
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTuiInteractableSetToHoveredTheme, UThematicUIInteractable*, Interactable);
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTuiInteractableSetToPressedTheme, UThematicUIInteractable*, Interactable);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTuiInteractableSetToNormalTheme, UThematicUiInteractable*, Interactable);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTuiInteractableSetToHoveredTheme, UThematicUiInteractable*, Interactable);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTuiInteractableSetToPressedTheme, UThematicUiInteractable*, Interactable);
 	
 	// Helper Enums 
 
@@ -44,23 +44,23 @@
 		
 		public:
 		/* Widget Theme Data */
-			UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
-			TObjectPtr<UThematicUIThemeDataAsset> WidgetTheme;
+			UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUi")
+			TObjectPtr<UThematicUiThemeDataAsset> WidgetTheme;
 			
 			/* Widget Theme Data Override */
-			UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUI")
+			UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUi")
 			FThematicUIThemeDataOverride WidgetThemeOverrideData;
 			
 			/* Size Box Data */
-			UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+			UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUi")
 			FVector2D SizeBoxSize = FVector2D(250.0f, 50.0f);
 			
 			/* Size Box Multiplier When Hovered */
-			UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+			UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUi")
 			FVector2D SizeBoxHoveredSizeMultiplier = FVector2D(1.0f, 1.0f);
 			
 			/* Size Box Multiplier When Pressed */
-			UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUI")
+			UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUi")
 			FVector2D SizeBoxPressedSizeMultiplier = FVector2D(1.0f, 1.0f);
 	};
 
@@ -68,80 +68,83 @@
 /**
  * 
  */
-UCLASS(HideDropdown, NotPlaceable, Abstract, Category = "ThematicUI")
-class THEMATICUI_API UThematicUIInteractable : public UUserWidget
+UCLASS(HideDropdown, NotPlaceable, Abstract, Category = "ThematicUi")
+class THEMATICUI_API UThematicUiInteractable : public UUserWidget
 {
 	GENERATED_BODY()
 
 // Variables 
 	public:
-	UPROPERTY(BlueprintAssignable, Category = "ThematicUI|Events")
+	UPROPERTY(BlueprintAssignable, Category = "ThematicUi|Events")
 	FTuiInteractableSetToNormalTheme OnTuiInteractableSetToNormalTheme;
 
-	UPROPERTY(BlueprintAssignable, Category = "ThematicUI|Events")
+	UPROPERTY(BlueprintAssignable, Category = "ThematicUi|Events")
 	FTuiInteractableSetToHoveredTheme OnTuiInteractableSetToHoveredTheme;
 
-	UPROPERTY(BlueprintAssignable, Category = "ThematicUI|Events")
+	UPROPERTY(BlueprintAssignable, Category = "ThematicUi|Events")
 	FTuiInteractableSetToPressedTheme OnTuiInteractableSetToPressedTheme;
 	
 	protected:
 	/* Primary Widget Data */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUI", meta = (DisplayPriority = 1))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, Category = "ThematicUi", meta = (DisplayPriority = 1))
 	FThematicUIMainWidgetData PrimaryWidgetData;
 	
 	/* Actual Widget Theme Data */
-	UPROPERTY(BlueprintReadOnly, Getter, Category = "ThematicUI")
-	FThematicUIThemeData ActualThemeData;
+	UPROPERTY(BlueprintReadOnly, Getter, Category = "ThematicUi")
+	FThematicUiThemeData ActualThemeData;
+	
+	UPROPERTY(EditAnywhere, Category = "ThematicUi|Subclass")
+	TSubclassOf<UThematicUiInteractable> BlueprintVerisionSubclass;
 
 	private:
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUI", meta = (AllowPrivateAccess, BindWidget))
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUi", meta = (AllowPrivateAccess, BindWidget))
 	TObjectPtr<USizeBox> SizeBox;
 
 	
 // Class Functions
 	public:
 	/* Getters and Settes */
-		UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
+		UFUNCTION(BlueprintPure, Category = "ThematicUi|Getters")
 		const FThematicUIMainWidgetData& GetPrimaryWidgetData() const;
 		
-		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+		UFUNCTION(BlueprintCallable, Category = "ThematicUi|Setters")
 		void SetPrimaryWidgetData(const FThematicUIMainWidgetData& NewPrimaryWidgetData);
 
-		UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
-		const FThematicUIThemeData& GetActualThemeData() const;
+		UFUNCTION(BlueprintPure, Category = "ThematicUi|Getters")
+		const FThematicUiThemeData& GetActualThemeData() const;
 		
-		UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
-		UThematicUIThemeDataAsset* GetWidgetTheme() const;
+		UFUNCTION(BlueprintPure, Category = "ThematicUi|Getters")
+		UThematicUiThemeDataAsset* GetWidgetTheme() const;
 		
-		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
-		void SetWidgetTheme(UThematicUIThemeDataAsset* NewWidgetTheme);
+		UFUNCTION(BlueprintCallable, Category = "ThematicUi|Setters")
+		void SetWidgetTheme(UThematicUiThemeDataAsset* NewWidgetTheme);
 		
-		UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
+		UFUNCTION(BlueprintPure, Category = "ThematicUi|Getters")
 		const FThematicUIThemeDataOverride& GetWidgetThemeOverrideData() const;
 		
-		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+		UFUNCTION(BlueprintCallable, Category = "ThematicUi|Setters")
 		void SetWidgetThemeOverrideData(FThematicUIThemeDataOverride NewWidgetThemeOverrideData);
 
 		// Returns Normal SizeBoxSize
-		UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
+		UFUNCTION(BlueprintPure, Category = "ThematicUi|Getters")
 		const FVector2D& GetSizeBoxSize() const;
 
-		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+		UFUNCTION(BlueprintCallable, Category = "ThematicUi|Setters")
 		void SetSizeBoxSize(const FVector2D& NewSizeBoxSize);
 		
-		UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
+		UFUNCTION(BlueprintPure, Category = "ThematicUi|Getters")
 		const FVector2D& GetSizeBoxHoveredSizeMultiplier() const;
 		
-		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+		UFUNCTION(BlueprintCallable, Category = "ThematicUi|Setters")
 		void SetSizeBoxHoveredSizeMultiplier(const FVector2D& NewSizeBoxHoveredSizeMultiplier);
 		
-		UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
+		UFUNCTION(BlueprintPure, Category = "ThematicUi|Getters")
 		const FVector2D& GetSizeBoxPressedSizeMultiplier() const;
 		
-		UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+		UFUNCTION(BlueprintCallable, Category = "ThematicUi|Setters")
 		void SetSizeBoxPressedSizeMultiplier(const FVector2D& NewSizeBoxPressedSizeMultiplier);
 		
-	UFUNCTION(BlueprintCallable, Category = "ThematicUI|Setters")
+	UFUNCTION(BlueprintCallable, Category = "ThematicUi|Setters")
 	void CalculateAndSetActualWidgetThemeData();
 
 	protected:
@@ -150,29 +153,23 @@ class THEMATICUI_API UThematicUIInteractable : public UUserWidget
 	private:
 
 
-
-// Project Class Virtual Functions
+// Virtual Functions
 	public:
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI | SetTheme")
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUi|SetTheme")
 	virtual void SetThemeNormal();
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI | SetTheme")
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUi|SetTheme")
 	virtual void SetThemeHovered();
 	
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUI | SetTheme")
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUi|SetTheme")
 	virtual void SetThemePressed();
-
-	protected:
 	
-
-	private:
-	
-
-
-// Unreal Class Virtual Functions
-	public:
-	UFUNCTION(BlueprintPure, Category = "ThematicUI|Getters")
+	UFUNCTION(BlueprintPure, Category = "ThematicUi|Getters")
 	virtual bool TuiHasUserFocus() PURE_VIRTUAL(UThematicUIInteractable::TuiHasUserFocus, return false;);
+
+	
+	
+	virtual EDataValidationResult IsDataValid(class FDataValidationContext& Context) const override;
 
 	protected:
 	/**

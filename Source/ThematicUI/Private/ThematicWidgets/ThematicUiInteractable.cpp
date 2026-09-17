@@ -1,19 +1,22 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "ThematicWidgets/ThematicUIInteractable.h"
- 
+#include "ThematicWidgets/ThematicUiInteractable.h"
+
+#include <Misc/DataValidation.h>
+
 #include "Components/SizeBox.h"
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundBase.h"
 
 
-const FThematicUIMainWidgetData& UThematicUIInteractable::GetPrimaryWidgetData() const
+
+const FThematicUIMainWidgetData& UThematicUiInteractable::GetPrimaryWidgetData() const
 {
 	return PrimaryWidgetData;
 }
 
-void UThematicUIInteractable::SetPrimaryWidgetData(const FThematicUIMainWidgetData& NewPrimaryWidgetData)
+void UThematicUiInteractable::SetPrimaryWidgetData(const FThematicUIMainWidgetData& NewPrimaryWidgetData)
 {
 	PrimaryWidgetData = NewPrimaryWidgetData;
 	
@@ -27,41 +30,41 @@ void UThematicUIInteractable::SetPrimaryWidgetData(const FThematicUIMainWidgetDa
 }
 
 
-const FThematicUIThemeData& UThematicUIInteractable::GetActualThemeData() const
+const FThematicUiThemeData& UThematicUiInteractable::GetActualThemeData() const
 {
 	return ActualThemeData;
 }
 
-UThematicUIThemeDataAsset* UThematicUIInteractable::GetWidgetTheme() const
+UThematicUiThemeDataAsset* UThematicUiInteractable::GetWidgetTheme() const
 {
 	return PrimaryWidgetData.WidgetTheme;
 }
 
-void UThematicUIInteractable::SetWidgetTheme(UThematicUIThemeDataAsset* NewWidgetTheme)
+void UThematicUiInteractable::SetWidgetTheme(UThematicUiThemeDataAsset* NewWidgetTheme)
 {
 	PrimaryWidgetData.WidgetTheme = NewWidgetTheme;
 	
 	CalculateAndSetActualWidgetThemeData();
 }
 
-const FThematicUIThemeDataOverride& UThematicUIInteractable::GetWidgetThemeOverrideData() const
+const FThematicUIThemeDataOverride& UThematicUiInteractable::GetWidgetThemeOverrideData() const
 {
 	return PrimaryWidgetData.WidgetThemeOverrideData;
 }
 
-void UThematicUIInteractable::SetWidgetThemeOverrideData(FThematicUIThemeDataOverride NewWidgetThemeOverrideData)
+void UThematicUiInteractable::SetWidgetThemeOverrideData(FThematicUIThemeDataOverride NewWidgetThemeOverrideData)
 {
 	PrimaryWidgetData.WidgetThemeOverrideData = NewWidgetThemeOverrideData;
 	
 	CalculateAndSetActualWidgetThemeData();
 }
 
-const FVector2D& UThematicUIInteractable::GetSizeBoxSize() const
+const FVector2D& UThematicUiInteractable::GetSizeBoxSize() const
 {
 	return PrimaryWidgetData.SizeBoxSize;
 }
 
-void UThematicUIInteractable::SetSizeBoxSize(const FVector2D& NewSizeBoxSize)
+void UThematicUiInteractable::SetSizeBoxSize(const FVector2D& NewSizeBoxSize)
 {
 	PrimaryWidgetData.SizeBoxSize = NewSizeBoxSize;
 	
@@ -72,12 +75,12 @@ void UThematicUIInteractable::SetSizeBoxSize(const FVector2D& NewSizeBoxSize)
 	}
 }
 
-const FVector2D& UThematicUIInteractable::GetSizeBoxHoveredSizeMultiplier() const
+const FVector2D& UThematicUiInteractable::GetSizeBoxHoveredSizeMultiplier() const
 {
 	return PrimaryWidgetData.SizeBoxHoveredSizeMultiplier;
 }
 
-void UThematicUIInteractable::SetSizeBoxHoveredSizeMultiplier(const FVector2D& NewGetSizeBoxHoveredSizeMultiplier)
+void UThematicUiInteractable::SetSizeBoxHoveredSizeMultiplier(const FVector2D& NewGetSizeBoxHoveredSizeMultiplier)
 {
 	PrimaryWidgetData.SizeBoxHoveredSizeMultiplier = NewGetSizeBoxHoveredSizeMultiplier;
 	
@@ -88,12 +91,12 @@ void UThematicUIInteractable::SetSizeBoxHoveredSizeMultiplier(const FVector2D& N
 	}
 }
 
-const FVector2D& UThematicUIInteractable::GetSizeBoxPressedSizeMultiplier() const
+const FVector2D& UThematicUiInteractable::GetSizeBoxPressedSizeMultiplier() const
 {
 	return PrimaryWidgetData.SizeBoxPressedSizeMultiplier;
 }
 
-void UThematicUIInteractable::SetSizeBoxPressedSizeMultiplier(const FVector2D& NewSizeBoxPressedSizeMultiplier)
+void UThematicUiInteractable::SetSizeBoxPressedSizeMultiplier(const FVector2D& NewSizeBoxPressedSizeMultiplier)
 {
 	PrimaryWidgetData.SizeBoxPressedSizeMultiplier = NewSizeBoxPressedSizeMultiplier;
 	
@@ -104,7 +107,7 @@ void UThematicUIInteractable::SetSizeBoxPressedSizeMultiplier(const FVector2D& N
 	}
 }
 
-void UThematicUIInteractable::CalculateAndSetActualWidgetThemeData()
+void UThematicUiInteractable::CalculateAndSetActualWidgetThemeData()
 {
 	// Figure Out ActualThemeData after overrides
 	if (GetWidgetTheme())
@@ -118,7 +121,12 @@ void UThematicUIInteractable::CalculateAndSetActualWidgetThemeData()
 	
 }
 
-void UThematicUIInteractable::NativePreConstruct()
+EDataValidationResult UThematicUiInteractable::IsDataValid(FDataValidationContext& Context) const
+{
+	return Super::IsDataValid(Context);
+}
+
+void UThematicUiInteractable::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 	
@@ -133,9 +141,12 @@ void UThematicUIInteractable::NativePreConstruct()
 	CalculateAndSetActualWidgetThemeData();
 	
 	SetThemeNormal();
+	
+	FDataValidationContext valid;
+	IsDataValid(valid);
 }
 
-void UThematicUIInteractable::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+void UThematicUiInteractable::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
 	if (IsFocusable())
 	{
@@ -148,7 +159,7 @@ void UThematicUIInteractable::NativeOnMouseEnter(const FGeometry& InGeometry, co
 	}
 }
 
-void UThematicUIInteractable::NativeOnAddedToFocusPath(const FFocusEvent& InFocusEvent)
+void UThematicUiInteractable::NativeOnAddedToFocusPath(const FFocusEvent& InFocusEvent)
  {
 	Super::NativeOnAddedToFocusPath(InFocusEvent);
 	
@@ -157,7 +168,7 @@ void UThematicUIInteractable::NativeOnAddedToFocusPath(const FFocusEvent& InFocu
 		PlaySound(SoundBase);
 }
 
-void UThematicUIInteractable::NativeOnRemovedFromFocusPath(const FFocusEvent& InFocusEvent)
+void UThematicUiInteractable::NativeOnRemovedFromFocusPath(const FFocusEvent& InFocusEvent)
 {
 	Super::NativeOnFocusLost(InFocusEvent);
 	
@@ -166,7 +177,7 @@ void UThematicUIInteractable::NativeOnRemovedFromFocusPath(const FFocusEvent& In
 		PlaySound(SoundBase);
 }
 
-void UThematicUIInteractable::SetThemeNormal()
+void UThematicUiInteractable::SetThemeNormal()
 {
 	UE_LOGFMT(LogThematicUI, Log, "{Name} is setting theme to normal settings", GetName());
 	
@@ -179,7 +190,7 @@ void UThematicUIInteractable::SetThemeNormal()
 	OnTuiInteractableSetToNormalTheme.Broadcast(this);
 }
 
-void UThematicUIInteractable::SetThemeHovered()
+void UThematicUiInteractable::SetThemeHovered()
 {
 	UE_LOGFMT(LogThematicUI, Log, "{Name} is setting theme to hovered settings", GetName());
 	
@@ -192,7 +203,7 @@ void UThematicUIInteractable::SetThemeHovered()
 	OnTuiInteractableSetToHoveredTheme.Broadcast(this);
 }
 
-void UThematicUIInteractable::SetThemePressed()
+void UThematicUiInteractable::SetThemePressed()
 {
 	UE_LOGFMT(LogThematicUI, Log, "{Name} is setting theme to pressed settings", GetName());
 	

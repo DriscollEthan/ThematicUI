@@ -1,17 +1,17 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "ThematicWidgets/ThematicUIButton.h"
+#include "ThematicWidgets/ThematicUiButton.h"
 
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
 
-const FText& UThematicUIButton::GetText() const
+const FText& UThematicUiButton::GetText() const
 {
 	return Text;
 }
 
-void UThematicUIButton::SetText(const FText& value)
+void UThematicUiButton::SetText(const FText& value)
 {
 	Text = value;
 	
@@ -21,12 +21,12 @@ void UThematicUIButton::SetText(const FText& value)
 	}
 }
 
-bool UThematicUIButton::TuiHasUserFocus()
+bool UThematicUiButton::TuiHasUserFocus()
 {
 	return Button->HasAnyUserFocus();
 }
 
-void UThematicUIButton::NativePreConstruct()
+void UThematicUiButton::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 	
@@ -36,7 +36,7 @@ void UThematicUIButton::NativePreConstruct()
 	}
 }
 
-void UThematicUIButton::NativeConstruct()
+void UThematicUiButton::NativeConstruct()
 {
 	Super::NativeConstruct();
 	
@@ -44,7 +44,7 @@ void UThematicUIButton::NativeConstruct()
 	Button->OnReleased.AddUniqueDynamic(this, &ThisClass::HandleButtonReleased);
 }
 
-FReply UThematicUIButton::NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent)
+FReply UThematicUiButton::NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent)
 {
 	if (Button)
 	{
@@ -54,7 +54,7 @@ FReply UThematicUIButton::NativeOnFocusReceived(const FGeometry& InGeometry, con
 	return Super::NativeOnFocusReceived(InGeometry, InFocusEvent);
 }
 
-void UThematicUIButton::SetThemeNormal()
+void UThematicUiButton::SetThemeNormal()
 {
 	Super::SetThemeNormal();
 	
@@ -81,11 +81,11 @@ void UThematicUIButton::SetThemeNormal()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUIButton::SetThemeNormal : UThematicUIButton::Button == nullptr || UThematicUIButton::TextBlock == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUiButton::SetThemeNormal : UThematicUiButton::Button == nullptr || UThematicUiButton::TextBlock == nullptr");
 	}
 }
 
-void UThematicUIButton::SetThemeHovered()
+void UThematicUiButton::SetThemeHovered()
 {
 	Super::SetThemeHovered();
 	
@@ -112,11 +112,11 @@ void UThematicUIButton::SetThemeHovered()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUIButton::SetThemeNormal : UThematicUIButton::Button == nullptr || UThematicUIButton::TextBlock == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUiButton::SetThemeNormal : UThematicUiButton::Button == nullptr || UThematicUiButton::TextBlock == nullptr");
 	}
 }
 
-void UThematicUIButton::SetThemePressed()
+void UThematicUiButton::SetThemePressed()
 {
 	Super::SetThemePressed();
 	
@@ -143,17 +143,17 @@ void UThematicUIButton::SetThemePressed()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUIButton::SetThemeNormal : UThematicUIButton::Button == nullptr || UThematicUIButton::TextBlock == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUiButton::SetThemeNormal : UThematicUiButton::Button == nullptr || UThematicUiButton::TextBlock == nullptr");
 	}
 }
 
-void UThematicUIButton::HandleButtonPressed()
+void UThematicUiButton::HandleButtonPressed()
 {
 	if (Button->HasAnyUserFocus())
 		SetThemePressed();
 }
 
-void UThematicUIButton::HandleButtonReleased()
+void UThematicUiButton::HandleButtonReleased()
 {
 	if (Button->HasAnyUserFocus())
 	{
