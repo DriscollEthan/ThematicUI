@@ -40,7 +40,7 @@
 /**
  * Marked as Experimental to hide from Widget Design Palette
  */
-UCLASS(HideDropdown, NotPlaceable, Abstract, Category = "ThematicUi", Experimental)
+UCLASS(HideDropdown, NotPlaceable, Abstract, Category = "ThematicUi", Experimental, PrioritizeCategories("ThematicUi"))
 class THEMATICUI_API UThematicUiDropDownMenuSelection : public UThematicUiInteractable
 {
 	GENERATED_BODY()

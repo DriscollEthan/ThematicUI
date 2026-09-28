@@ -132,6 +132,29 @@ const FSlateBrush& UUThematicUiRadialSlider::GetThumbImage() const
 void UUThematicUiRadialSlider::SetThumbImage(const FSlateBrush& NewThumbImage)
 {
 	ThumbImage = NewThumbImage;
+	
+	if (RadialSlider)
+	{
+		FSlateBrush ThumbBrush = ThumbImage;
+		ThumbBrush.TintColor = ThumbBrush.TintColor.GetSpecifiedColor() * ActualThemeData.NormalTheme.Image.TintColor.GetSpecifiedColor();
+		RadialSlider->WidgetStyle.NormalThumbImage = ThumbBrush;
+		RadialSlider->WidgetStyle.HoveredThumbImage = ThumbBrush;
+	}
+}
+
+const FSlateColor& UUThematicUiRadialSlider::GetSliderHandleColor() const
+{
+	return SliderHandleColor;
+}
+
+void UUThematicUiRadialSlider::SetSliderHandleColor(const FSlateColor& NewSliderHandleColor)
+{
+	SliderHandleColor = NewSliderHandleColor;
+	
+	if (RadialSlider)
+	{
+		RadialSlider->SetSliderBarColor(SliderHandleColor.GetSpecifiedColor());
+	}
 }
 
 const float UUThematicUiRadialSlider::GetRadialSliderPadding() const
@@ -345,7 +368,7 @@ void UUThematicUiRadialSlider::SetThemeNormal()
 		RadialSlider->WidgetStyle.NormalThumbImage = ThumbBrush;
 		RadialSlider->WidgetStyle.HoveredThumbImage = ThumbBrush;
 		RadialSlider->SetSliderProgressColor(ActualThemeData.NormalTheme.FillColor);
-		RadialSlider->SetSliderBarColor(ActualThemeData.NormalTheme.Image.TintColor.GetSpecifiedColor());
+		RadialSlider->SetSliderBarColor(SliderHandleColor.GetSpecifiedColor());
 		
 		// Set Image Theme
 		FSlateBrush ImageBrush = ActualThemeData.NormalTheme.Image;

@@ -37,7 +37,7 @@
 /**
  * 
  */
-UCLASS(HideDropdown, NotPlaceable, Abstract, Category = "ThematicUi")
+UCLASS(HideDropdown, NotPlaceable, Abstract, Category = "ThematicUi", PrioritizeCategories("ThematicUi"))
 class THEMATICUI_API UUThematicUiRadialSlider : public UThematicUiInteractable
 {
 	GENERATED_BODY()
@@ -70,6 +70,9 @@ class THEMATICUI_API UUThematicUiRadialSlider : public UThematicUiInteractable
 	
 	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUi|Slider")
 	FSlateBrush ThumbImage;
+	
+	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUi|Slider")
+	FSlateColor SliderHandleColor;
 	
 	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUi|Slider")
 	float RadialSliderPadding = 0.0f;
@@ -160,6 +163,12 @@ class THEMATICUI_API UUThematicUiRadialSlider : public UThematicUiInteractable
 	
 	UFUNCTION(BlueprintCallable, Category = "ThematicUi|Setters")
 	void SetThumbImage(const FSlateBrush& NewThumbImage);
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUi|Getters")
+	const FSlateColor& GetSliderHandleColor() const;
+	
+	UFUNCTION(BlueprintCallable, Category = "ThematicUi|Setters")
+	void SetSliderHandleColor(const FSlateColor& NewSliderHandleColor);
 	
 	UFUNCTION(BlueprintCallable, Category = "ThematicUi|Getters")
 	const float GetRadialSliderPadding() const;

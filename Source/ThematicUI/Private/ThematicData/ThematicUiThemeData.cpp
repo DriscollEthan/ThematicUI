@@ -67,6 +67,7 @@ const FThematicUIThemeDataOverride UThematicUiThemeDataAsset::GetThematicUITheme
 	return ThematicUIThemeDataOverride.ForceToThemeOverrideData(ThematicUIThemeData);
 }
 
+#if WITH_EDITOR
 EDataValidationResult UThematicUiThemeDataAsset::IsDataValid(class FDataValidationContext& Context) const
 {
 	if (ThematicUIThemeData.NormalTheme.TextFont.FontObject == nullptr)
@@ -81,3 +82,4 @@ EDataValidationResult UThematicUiThemeDataAsset::IsDataValid(class FDataValidati
 
 	return Super::IsDataValid(Context);
 }
+#endif

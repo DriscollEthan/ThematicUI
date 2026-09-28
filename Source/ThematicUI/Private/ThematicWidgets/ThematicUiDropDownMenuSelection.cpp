@@ -140,9 +140,8 @@ void UThematicUiDropDownMenuSelection::UpdatePosition()
 	FVector2D ViewportPosition;
 	USlateBlueprintLibrary::LocalToViewport(GetWorld(), OwningDropDownMenuRef->GetTickSpaceGeometry(), FVector2D::ZeroVector, PixelPosition, ViewportPosition);
 	FVector2D SelectionMenuPosition = ViewportPosition;
-	SelectionMenuPosition.X += (OwningDropDownMenuRef->GetSizeBoxSize().X / 2.0f) - (GetSizeBoxSize().X / 2.0f);
+	SelectionMenuPosition += SelectionMenuData.SelectionMenuRelativePosition;
 	
-	SelectionMenuPosition.Y += OwningDropDownMenuRef->GetSizeBoxSize().Y;
 	SetRenderTranslation(SelectionMenuPosition);
 }
 

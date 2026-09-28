@@ -53,6 +53,9 @@
 		FVector2D SelectionMenuSize = FVector2D(250.0f, 100.0f);
 		
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUi|SelectionMenuData")
+		FVector2D SelectionMenuRelativePosition = FVector2D(0.0f, 0.0f);
+		
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUi|SelectionMenuData")
 		FMargin SelectionMenuOptionsPadding = FMargin();
 		
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUi|SelectionMenuData")
@@ -69,7 +72,7 @@
 /**
  * 
  */
-UCLASS(HideDropdown, NotPlaceable, Abstract, Category = "ThematicUi")
+UCLASS(HideDropdown, NotPlaceable, Abstract, Category = "ThematicUi", PrioritizeCategories("ThematicUi"))
 class THEMATICUI_API UThematicUiDropDownMenu : public UThematicUiInteractable
 {
 	GENERATED_BODY()

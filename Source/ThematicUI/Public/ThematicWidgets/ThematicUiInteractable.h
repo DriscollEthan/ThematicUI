@@ -68,7 +68,7 @@
 /**
  * 
  */
-UCLASS(HideDropdown, NotPlaceable, Abstract, Category = "ThematicUi")
+UCLASS(HideDropdown, NotPlaceable, Abstract, Category = "ThematicUi", PrioritizeCategories("ThematicUi"))
 class THEMATICUI_API UThematicUiInteractable : public UUserWidget
 {
 	GENERATED_BODY()
@@ -166,10 +166,6 @@ class THEMATICUI_API UThematicUiInteractable : public UUserWidget
 	
 	UFUNCTION(BlueprintPure, Category = "ThematicUi|Getters")
 	virtual bool TuiHasUserFocus() PURE_VIRTUAL(UThematicUIInteractable::TuiHasUserFocus, return false;);
-
-	
-	
-	virtual EDataValidationResult IsDataValid(class FDataValidationContext& Context) const override;
 
 	protected:
 	/**

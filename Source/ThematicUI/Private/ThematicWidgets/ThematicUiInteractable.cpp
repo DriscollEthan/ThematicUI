@@ -5,6 +5,9 @@
 
 #include <Misc/DataValidation.h>
 
+#include "Logging/MessageLog.h"
+#include "Misc/UObjectToken.h"
+
 #include "Components/SizeBox.h"
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundBase.h"
@@ -119,11 +122,6 @@ void UThematicUiInteractable::CalculateAndSetActualWidgetThemeData()
 		ActualThemeData = GetWidgetThemeOverrideData().ConvertToThemeData();
 	}
 	
-}
-
-EDataValidationResult UThematicUiInteractable::IsDataValid(FDataValidationContext& Context) const
-{
-	return Super::IsDataValid(Context);
 }
 
 void UThematicUiInteractable::NativePreConstruct()
