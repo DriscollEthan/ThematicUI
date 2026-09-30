@@ -1,17 +1,17 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "ThematicWidgets/ThematicUITextBlock.h"
+#include "ThematicWidgets/ThematicUiTextBlock.h"
 
 #include "Components/Border.h"
 #include "Components/TextBlock.h"
 
-const FText& UThematicUITextBlock::GetText() const
+const FText& UThematicUiTextBlock::GetText() const
 {
 	return Text;
 }
 
-void UThematicUITextBlock::SetText(const FText& NewText)
+void UThematicUiTextBlock::SetText(const FText& NewText)
 {
 	Text = NewText;
 	
@@ -21,12 +21,12 @@ void UThematicUITextBlock::SetText(const FText& NewText)
 	}
 }
 
-const float UThematicUITextBlock::GetLineHeightPercentage() const
+const float UThematicUiTextBlock::GetLineHeightPercentage() const
 {
 	return LineHeightPercentage;
 }
 
-void UThematicUITextBlock::SetLineHeightPercentage(const float NewLineHeightPercentage)
+void UThematicUiTextBlock::SetLineHeightPercentage(const float NewLineHeightPercentage)
 {
 	LineHeightPercentage = NewLineHeightPercentage;
 	
@@ -36,12 +36,12 @@ void UThematicUITextBlock::SetLineHeightPercentage(const float NewLineHeightPerc
 	}
 }
 
-const ETextJustify::Type UThematicUITextBlock::GetJustification() const
+const ETextJustify::Type UThematicUiTextBlock::GetJustification() const
 {
 	return Justification;
 }
 
-void UThematicUITextBlock::SetJustification(const ETextJustify::Type& NewJustification)
+void UThematicUiTextBlock::SetJustification(const ETextJustify::Type& NewJustification)
 {
 	Justification = NewJustification;
 	
@@ -51,7 +51,7 @@ void UThematicUITextBlock::SetJustification(const ETextJustify::Type& NewJustifi
 	}
 }
 
-void UThematicUITextBlock::NativePreConstruct()
+void UThematicUiTextBlock::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 	
@@ -63,12 +63,12 @@ void UThematicUITextBlock::NativePreConstruct()
 	}
 }
 
-void UThematicUITextBlock::NativeConstruct()
+void UThematicUiTextBlock::NativeConstruct()
 {
 	Super::NativeConstruct();
 }
 
-void UThematicUITextBlock::SetThemeNormal()
+void UThematicUiTextBlock::SetThemeNormal()
 {
 	Super::SetThemeNormal();
 	
@@ -80,11 +80,11 @@ void UThematicUITextBlock::SetThemeNormal()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUITextBlock::SetThemeNormal : UThematicUITextBlock::Border == nullptr || UThematicUITextBlock::TextBlock == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUiTextBlock::SetThemeNormal : UThematicUiTextBlock::Border == nullptr || UThematicUiTextBlock::TextBlock == nullptr");
 	}
 }
 
-void UThematicUITextBlock::SetThemeHovered()
+void UThematicUiTextBlock::SetThemeHovered()
 {
 	Super::SetThemeHovered();
 	
@@ -95,11 +95,11 @@ void UThematicUITextBlock::SetThemeHovered()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUITextBlock::SetThemeHovered : UThematicUITextBlock::Border == nullptr || UThematicUITextBlock::TextBlock == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUiTextBlock::SetThemeHovered : UThematicUiTextBlock::Border == nullptr || UThematicUiTextBlock::TextBlock == nullptr");
 	}
 }
 
-void UThematicUITextBlock::SetThemePressed()
+void UThematicUiTextBlock::SetThemePressed()
 {
 	Super::SetThemePressed();
 	
@@ -110,6 +110,6 @@ void UThematicUITextBlock::SetThemePressed()
 	}
 	else
 	{
-		UE_LOGFMT(LogThematicUI, Error, "UThematicUITextBlock::SetThemePressed : UThematicUITextBlock::Border == nullptr || UThematicUITextBlock::TextBlock == nullptr");
+		UE_LOGFMT(LogThematicUI, Error, "UThematicUiTextBlock::SetThemePressed : UThematicUiTextBlock::Border == nullptr || UThematicUiTextBlock::TextBlock == nullptr");
 	}
 }
