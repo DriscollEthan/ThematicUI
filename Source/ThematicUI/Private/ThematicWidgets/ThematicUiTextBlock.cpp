@@ -61,6 +61,19 @@ void UThematicUiTextBlock::NativePreConstruct()
 		TextBlock->SetLineHeightPercentage(LineHeightPercentage);
 		TextBlock->SetJustification(Justification);
 	}
+	
+	
+	// Turn off Sounds and then Recalculate the Theme Data.
+	PrimaryWidgetData.WidgetThemeOverrideData.NormalThemeOverride.bOverrideSound = true;
+	PrimaryWidgetData.WidgetThemeOverrideData.NormalThemeOverride.Sound = FSlateSound();
+	
+	PrimaryWidgetData.WidgetThemeOverrideData.HoveredThemeOverride.bOverrideSound = true;
+	PrimaryWidgetData.WidgetThemeOverrideData.HoveredThemeOverride.Sound = FSlateSound();
+	
+	PrimaryWidgetData.WidgetThemeOverrideData.PressedThemeOverride.bOverrideSound = true;
+	PrimaryWidgetData.WidgetThemeOverrideData.PressedThemeOverride.Sound = FSlateSound();
+	
+	CalculateAndSetActualWidgetThemeData();
 }
 
 void UThematicUiTextBlock::NativeConstruct()

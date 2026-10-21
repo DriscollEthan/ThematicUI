@@ -79,7 +79,7 @@ class THEMATICUI_API UThematicUiDropDownMenu : public UThematicUiInteractable
 
 	// Variables 
 	public:
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUi|Events")
+	UPROPERTY(BlueprintAssignable, Category = "ThematicUi|Events")
 	FTUiOnSelectionChangedSignature OnTUiOnSelectionChanged;
 
 	protected:
