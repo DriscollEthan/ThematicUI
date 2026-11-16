@@ -25,5 +25,11 @@
 		"Win64",
 		"Android"
 	],
-	"Sealed": true
+	"Sealed": true,
+	"Plugins": [
+		{
+			"Name": "CommonUI",
+			"Enabled": true
+		}
+	]
 }
