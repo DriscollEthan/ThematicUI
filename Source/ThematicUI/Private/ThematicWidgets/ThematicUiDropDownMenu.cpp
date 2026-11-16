@@ -204,7 +204,7 @@ void UThematicUiDropDownMenu::NativeConstruct()
 	
 	
 	// Bind to Delegates
-	DropDownButton->OnTuiButtonPressedAndReleased.AddUniqueDynamic(this, &UThematicUiDropDownMenu::HandleDropDownButtonPressed);
+	DropDownButton->OnTuiButtonClickedDelegate.AddUniqueDynamic(this, &UThematicUiDropDownMenu::HandleDropDownButtonPressed);
 }
 
 FReply UThematicUiDropDownMenu::NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent)
@@ -221,5 +221,5 @@ void UThematicUiDropDownMenu::NativeDestruct()
 {
 	Super::NativeDestruct();
 	
-	DropDownButton->OnTuiButtonPressedAndReleased.RemoveDynamic(this, &UThematicUiDropDownMenu::HandleDropDownButtonPressed);
+	DropDownButton->OnTuiButtonClickedDelegate.RemoveDynamic(this, &UThematicUiDropDownMenu::HandleDropDownButtonPressed);
 }

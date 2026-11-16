@@ -73,7 +73,7 @@ void UThematicUiDropDownMenuSelection::CreateOptionButtons()
 			ScrollBoxSlot->SetPadding(SelectionMenuData.SelectionMenuOptionsPadding);
 		}
 		
-		Button->OnTuiButtonPressedAndReleased.AddUniqueDynamic(this, &ThisClass::HandleOptionSelected);
+		Button->OnTuiButtonClickedDelegate.AddUniqueDynamic(this, &ThisClass::HandleOptionSelected);
 	}
 }
 
@@ -123,7 +123,7 @@ void UThematicUiDropDownMenuSelection::HandleOptionSelected(int32 SelectedIndex)
 	
 	for (UThematicUiButton* Button : Buttons)
 	{
-		Button->OnTuiButtonPressedAndReleased.RemoveDynamic(this, &ThisClass::HandleOptionSelected);
+		Button->OnTuiButtonClickedDelegate.RemoveDynamic(this, &ThisClass::HandleOptionSelected);
 	}
 	
 	RemoveFromParent();

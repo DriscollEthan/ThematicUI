@@ -14,20 +14,21 @@
 	
 
 	// Class Specific Includes
+	#include "CommonButtonBase.h"
 	#include "ThematicWidgets/ThematicUiInteractable.h"
 
-// UE Generated Includes
+	// UE Generated Includes
 	#include "ThematicUiButton.generated.h"
 
 
 
 // Class Details
-	// Forward Declarations 1
+	// Forward Declarations
 	class UButton;
 	class UTextBlock;
 	
-	// Delegate Declarations 
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTuiButtonPressedAndReleased, UThematicUiButton*, Button);
+	// Delegate Declarations
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTuiButtonInteractionSignature, UThematicUiButton*, Button);
 	
 	// Helper Enums 
 	
@@ -47,17 +48,26 @@ class THEMATICUI_API UThematicUiButton : public UThematicUiInteractable
 	// Variables 
 	public:
 	UPROPERTY(BlueprintAssignable, Category = "ThematicUi|Events")
-	FTuiButtonPressedAndReleased OnTuiButtonPressedAndReleased;
+	FTuiButtonInteractionSignature OnTuiButtonPressedDelegate;
+	
+	UPROPERTY(BlueprintAssignable, Category = "ThematicUi|Events")
+	FTuiButtonInteractionSignature OnTuiButtonReleaseddDelegate;
+	
+	UPROPERTY(BlueprintAssignable, Category = "ThematicUi|Events")
+	FTuiButtonInteractionSignature OnTuiButtonClickedDelegate;
 
 	protected:
 	UPROPERTY(EditAnywhere, Getter, Setter, BlueprintReadOnly, Category = "ThematicUi", meta = (MultiLine = "true"))
 	FText Text;
 
 	private:
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUi", meta=(AllowPrivateAccess, BindWidget))
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUi", meta=(AllowPrivateAccess, DeprecatedProperty))
 	TObjectPtr<UButton> Button;
 	
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUi", meta=(AllowPrivateAccess, BindWidget))
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUi", meta=(AllowPrivateAccess))
+	TObjectPtr<UCommonButtonInternalBase> CommonButton;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUi", meta=(AllowPrivateAccess))
 	TObjectPtr<UTextBlock> TextBlock;
 
 	
@@ -82,6 +92,8 @@ class THEMATICUI_API UThematicUiButton : public UThematicUiInteractable
 
 // Virtual Functions
 	public:
+	virtual bool Initialize() override;
+	
 	virtual bool TuiHasUserFocus() override;
 	
 	virtual void SetThemeNormal() override;

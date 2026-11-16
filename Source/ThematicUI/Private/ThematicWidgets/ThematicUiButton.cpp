@@ -3,6 +3,10 @@
 
 #include "ThematicWidgets/ThematicUiButton.h"
 
+#include <DetailCategoryBuilder.h>
+#include <Blueprint/WidgetTree.h>
+#include <Components/SizeBox.h>
+
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
 
@@ -23,7 +27,7 @@ void UThematicUiButton::SetText(const FText& value)
 
 bool UThematicUiButton::TuiHasUserFocus()
 {
-	return Button->HasAnyUserFocus();
+	return CommonButton->HasAnyUserFocus();
 }
 
 void UThematicUiButton::NativePreConstruct()
@@ -40,15 +44,18 @@ void UThematicUiButton::NativeConstruct()
 {
 	Super::NativeConstruct();
 	
-	Button->OnPressed.AddUniqueDynamic(this, &ThisClass::HandleButtonPressed);
-	Button->OnReleased.AddUniqueDynamic(this, &ThisClass::HandleButtonReleased);
+	CommonButton->OnPressed.AddUniqueDynamic(this, &ThisClass::HandleButtonPressed);
+	CommonButton->OnReleased.AddUniqueDynamic(this, &ThisClass::HandleButtonReleased);
+	CommonButton->SetButtonEnabled(true);
+	CommonButton->SetButtonFocusable(true);
+	CommonButton->SetPressMethod(EButtonPressMethod::Type::ButtonPress);
 }
 
 FReply UThematicUiButton::NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent)
 {
-	if (Button)
+	if (CommonButton)
 	{
-		return FReply::Handled().SetUserFocus(Button->TakeWidget(), InFocusEvent.GetCause());
+		return FReply::Handled().SetUserFocus(CommonButton->TakeWidget(), InFocusEvent.GetCause());
 	}
 
 	return Super::NativeOnFocusReceived(InGeometry, InFocusEvent);
@@ -58,7 +65,7 @@ void UThematicUiButton::SetThemeNormal()
 {
 	Super::SetThemeNormal();
 	
-	if (Button && TextBlock) [[likely]]
+	if (CommonButton && TextBlock) [[likely]]
 	{
 		// Create Button Style to Change
 		FButtonStyle Style;
@@ -73,7 +80,7 @@ void UThematicUiButton::SetThemeNormal()
 		Style.SetPressedSound(ActualThemeData.PressedTheme.Sound);
 	
 		// Set Button Style
-		Button->SetStyle(Style);
+		CommonButton->SetStyle(Style);
 	
 		//Set Text Style
 		TextBlock->SetFont(ActualThemeData.NormalTheme.TextFont);
@@ -89,7 +96,7 @@ void UThematicUiButton::SetThemeHovered()
 {
 	Super::SetThemeHovered();
 	
-	if (Button && TextBlock) [[likely]]
+	if (CommonButton && TextBlock) [[likely]]
 	{
 		// Create Button Style to Change
 		FButtonStyle Style;
@@ -104,7 +111,7 @@ void UThematicUiButton::SetThemeHovered()
 		Style.SetPressedSound(ActualThemeData.PressedTheme.Sound);
 	
 		// Set Button Style
-		Button->SetStyle(Style);
+		CommonButton->SetStyle(Style);
 	
 		//Set Text Style
 		TextBlock->SetColorAndOpacity(ActualThemeData.HoveredTheme.TextColor);
@@ -120,7 +127,7 @@ void UThematicUiButton::SetThemePressed()
 {
 	Super::SetThemePressed();
 	
-	if (Button && TextBlock) [[likely]]
+	if (CommonButton && TextBlock) [[likely]]
 	{
 		// Create Button Style to Change
 		FButtonStyle Style;
@@ -135,7 +142,7 @@ void UThematicUiButton::SetThemePressed()
 		Style.SetPressedSound(ActualThemeData.PressedTheme.Sound);
 	
 		// Set Button Style
-		Button->SetStyle(Style);
+		CommonButton->SetStyle(Style);
 	
 		//Set Text Style
 		TextBlock->SetColorAndOpacity(ActualThemeData.PressedTheme.TextColor);
@@ -149,16 +156,36 @@ void UThematicUiButton::SetThemePressed()
 
 void UThematicUiButton::HandleButtonPressed()
 {
-	if (Button->HasAnyUserFocus())
+	if (CommonButton->HasFocusedDescendants())
+	{
 		SetThemePressed();
+		
+		OnTuiButtonPressedDelegate.Broadcast(this);
+	}
 }
 
 void UThematicUiButton::HandleButtonReleased()
 {
-	if (Button->HasAnyUserFocus())
+	if (CommonButton->HasFocusedDescendants())
 	{
 		SetThemeHovered();
 		
-		OnTuiButtonPressedAndReleased.Broadcast(this);
+		OnTuiButtonReleaseddDelegate.Broadcast(this);
+		OnTuiButtonClickedDelegate.Broadcast(this);
 	}
+}
+
+bool UThematicUiButton::Initialize()
+{
+	const bool bInitializedThisCall = Super::Initialize();
+
+	if (bInitializedThisCall)
+	{
+		CommonButton = WidgetTree->ConstructWidget<UCommonButtonInternalBase>(UCommonButtonInternalBase::StaticClass(), FName(TEXT("CommonButton")));
+		SizeBox->AddChild(CommonButton);
+		TextBlock = WidgetTree->ConstructWidget<UTextBlock>(UTextBlock::StaticClass(), FName(TEXT("TextBlock")));
+		CommonButton->AddChild(TextBlock);
+	}
+
+	return bInitializedThisCall;
 }

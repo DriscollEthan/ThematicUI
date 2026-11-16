@@ -16,7 +16,7 @@
 	#include "ThematicUI.h"
 
 	// Class Specific Includes
-	#include "Blueprint/UserWidget.h"
+	#include "CommonUserWidget.h"	
 	#include "ThematicData/ThematicUiThemeData.h"
 
 
@@ -69,7 +69,7 @@
  * 
  */
 UCLASS(HideDropdown, NotPlaceable, Abstract, Category = "ThematicUi", PrioritizeCategories("ThematicUi"))
-class THEMATICUI_API UThematicUiInteractable : public UUserWidget
+class THEMATICUI_API UThematicUiInteractable : public UCommonUserWidget
 {
 	GENERATED_BODY()
 
@@ -96,7 +96,7 @@ class THEMATICUI_API UThematicUiInteractable : public UUserWidget
 	UPROPERTY(EditAnywhere, Category = "ThematicUi|Subclass")
 	TSubclassOf<UThematicUiInteractable> BlueprintVerisionSubclass;
 
-	private:
+	protected:
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUi", meta = (AllowPrivateAccess, BindWidget))
 	TObjectPtr<USizeBox> SizeBox;
 
