@@ -443,6 +443,11 @@ void UUThematicUiRadialSlider::SetThemePressed()
 	}
 }
 
+bool UUThematicUiRadialSlider::TuiHasUserFocus()
+{
+	return RadialSlider->HasAnyUserFocus();
+}
+
 FReply UUThematicUiRadialSlider::NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent)
 {
 	if (RadialSlider)

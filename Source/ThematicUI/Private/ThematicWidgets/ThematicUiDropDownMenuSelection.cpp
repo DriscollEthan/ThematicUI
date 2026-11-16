@@ -184,6 +184,20 @@ void UThematicUiDropDownMenuSelection::NativeCreated(UThematicUiDropDownMenu* Ow
 	SetupButtonNavigation();
 }
 
+bool UThematicUiDropDownMenuSelection::TuiHasUserFocus()
+{
+	TArray<UWidget*> TuiWidgets = ScrollBox->GetAllChildren();
+	for (UWidget* Widget : TuiWidgets)
+	{
+		if (Widget->HasAnyUserFocus())
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void UThematicUiDropDownMenuSelection::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);

@@ -97,6 +97,8 @@ class THEMATICUI_API UThematicUiTextBlock : public UThematicUiInteractable
 	virtual void SetThemeHovered() override;
 	
 	virtual void SetThemePressed() override;
+	
+	virtual bool TuiHasUserFocus() override;
 
 	protected:
 	virtual void NativePreConstruct() override;
