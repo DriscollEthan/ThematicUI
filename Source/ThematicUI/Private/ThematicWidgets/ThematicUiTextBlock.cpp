@@ -126,8 +126,3 @@ void UThematicUiTextBlock::SetThemePressed()
 		UE_LOGFMT(LogThematicUI, Error, "UThematicUiTextBlock::SetThemePressed : UThematicUiTextBlock::Border == nullptr || UThematicUiTextBlock::TextBlock == nullptr");
 	}
 }
-
-bool UThematicUiTextBlock::TuiHasUserFocus()
-{
-	return TextBlock->HasAnyUserFocus();
-}

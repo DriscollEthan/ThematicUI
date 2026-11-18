@@ -3,12 +3,14 @@
 
 #include "ThematicWidgets/ThematicUiButton.h"
 
-#include <DetailCategoryBuilder.h>
-#include <Blueprint/WidgetTree.h>
-#include <Components/SizeBox.h>
+#include <CommonUITypes.h>
+#include <DetailCategoryBuilder.h> 
+#include <ICommonInputModule.h>
+#include <Input/CommonUIInputTypes.h>
 
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
+#include "ThematicModule/ThematicUiSettings.h"
 
 const FText& UThematicUiButton::GetText() const
 {
@@ -23,11 +25,6 @@ void UThematicUiButton::SetText(const FText& value)
 	{
 		TextBlock->SetText(Text);
 	}
-}
-
-bool UThematicUiButton::TuiHasUserFocus()
-{
-	return CommonButton->HasAnyUserFocus();
 }
 
 void UThematicUiButton::NativePreConstruct()
@@ -55,7 +52,7 @@ FReply UThematicUiButton::NativeOnFocusReceived(const FGeometry& InGeometry, con
 {
 	if (CommonButton)
 	{
-		return FReply::Handled().SetUserFocus(CommonButton->TakeWidget(), InFocusEvent.GetCause());
+			return FReply::Handled().SetUserFocus(CommonButton->TakeWidget(), InFocusEvent.GetCause());
 	}
 
 	return Super::NativeOnFocusReceived(InGeometry, InFocusEvent);
@@ -156,7 +153,7 @@ void UThematicUiButton::SetThemePressed()
 
 void UThematicUiButton::HandleButtonPressed()
 {
-	if (CommonButton->HasFocusedDescendants())
+	if (TuiHasUserFocus())
 	{
 		SetThemePressed();
 		
@@ -166,12 +163,61 @@ void UThematicUiButton::HandleButtonPressed()
 
 void UThematicUiButton::HandleButtonReleased()
 {
-	if (CommonButton->HasFocusedDescendants())
+	if (TuiHasUserFocus())
 	{
 		SetThemeHovered();
 		
-		OnTuiButtonReleaseddDelegate.Broadcast(this);
+		OnTuiButtonReleasedDelegate.Broadcast(this);
 		OnTuiButtonClickedDelegate.Broadcast(this);
+	}
+}
+
+void UThematicUiButton::BindTriggeringInputActionToClick()
+{
+	if (CommonUI::IsEnhancedInputSupportEnabled() && TriggeringEnhancedInputAction)
+	{
+		FBindUIActionArgs BindArgs(TriggeringEnhancedInputAction, false, FSimpleDelegate::CreateUObject(this, &ThisClass::HandleButtonReleased));
+		BindArgs.OnExecuteAction.BindUObject(this, &ThisClass::HandleButtonReleased);
+		BindArgs.OnHoldActionPressed.BindUObject(this, &ThisClass::HandleButtonPressed);
+		BindArgs.OnHoldActionReleased.BindUObject(this, &ThisClass::HandleButtonPressed);
+		BindArgs.bIsPersistent = bIsPersistentBinding;
+		BindArgs.InputMode = OverrideInputMode;
+
+		TriggeringBindingHandle = RegisterUIActionBinding(BindArgs);
+	}
+	
+	
+	
+	FDataTableRowHandle defaultTriggerAction = ICommonInputModule::Get().GetSettings().GetDefaultClickAction();
+	UInputAction* defaultTriggerInputAction = FThematicUiModule::Get().GetThematicUiSettings()->GetDefaultClickInputAction();
+	
+	if (defaultTriggerInputAction && ICommonInputModule::Get().GetSettings().GetEnableEnhancedInputSupport())
+	{
+			FThematicUiModule::BindMappingContext(this);
+	
+		FBindUIActionArgs BindArgs(defaultTriggerInputAction, false, FSimpleDelegate::CreateUObject(this, &ThisClass::HandleButtonReleased));
+		
+		BindArgs.OnExecuteAction.BindUObject(this, &ThisClass::HandleButtonReleased);
+		BindArgs.OnHoldActionPressed.BindUObject(this, &ThisClass::HandleButtonPressed);
+		BindArgs.OnHoldActionReleased.BindUObject(this, &ThisClass::HandleButtonPressed);
+		BindArgs.bIsPersistent = bIsPersistentBinding;
+		BindArgs.InputMode = OverrideInputMode;
+		BindArgs.bIsPersistent = true;
+
+		DefaultTriggeringBindingHandle = RegisterUIActionBinding(BindArgs);
+	}
+	else if (!defaultTriggerAction.IsNull())
+	{
+		FBindUIActionArgs BindArgs(defaultTriggerAction, false, FSimpleDelegate::CreateUObject(this, &ThisClass::HandleButtonReleased));
+		
+		BindArgs.OnExecuteAction.BindUObject(this, &ThisClass::HandleButtonReleased);
+		BindArgs.OnHoldActionPressed.BindUObject(this, &ThisClass::HandleButtonPressed);
+		BindArgs.OnHoldActionReleased.BindUObject(this, &ThisClass::HandleButtonPressed);
+		BindArgs.bIsPersistent = bIsPersistentBinding;
+		BindArgs.InputMode = OverrideInputMode;
+		BindArgs.bIsPersistent = true;
+
+		DefaultTriggeringBindingHandle = RegisterUIActionBinding(BindArgs);
 	}
 }
 
@@ -182,7 +228,15 @@ bool UThematicUiButton::Initialize()
 	if (bInitializedThisCall)
 	{
 		CommonButton = WidgetTree->ConstructWidget<UCommonButtonInternalBase>(UCommonButtonInternalBase::StaticClass(), FName(TEXT("CommonButton")));
-		SizeBox->AddChild(CommonButton);
+		
+		AddWidgetToSizeBox(CommonButton);
+		CommonButton->SetClickMethod(ClickMethod);
+		CommonButton->SetTouchMethod(TouchMethod);
+		CommonButton->SetPressMethod(PressMethod);
+		CommonButton->SetButtonFocusable(IsFocusable());
+		CommonButton->SetButtonEnabled(bButtonEnabled);
+		CommonButton->SetInteractionEnabled(bInteractionEnabled);
+		
 		TextBlock = WidgetTree->ConstructWidget<UTextBlock>(UTextBlock::StaticClass(), FName(TEXT("TextBlock")));
 		CommonButton->AddChild(TextBlock);
 	}

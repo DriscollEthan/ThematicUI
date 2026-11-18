@@ -40,7 +40,7 @@
 /**
  * 
  */
-UCLASS(HideDropdown, NotPlaceable, Abstract, Category = "ThematicUi", PrioritizeCategories("ThematicUi"))
+UCLASS(HideDropdown, Category = "ThematicUi", PrioritizeCategories("ThematicUi"))
 class THEMATICUI_API UThematicUiButton : public UThematicUiInteractable
 {
 	GENERATED_BODY()
@@ -51,7 +51,7 @@ class THEMATICUI_API UThematicUiButton : public UThematicUiInteractable
 	FTuiButtonInteractionSignature OnTuiButtonPressedDelegate;
 	
 	UPROPERTY(BlueprintAssignable, Category = "ThematicUi|Events")
-	FTuiButtonInteractionSignature OnTuiButtonReleaseddDelegate;
+	FTuiButtonInteractionSignature OnTuiButtonReleasedDelegate;
 	
 	UPROPERTY(BlueprintAssignable, Category = "ThematicUi|Events")
 	FTuiButtonInteractionSignature OnTuiButtonClickedDelegate;
@@ -61,9 +61,6 @@ class THEMATICUI_API UThematicUiButton : public UThematicUiInteractable
 	FText Text;
 
 	private:
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUi", meta=(AllowPrivateAccess, DeprecatedProperty))
-	TObjectPtr<UButton> Button;
-	
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUi", meta=(AllowPrivateAccess))
 	TObjectPtr<UCommonButtonInternalBase> CommonButton;
 	
@@ -89,12 +86,9 @@ class THEMATICUI_API UThematicUiButton : public UThematicUiInteractable
 
 	private:
 
-
 // Virtual Functions
 	public:
 	virtual bool Initialize() override;
-	
-	virtual bool TuiHasUserFocus() override;
 	
 	virtual void SetThemeNormal() override;
 	
@@ -110,6 +104,6 @@ class THEMATICUI_API UThematicUiButton : public UThematicUiInteractable
 	virtual FReply NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent) override;
 
 	private:
-
+	virtual void BindTriggeringInputActionToClick() override;
 
 };

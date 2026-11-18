@@ -166,11 +166,6 @@ void UThematicUiDropDownMenu::SetThemePressed()
 	}
 }
 
-bool UThematicUiDropDownMenu::TuiHasUserFocus()
-{
-	return DropDownButton->TuiHasUserFocus();
-}
-
 void UThematicUiDropDownMenu::NativePreConstruct()
 {
 	Super::NativePreConstruct();

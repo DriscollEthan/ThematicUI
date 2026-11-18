@@ -184,7 +184,7 @@ void UThematicUiDropDownMenuSelection::NativeCreated(UThematicUiDropDownMenu* Ow
 	SetupButtonNavigation();
 }
 
-bool UThematicUiDropDownMenuSelection::TuiHasUserFocus()
+bool UThematicUiDropDownMenuSelection::TuiHasUserFocus() const
 {
 	TArray<UWidget*> TuiWidgets = ScrollBox->GetAllChildren();
 	for (UWidget* Widget : TuiWidgets)

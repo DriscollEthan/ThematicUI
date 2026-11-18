@@ -13,7 +13,6 @@
 #include "Sound/SoundBase.h"
 
 
-
 const FThematicUIMainWidgetData& UThematicUiInteractable::GetPrimaryWidgetData() const
 {
 	return PrimaryWidgetData;
@@ -25,6 +24,11 @@ void UThematicUiInteractable::SetPrimaryWidgetData(const FThematicUIMainWidgetDa
 	
 	CalculateAndSetActualWidgetThemeData();
 	
+	if (OldSizeBox)
+	{
+		OldSizeBox->SetWidthOverride(PrimaryWidgetData.SizeBoxSize.X);
+		OldSizeBox->SetHeightOverride(PrimaryWidgetData.SizeBoxSize.Y);
+	}
 	if (SizeBox)
 	{
 		SizeBox->SetWidthOverride(PrimaryWidgetData.SizeBoxSize.X);
@@ -32,11 +36,11 @@ void UThematicUiInteractable::SetPrimaryWidgetData(const FThematicUIMainWidgetDa
 	}
 }
 
-
 const FThematicUiThemeData& UThematicUiInteractable::GetActualThemeData() const
 {
 	return ActualThemeData;
 }
+
 
 UThematicUiThemeDataAsset* UThematicUiInteractable::GetWidgetTheme() const
 {
@@ -71,6 +75,11 @@ void UThematicUiInteractable::SetSizeBoxSize(const FVector2D& NewSizeBoxSize)
 {
 	PrimaryWidgetData.SizeBoxSize = NewSizeBoxSize;
 	
+	if (OldSizeBox)
+	{
+		OldSizeBox->SetWidthOverride(PrimaryWidgetData.SizeBoxSize.X);
+		OldSizeBox->SetHeightOverride(PrimaryWidgetData.SizeBoxSize.Y);
+	}
 	if (SizeBox)
 	{
 		SizeBox->SetWidthOverride(PrimaryWidgetData.SizeBoxSize.X);
@@ -87,6 +96,11 @@ void UThematicUiInteractable::SetSizeBoxHoveredSizeMultiplier(const FVector2D& N
 {
 	PrimaryWidgetData.SizeBoxHoveredSizeMultiplier = NewGetSizeBoxHoveredSizeMultiplier;
 	
+	if (OldSizeBox)
+	{
+		OldSizeBox->SetWidthOverride(GetSizeBoxSize().X * GetSizeBoxHoveredSizeMultiplier().X);
+		OldSizeBox->SetHeightOverride(GetSizeBoxSize().Y * GetSizeBoxHoveredSizeMultiplier().Y);
+	}
 	if (SizeBox)
 	{
 		SizeBox->SetWidthOverride(GetSizeBoxSize().X * GetSizeBoxHoveredSizeMultiplier().X);
@@ -103,6 +117,11 @@ void UThematicUiInteractable::SetSizeBoxPressedSizeMultiplier(const FVector2D& N
 {
 	PrimaryWidgetData.SizeBoxPressedSizeMultiplier = NewSizeBoxPressedSizeMultiplier;
 	
+	if (OldSizeBox)
+	{
+		OldSizeBox->SetWidthOverride(GetSizeBoxSize().X * GetSizeBoxPressedSizeMultiplier().X);
+		OldSizeBox->SetHeightOverride(GetSizeBoxSize().Y * GetSizeBoxPressedSizeMultiplier().Y);
+	}
 	if (SizeBox)
 	{
 		SizeBox->SetWidthOverride(GetSizeBoxSize().X * GetSizeBoxPressedSizeMultiplier().X);
@@ -124,12 +143,115 @@ void UThematicUiInteractable::CalculateAndSetActualWidgetThemeData()
 	
 }
 
+void UThematicUiInteractable::AddWidgetToSizeBox(UWidget* WidgetToAdd)
+{
+	//@todo Replace With proper SizeBox when OldSizeBox is Fully Removed
+	
+	if (!OldSizeBox) { return; }
+	
+	if (OldSizeBox->HasAnyChildren()) 
+	{
+		UE_LOGFMT(LogThematicUI, Warning, "{Name}: Attemping to add child to SizeBox. But SizeBox already has a child.", GetName());
+	}
+
+	OldSizeBox->AddChild(WidgetToAdd);
+}
+
+bool UThematicUiInteractable::Initialize()
+{
+	const bool bInitializedThisCall = Super::Initialize();
+
+	if (bInitializedThisCall)
+	{
+		//SizeBox = WidgetTree->ConstructWidget<USizeBox>(USizeBox::StaticClass(), FName(TEXT("SizeBox")));
+		//WidgetTree->RootWidget = SizeBox;
+	}
+	
+	return bInitializedThisCall;
+	
+	/* 
+	const bool bInitializedThisCall = Super::Initialize();
+
+	if (bInitializedThisCall)
+	{
+		
+	}
+	
+	return bInitializedThisCall;
+	*/
+}
+
+void UThematicUiInteractable::SetThemeNormal()
+{
+	UE_LOGFMT(LogThematicUI, Log, "{Name} is setting theme to normal settings", GetName());
+	
+	CurrentTheme = ETuiCurrentTheme::Default;
+	
+	if (OldSizeBox)
+	{
+		OldSizeBox->SetWidthOverride(GetSizeBoxSize().X);
+		OldSizeBox->SetHeightOverride(GetSizeBoxSize().Y);
+	}
+	if (SizeBox)
+	{
+		SizeBox->SetWidthOverride(GetSizeBoxSize().X);
+		SizeBox->SetHeightOverride(GetSizeBoxSize().Y);
+	}
+	
+	OnTuiInteractableSetToNormalTheme.Broadcast(this);
+}
+
+void UThematicUiInteractable::SetThemeHovered()
+{
+	UE_LOGFMT(LogThematicUI, Log, "{Name} is setting theme to hovered settings", GetName());
+	
+	CurrentTheme = ETuiCurrentTheme::Hovered;
+	
+	if (OldSizeBox)
+	{
+		OldSizeBox->SetWidthOverride(GetSizeBoxSize().X * GetSizeBoxHoveredSizeMultiplier().X);
+		OldSizeBox->SetHeightOverride(GetSizeBoxSize().Y * GetSizeBoxHoveredSizeMultiplier().Y);
+	}
+	if (SizeBox)
+	{
+		SizeBox->SetWidthOverride(GetSizeBoxSize().X * GetSizeBoxHoveredSizeMultiplier().X);
+		SizeBox->SetHeightOverride(GetSizeBoxSize().Y * GetSizeBoxHoveredSizeMultiplier().Y);
+	}
+	
+	OnTuiInteractableSetToHoveredTheme.Broadcast(this);
+}
+
+void UThematicUiInteractable::SetThemePressed()
+{
+	UE_LOGFMT(LogThematicUI, Log, "{Name} is setting theme to pressed settings", GetName());
+	
+	CurrentTheme = ETuiCurrentTheme::Pressed;
+	
+	if (OldSizeBox)
+	{
+		OldSizeBox->SetWidthOverride(GetSizeBoxSize().X * GetSizeBoxPressedSizeMultiplier().X);
+		OldSizeBox->SetHeightOverride(GetSizeBoxSize().Y * GetSizeBoxPressedSizeMultiplier().Y);
+	}
+	if (SizeBox)
+	{
+		SizeBox->SetWidthOverride(GetSizeBoxSize().X * GetSizeBoxPressedSizeMultiplier().X);
+		SizeBox->SetHeightOverride(GetSizeBoxSize().Y * GetSizeBoxPressedSizeMultiplier().Y);
+	}
+	
+	OnTuiInteractableSetToPressedTheme.Broadcast(this);
+}
+
 void UThematicUiInteractable::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 	
 	SetIsFocusable(true);
 	
+	if (OldSizeBox)
+	{
+		OldSizeBox->SetWidthOverride(GetSizeBoxSize().X);
+		OldSizeBox->SetHeightOverride(GetSizeBoxSize().Y);
+	}
 	if (SizeBox)
 	{
 		SizeBox->SetWidthOverride(GetSizeBoxSize().X);
@@ -139,6 +261,13 @@ void UThematicUiInteractable::NativePreConstruct()
 	CalculateAndSetActualWidgetThemeData();
 	
 	SetThemeNormal();
+}
+
+void UThematicUiInteractable::NativeConstruct()
+{
+	Super::NativeConstruct();
+	
+	BindTriggeringInputActionToClick();
 }
 
 void UThematicUiInteractable::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
@@ -155,7 +284,7 @@ void UThematicUiInteractable::NativeOnMouseEnter(const FGeometry& InGeometry, co
 }
 
 void UThematicUiInteractable::NativeOnAddedToFocusPath(const FFocusEvent& InFocusEvent)
- {
+{
 	Super::NativeOnAddedToFocusPath(InFocusEvent);
 	
 	SetThemeHovered();
@@ -170,43 +299,4 @@ void UThematicUiInteractable::NativeOnRemovedFromFocusPath(const FFocusEvent& In
 	SetThemeNormal();
 	if (USoundBase* SoundBase = Cast<USoundBase>(ActualThemeData.NormalTheme.Sound.GetResourceObject()))
 		PlaySound(SoundBase);
-}
-
-void UThematicUiInteractable::SetThemeNormal()
-{
-	UE_LOGFMT(LogThematicUI, Log, "{Name} is setting theme to normal settings", GetName());
-	
-	if (SizeBox)
-	{
-		SizeBox->SetWidthOverride(GetSizeBoxSize().X);
-		SizeBox->SetHeightOverride(GetSizeBoxSize().Y);
-	}
-	
-	OnTuiInteractableSetToNormalTheme.Broadcast(this);
-}
-
-void UThematicUiInteractable::SetThemeHovered()
-{
-	UE_LOGFMT(LogThematicUI, Log, "{Name} is setting theme to hovered settings", GetName());
-	
-	if (SizeBox)
-	{
-		SizeBox->SetWidthOverride(GetSizeBoxSize().X * GetSizeBoxHoveredSizeMultiplier().X);
-		SizeBox->SetHeightOverride(GetSizeBoxSize().Y * GetSizeBoxHoveredSizeMultiplier().Y);
-	}
-	
-	OnTuiInteractableSetToHoveredTheme.Broadcast(this);
-}
-
-void UThematicUiInteractable::SetThemePressed()
-{
-	UE_LOGFMT(LogThematicUI, Log, "{Name} is setting theme to pressed settings", GetName());
-	
-	if (SizeBox)
-	{
-		SizeBox->SetWidthOverride(GetSizeBoxSize().X * GetSizeBoxPressedSizeMultiplier().X);
-		SizeBox->SetHeightOverride(GetSizeBoxSize().Y * GetSizeBoxPressedSizeMultiplier().Y);
-	}
-	
-	OnTuiInteractableSetToPressedTheme.Broadcast(this);
 }

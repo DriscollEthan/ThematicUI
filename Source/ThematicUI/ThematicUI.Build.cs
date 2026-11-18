@@ -30,7 +30,11 @@ public class ThematicUI : ModuleRules
 				"AdvancedWidgets",
 				"Slate",
 				"SlateCore",
-				"CommonUI"
+				"CommonUI",
+				"CommonInput",
+				"EnhancedInput",
+				"GameplayTags",
+				"DeveloperSettings"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -43,7 +47,10 @@ public class ThematicUI : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
-				"CommonUI"
+				"CommonUI",
+				"CommonInput",
+				"EnhancedInput",
+				"GameplayTags"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

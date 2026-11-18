@@ -363,11 +363,6 @@ void UUThematicUiSlider::SetThemePressed()
 	}
 }
 
-bool UUThematicUiSlider::TuiHasUserFocus()
-{
-	return Slider->HasAnyUserFocus();
-}
-
 FReply UUThematicUiSlider::NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent)
 {
 	if (Slider)

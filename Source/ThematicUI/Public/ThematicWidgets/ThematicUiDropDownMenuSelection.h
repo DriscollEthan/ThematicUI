@@ -108,7 +108,7 @@ class THEMATICUI_API UThematicUiDropDownMenuSelection : public UThematicUiIntera
 	public:
 	virtual void NativeCreated(UThematicUiDropDownMenu* OwnerMenu, TArray<FText>& OptionsArray, const FThematicUISelectionMenuData& NewData);
 	
-	virtual bool TuiHasUserFocus() override;
+	virtual bool TuiHasUserFocus() const override;
 
 	
 	protected:	

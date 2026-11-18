@@ -10,12 +10,14 @@
 	#include "CoreMinimal.h"
 
 	// Engine Library Includes
-
+	
 
 	// Project Library Includes
 	#include "ThematicUI.h"
 
 	// Class Specific Includes
+	#include <Blueprint/WidgetTree.h>
+	#include "CommonInputModeTypes.h"
 	#include "CommonUserWidget.h"	
 	#include "ThematicData/ThematicUiThemeData.h"
 
@@ -27,14 +29,21 @@
 // Class Details
 	// Forward Declarations 
 	class USizeBox;
+	struct FDataTableRowHandle;
+	class UInputAction;
+	struct FUIActionBindingHandle;
 	
 	// Delegate Declarations 
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTuiInteractableSetToNormalTheme, UThematicUiInteractable*, Interactable);
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTuiInteractableSetToHoveredTheme, UThematicUiInteractable*, Interactable);
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTuiInteractableSetToPressedTheme, UThematicUiInteractable*, Interactable);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTuiInteractableThemeChangedSignature, UThematicUiInteractable*, Interactable);
 	
 	// Helper Enums 
-
+	UENUM()
+	enum class ETuiCurrentTheme : uint8
+	{  
+		Default,
+		Hovered,
+		Pressed
+	};
 	
 	// Helper Structs 
 	USTRUCT(BlueprintType, Blueprintable)
@@ -68,7 +77,7 @@
 /**
  * 
  */
-UCLASS(HideDropdown, NotPlaceable, Abstract, Category = "ThematicUi", PrioritizeCategories("ThematicUi"))
+UCLASS(HideDropdown, Abstract, ClassGroup = "ThematicUi", HideCategories("Appearance","Interaction","Performance","Localization","Designer","Input"), Category = "ThematicUi", PrioritizeCategories("ThematicUi"))
 class THEMATICUI_API UThematicUiInteractable : public UCommonUserWidget
 {
 	GENERATED_BODY()
@@ -76,13 +85,13 @@ class THEMATICUI_API UThematicUiInteractable : public UCommonUserWidget
 // Variables 
 	public:
 	UPROPERTY(BlueprintAssignable, Category = "ThematicUi|Events")
-	FTuiInteractableSetToNormalTheme OnTuiInteractableSetToNormalTheme;
+	FTuiInteractableThemeChangedSignature OnTuiInteractableSetToNormalTheme;
 
 	UPROPERTY(BlueprintAssignable, Category = "ThematicUi|Events")
-	FTuiInteractableSetToHoveredTheme OnTuiInteractableSetToHoveredTheme;
+	FTuiInteractableThemeChangedSignature OnTuiInteractableSetToHoveredTheme;
 
 	UPROPERTY(BlueprintAssignable, Category = "ThematicUi|Events")
-	FTuiInteractableSetToPressedTheme OnTuiInteractableSetToPressedTheme;
+	FTuiInteractableThemeChangedSignature OnTuiInteractableSetToPressedTheme;
 	
 	protected:
 	/* Primary Widget Data */
@@ -93,12 +102,51 @@ class THEMATICUI_API UThematicUiInteractable : public UCommonUserWidget
 	UPROPERTY(BlueprintReadOnly, Getter, Category = "ThematicUi")
 	FThematicUiThemeData ActualThemeData;
 	
-	UPROPERTY(EditAnywhere, Category = "ThematicUi|Subclass")
+	UPROPERTY(EditAnywhere, Category = "ThematicUi|Subclass", meta = (DeprecatedProperty, DeprecationMessage="TUI DEPCRECATED PROPERTY"))
 	TSubclassOf<UThematicUiInteractable> BlueprintVerisionSubclass;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUi|Input Data")
+	TEnumAsByte<EButtonPressMethod::Type> PressMethod = EButtonPressMethod::ButtonPress;
+	
+	/** The type of mouse action required by the user to trigger the button's 'Click' */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUi|Input Data")
+	TEnumAsByte<EButtonClickMethod::Type> ClickMethod = EButtonClickMethod::DownAndUp;
 
-	protected:
-	UPROPERTY(BlueprintReadOnly, Category = "ThematicUi", meta = (AllowPrivateAccess, BindWidget))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUi|Input Data")
+	TEnumAsByte<EButtonTouchMethod::Type> TouchMethod = EButtonTouchMethod::DownAndUp;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUi|Input Data")
+	bool bButtonEnabled = true;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUi|Input Data")
+	bool bInteractionEnabled = true;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUi|Input Data")
+	bool bIsPersistentBinding = true;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUi|Input Data")
+	ECommonInputMode OverrideInputMode = ECommonInputMode::Menu;
+	
+	/** 
+	 *	The enhanced input action that is bound to this button. The common input manager will trigger this button to 
+	 *	click if the action was pressed 
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUi|Input Data", meta = (EditCondition = "CommonInput.CommonInputSettings.IsEnhancedInputSupportEnabled", EditConditionHides))
+	TObjectPtr<UInputAction> TriggeringEnhancedInputAction;
+	
+	FUIActionBindingHandle TriggeringBindingHandle;
+	
+	FUIActionBindingHandle DefaultTriggeringBindingHandle;
+
+	private:
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUi", meta = (AllowPrivateAccess, BindWidget, DeprecatedProperty))
+	TObjectPtr<USizeBox> OldSizeBox;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "ThematicUi", meta = (AllowPrivateAccess))
 	TObjectPtr<USizeBox> SizeBox;
+	
+	UPROPERTY()
+	ETuiCurrentTheme CurrentTheme = ETuiCurrentTheme::Default;
 
 	
 // Class Functions
@@ -144,17 +192,19 @@ class THEMATICUI_API UThematicUiInteractable : public UCommonUserWidget
 		UFUNCTION(BlueprintCallable, Category = "ThematicUi|Setters")
 		void SetSizeBoxPressedSizeMultiplier(const FVector2D& NewSizeBoxPressedSizeMultiplier);
 		
-	UFUNCTION(BlueprintCallable, Category = "ThematicUi|Setters")
-	void CalculateAndSetActualWidgetThemeData();
+		UFUNCTION(BlueprintCallable, Category = "ThematicUi|Setters")
+		void CalculateAndSetActualWidgetThemeData();
 
 	protected:
+	void AddWidgetToSizeBox(UWidget* WidgetToAdd);
 	
-
 	private:
 
 
 // Virtual Functions
 	public:
+	virtual bool Initialize() override;
+	
 	UFUNCTION(BlueprintCallable, CallInEditor, Category = "ThematicUi")
 	virtual void SetThemeNormal();
 	
@@ -165,13 +215,18 @@ class THEMATICUI_API UThematicUiInteractable : public UCommonUserWidget
 	virtual void SetThemePressed();
 	
 	UFUNCTION(BlueprintPure, Category = "ThematicUi|Getters")
-	virtual bool TuiHasUserFocus() PURE_VIRTUAL(UThematicUIInteractable::TuiHasUserFocus, return false;);
+	virtual bool TuiHasUserFocus() const { return CurrentTheme == ETuiCurrentTheme::Hovered || CurrentTheme == ETuiCurrentTheme::Pressed; }
 
 	protected:
 	/**
 	 * NativePreConstruct is to set active theme to NormalTheme and Calculate Actual Theme Data
 	 */
 	virtual void NativePreConstruct() override;
+
+	/**
+	 * NativeConstruct will call input binding into Common UI
+	 */
+	virtual void NativeConstruct() override;
 	
 	/**
 	 * This will ensure user focus gets set to this widget on MouseHover
@@ -190,9 +245,10 @@ class THEMATICUI_API UThematicUiInteractable : public UCommonUserWidget
 	 *  NativeOnFocusLost is Called when Widget gains User Focus
 	 * @param InFocusEvent 
 	 */
-	virtual void NativeOnRemovedFromFocusPath(const FFocusEvent& InFocusEvent) override;
+	virtual void NativeOnRemovedFromFocusPath(const FFocusEvent& InFocusEvent) override; 
 
 	private:
-
+	// @todo Make PURE_VIRTUAL
+	virtual void BindTriggeringInputActionToClick() {}
 
 };
