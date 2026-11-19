@@ -52,11 +52,11 @@ protected:
 	UPROPERTY(Config, EditAnywhere, Category = "Default Input", Meta=(AllowAbstract=false))
 	TSoftObjectPtr<UInputMappingContext> DefaultInputMappingContext;
 	
-	UPROPERTY(Config, EditAnywhere, Category = "Default Input", Meta=(AllowAbstract=false))
-	TSoftObjectPtr<UInputAction> DefaultClickInputAction;
-
 	UPROPERTY(Transient)
 	TObjectPtr<UInputMappingContext> DefaultCommonInputMappingContextClass;
+	
+	UPROPERTY(Config, EditAnywhere, Category = "Default Input", Meta=(AllowAbstract=false))
+	TSoftObjectPtr<UInputAction> DefaultClickInputAction;
 	
 	UPROPERTY(Transient)
 	TObjectPtr<UInputAction> DefaultClickInputActionClass;

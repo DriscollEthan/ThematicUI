@@ -164,7 +164,7 @@ class THEMATICUI_API UThematicUiDropDownMenu : public UThematicUiInteractable
 	void HandleOptionSelected(int SelectedOptionIndex);
 
 	private:
-	void OnWidgetAddedToScreen(UWidget* widget, ULocalPlayer* player);
+
 
 // Virtual Functions
 	public:

@@ -95,20 +95,7 @@ void UThematicUiDropDownMenu::HandleDropDownButtonPressed(UThematicUiButton* Pre
 	
 	verifyf(SelectionMenu->IsValidLowLevel(), TEXT("UThematicUiDropDownMenu::HandleDropDownButtonPressed, SelectionMenu == nullptr || Failed To Create"));
 	
-	switch (WidgetSpawnType)
-	{
-	case EWidgetSpawnType::None:
-		UE_LOGFMT(LogThematicUI, Error, "Widget Spawn Type == None. || How did we get here??");
-		break;
-		
-	case EWidgetSpawnType::PlayerScreen:
-		SelectionMenu->AddToPlayerScreen(MAX_int32);
-		break;
-		
-	case EWidgetSpawnType::Viewport:
-		SelectionMenu->AddToViewport(MAX_int32);
-		break;
-	}
+	SelectionMenu->AddToViewport(MAX_int32 - 10);
 	
 	SelectionMenu->SetOwningPlayer(GetOwningPlayer());
 	SelectionMenu->NativeCreated(this, Options, SelectionMenuData);
@@ -137,22 +124,6 @@ void UThematicUiDropDownMenu::HandleOptionSelected(int SelectedOptionIndex)
 	if (DropDownButton)
 	{
 		DropDownButton->SetUserFocus(GetOwningPlayer());
-	}
-}
-
-void UThematicUiDropDownMenu::OnWidgetAddedToScreen(UWidget* widget, ULocalPlayer* player)
-{
-	bool isParentWidget = GetTypedOuter<UUserWidget>() == widget;
-
-	if (!isParentWidget || WidgetSpawnType != EWidgetSpawnType::None) { return; }
-
-	if (player)
-	{
-		WidgetSpawnType = EWidgetSpawnType::PlayerScreen;
-	}
-	else
-	{
-		WidgetSpawnType = EWidgetSpawnType::Viewport;
 	}
 }
 
@@ -201,13 +172,6 @@ void UThematicUiDropDownMenu::SetThemePressed()
 bool UThematicUiDropDownMenu::Initialize()
 {
 	bool bIsInitializedThisFrame = Super::Initialize();
-	
-	UGameViewportSubsystem* GameViewportSubsystem = UGameViewportSubsystem::Get();
-	
-	if (GameViewportSubsystem)
-	{
-		GameViewportSubsystem->OnWidgetAdded.AddUObject(this, &ThisClass::OnWidgetAddedToScreen);
-	}
 	
 	return bIsInitializedThisFrame;
 }
