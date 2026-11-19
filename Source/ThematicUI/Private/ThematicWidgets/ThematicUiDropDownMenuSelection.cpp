@@ -104,6 +104,11 @@ void UThematicUiDropDownMenuSelection::SetupButtonNavigation()
 			Buttons[i]->SetNavigationRuleExplicit(EUINavigation::Down, Buttons[i + 1]);
 		}
 	}
+	
+	if (Buttons.IsValidIndex(0))
+	{
+		Buttons[0]->SetFocus();
+	}
 }
 
 void UThematicUiDropDownMenuSelection::HandleOptionSelected(UThematicUiButton* ButtonPressed)
@@ -189,9 +194,12 @@ bool UThematicUiDropDownMenuSelection::TuiHasUserFocus() const
 	TArray<UWidget*> TuiWidgets = ScrollBox->GetAllChildren();
 	for (UWidget* Widget : TuiWidgets)
 	{
-		if (Widget->HasAnyUserFocus())
+		if (UThematicUiInteractable* ThematicUiWidget = Cast<UThematicUiInteractable>(Widget))
 		{
-			return true;
+			if (ThematicUiWidget->TuiHasUserFocus())
+			{
+				return true;
+			}
 		}
 	}
 

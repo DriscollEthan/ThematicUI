@@ -93,7 +93,7 @@ void UThematicUiDropDownMenu::HandleDropDownButtonPressed(UThematicUiButton* Pre
 	
 	verifyf(SelectionMenu->IsValidLowLevel(), TEXT("UThematicUiDropDownMenu::HandleDropDownButtonPressed, SelectionMenu == nullptr || Failed To Create"));
 	
-	SelectionMenu->AddToViewport(100);
+	SelectionMenu->AddToPlayerScreen(100);
 	SelectionMenu->SetOwningPlayer(GetOwningPlayer());
 	SelectionMenu->NativeCreated(this, Options, SelectionMenuData);
 	
@@ -217,4 +217,9 @@ void UThematicUiDropDownMenu::NativeDestruct()
 	Super::NativeDestruct();
 	
 	DropDownButton->OnTuiButtonClickedDelegate.RemoveDynamic(this, &UThematicUiDropDownMenu::HandleDropDownButtonPressed);
+}
+
+void UThematicUiDropDownMenu::BindTriggeringInputActionToClick()
+{
+	
 }

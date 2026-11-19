@@ -55,6 +55,9 @@
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUi|SelectionMenuData")
 		FVector2D SelectionMenuRelativePosition = FVector2D(0.0f, 0.0f);
 		
+		UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ThematicUi|SelectionMenuData")
+		float DelayUntilSelectionMenuDisappearsWithoutUserFocus = 1.0f;
+		
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ThematicUi|SelectionMenuData")
 		FMargin SelectionMenuOptionsPadding = FMargin();
 		
@@ -172,6 +175,6 @@ class THEMATICUI_API UThematicUiDropDownMenu : public UThematicUiInteractable
 	virtual void NativeDestruct() override;
 
 	private:
-
+	virtual void BindTriggeringInputActionToClick() override;
 	
 };
