@@ -38,7 +38,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(config = Game, defaultconfig)
 class THEMATICUI_API UThematicUiSettings : public UDeveloperSettings
 {
 	GENERATED_BODY()
@@ -49,25 +49,35 @@ public:
 
 
 protected:
-	UPROPERTY(EditAnywhere, Category = "Default Input")
-	UInputMappingContext* DefaultCommonInputMappingContext;
+	UPROPERTY(Config, EditAnywhere, Category = "Default Input", Meta=(AllowAbstract=false))
+	TSoftObjectPtr<UInputMappingContext> DefaultInputMappingContext;
 	
-	UPROPERTY(EditAnywhere, Category = "Default Input")
-	UInputAction* DefaultClickInputAction;
+	UPROPERTY(Config, EditAnywhere, Category = "Default Input", Meta=(AllowAbstract=false))
+	TSoftObjectPtr<UInputAction> DefaultClickInputAction;
+
+	UPROPERTY(Transient)
+	TObjectPtr<UInputMappingContext> DefaultCommonInputMappingContextClass;
+	
+	UPROPERTY(Transient)
+	TObjectPtr<UInputAction> DefaultClickInputActionClass;
 
 private:
-
+	bool bInputDataLoaded = false;
 
 	// Class Functions
 public:
 	UInputMappingContext* GetDefaultInputMappingContext() const;
 	
 	UInputAction* GetDefaultClickInputAction() const;
+	
+	void LoadData();
 
 protected:
 
 
 private:
+	void LoadInputData();
+
 	// Project Class Virtual Functions
 public:
 

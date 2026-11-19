@@ -65,7 +65,7 @@ void UThematicUiDropDownMenuSelection::CreateOptionButtons()
 		
 		if (i == 0)
 		{
-			Button->SetUserFocus(GetOwningPlayer());
+			Button->SetFocus();
 		}
 		
 		if (UScrollBoxSlot* ScrollBoxSlot = UWidgetLayoutLibrary::SlotAsScrollBoxSlot(Button))

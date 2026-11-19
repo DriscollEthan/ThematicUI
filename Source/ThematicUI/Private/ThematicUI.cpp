@@ -75,6 +75,8 @@ void FThematicUiModule::CreateInputSettings()
 	check(ThematicUiSettings);
 	ThematicUiSettings->AddToRoot();
 	
+	ThematicUiSettings->LoadData();
+	
 #if WITH_EDITOR
 
 	// Register Settings
