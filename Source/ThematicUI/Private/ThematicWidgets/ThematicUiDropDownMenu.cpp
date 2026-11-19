@@ -13,6 +13,8 @@
 	
 
 	// Class Specific Includes
+#include <Blueprint/GameViewportSubsystem.h>
+
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Components/Image.h"
 #include "Components/OverlaySlot.h"
@@ -93,7 +95,21 @@ void UThematicUiDropDownMenu::HandleDropDownButtonPressed(UThematicUiButton* Pre
 	
 	verifyf(SelectionMenu->IsValidLowLevel(), TEXT("UThematicUiDropDownMenu::HandleDropDownButtonPressed, SelectionMenu == nullptr || Failed To Create"));
 	
-	SelectionMenu->AddToPlayerScreen(100);
+	switch (WidgetSpawnType)
+	{
+	case EWidgetSpawnType::None:
+		UE_LOGFMT(LogThematicUI, Error, "Widget Spawn Type == None. || How did we get here??");
+		break;
+		
+	case EWidgetSpawnType::PlayerScreen:
+		SelectionMenu->AddToPlayerScreen(MAX_int32);
+		break;
+		
+	case EWidgetSpawnType::Viewport:
+		SelectionMenu->AddToViewport(MAX_int32);
+		break;
+	}
+	
 	SelectionMenu->SetOwningPlayer(GetOwningPlayer());
 	SelectionMenu->NativeCreated(this, Options, SelectionMenuData);
 	
@@ -121,6 +137,22 @@ void UThematicUiDropDownMenu::HandleOptionSelected(int SelectedOptionIndex)
 	if (DropDownButton)
 	{
 		DropDownButton->SetUserFocus(GetOwningPlayer());
+	}
+}
+
+void UThematicUiDropDownMenu::OnWidgetAddedToScreen(UWidget* widget, ULocalPlayer* player)
+{
+	bool isParentWidget = GetTypedOuter<UUserWidget>() == widget;
+
+	if (!isParentWidget || WidgetSpawnType != EWidgetSpawnType::None) { return; }
+
+	if (player)
+	{
+		WidgetSpawnType = EWidgetSpawnType::PlayerScreen;
+	}
+	else
+	{
+		WidgetSpawnType = EWidgetSpawnType::Viewport;
 	}
 }
 
@@ -164,6 +196,20 @@ void UThematicUiDropDownMenu::SetThemePressed()
 	{
 		UE_LOGFMT(LogThematicUI, Error, "UThematicUiDropDownMenu::SetThemePressed : UThematicUiDropDownMenu::DropDownButton == nullptr");
 	}
+}
+
+bool UThematicUiDropDownMenu::Initialize()
+{
+	bool bIsInitializedThisFrame = Super::Initialize();
+	
+	UGameViewportSubsystem* GameViewportSubsystem = UGameViewportSubsystem::Get();
+	
+	if (GameViewportSubsystem)
+	{
+		GameViewportSubsystem->OnWidgetAdded.AddUObject(this, &ThisClass::OnWidgetAddedToScreen);
+	}
+	
+	return bIsInitializedThisFrame;
 }
 
 void UThematicUiDropDownMenu::NativePreConstruct()

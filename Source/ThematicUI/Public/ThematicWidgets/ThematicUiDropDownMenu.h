@@ -39,6 +39,14 @@
 		BackgroundBlur
 	};
 	
+	UENUM()
+	enum class EWidgetSpawnType : uint8
+	{
+		None,
+		PlayerScreen,
+		Viewport
+	};
+	
 	// Helper Structs 
 	USTRUCT(BlueprintType, Blueprintable)
 	struct FThematicUISelectionMenuData
@@ -111,6 +119,7 @@ class THEMATICUI_API UThematicUiDropDownMenu : public UThematicUiInteractable
 	UPROPERTY()
 	TObjectPtr<UThematicUiDropDownMenuSelection> SelectionMenu;
 
+	EWidgetSpawnType WidgetSpawnType = EWidgetSpawnType::None;
 	
 // Class Functions
 	public:
@@ -155,7 +164,7 @@ class THEMATICUI_API UThematicUiDropDownMenu : public UThematicUiInteractable
 	void HandleOptionSelected(int SelectedOptionIndex);
 
 	private:
-	
+	void OnWidgetAddedToScreen(UWidget* widget, ULocalPlayer* player);
 
 // Virtual Functions
 	public:
@@ -166,6 +175,8 @@ class THEMATICUI_API UThematicUiDropDownMenu : public UThematicUiInteractable
 	virtual void SetThemePressed() override;
 
 	protected:
+	virtual bool Initialize() override;
+	
 	virtual void NativePreConstruct() override;
 	
 	virtual void NativeConstruct() override;

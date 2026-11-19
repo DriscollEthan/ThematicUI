@@ -210,7 +210,11 @@ void UThematicUiDropDownMenuSelection::NativeTick(const FGeometry& MyGeometry, f
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
 	
-	HandleTickCheckForUserFocus();
+	if ((CurrentFixedTickTime += InDeltaTime) >= FixedTickTime)
+	{
+		HandleTickCheckForUserFocus();
+		CurrentFixedTickTime -= FixedTickTime;
+	}
 }
 
 void UThematicUiDropDownMenuSelection::NativeDestruct()

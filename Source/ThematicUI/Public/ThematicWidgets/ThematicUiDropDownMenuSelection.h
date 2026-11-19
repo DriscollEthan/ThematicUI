@@ -40,7 +40,7 @@
 /**
  * Marked as Experimental to hide from Widget Design Palette
  */
-UCLASS(HideDropdown, NotPlaceable, Abstract, Category = "ThematicUi", Experimental, PrioritizeCategories("ThematicUi"))
+UCLASS(HideDropdown, Experimental, Category = "ThematicUi", Experimental, PrioritizeCategories("ThematicUi")) //Experimental to hide in UMG Browsers
 class THEMATICUI_API UThematicUiDropDownMenuSelection : public UThematicUiInteractable
 {
 	GENERATED_BODY()
@@ -81,6 +81,9 @@ class THEMATICUI_API UThematicUiDropDownMenuSelection : public UThematicUiIntera
 	 */
 	UPROPERTY(BlueprintReadOnly, Category = "ThematicUi", meta = (AllowPrivateAccess))
 	TMap<TObjectPtr<UThematicUiButton>, int> SelectionButtonsMap;
+	
+	float FixedTickTime = 0.25f;
+	float CurrentFixedTickTime = 0.f;
 
 
 	// Class Functions
