@@ -23,6 +23,8 @@ UInputAction* UThematicUiSettings::GetDefaultClickInputAction() const
 void UThematicUiSettings::LoadData()
 {
 	LoadInputData();
+	
+	bInputDataLoaded = true;
 }
 
 void UThematicUiSettings::LoadInputData()
